@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Shape of Numbers</title>
+<meta name="description" content="Six live, interactive experiments in mathematics: the Mandelbrot set, Fourier circles, chaos, the golden angle, prime spirals, and finding π by chance.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#mandelbrot">Skip to the first experiment</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a class="wordmark" href="#top">The Shape <i>of</i> Numbers</a>
+    <nav aria-label="Experiments">
+      <ol>
+        <li><a class="navlink" href="#mandelbrot"><span class="num">§1</span>Mandelbrot</a></li>
+        <li><a class="navlink" href="#fourier"><span class="num">§2</span>Fourier</a></li>
+        <li><a class="navlink" href="#chaos"><span class="num">§3</span>Chaos</a></li>
+        <li><a class="navlink" href="#sunflower"><span class="num">§4</span>Sunflower</a></li>
+        <li><a class="navlink" href="#primes"><span class="num">§5</span>Primes</a></li>
+        <li><a class="navlink" href="#buffon"><span class="num">§6</span>π by chance</a></li>
+      </ol>
+    </nav>
+  </div>
+</header>
+
+<main class="page" id="top">
+  <div class="wrap">
+
+    <!-- ============ Hero ============ -->
+    <section class="hero" aria-labelledby="title">
+      <div class="hero-copy">
+        <p class="kicker label">Six live experiments in mathematics</p>
+        <h1 id="title">The Shape <i>of</i> Numbers</h1>
+        <p class="lede">A few symbols on a page can hide a whole world. Here are six short pieces of math. Each one draws something nobody could draw by hand: an infinitely detailed coastline, a picture made of spinning circles, a butterfly of chaos, a sunflower, a spiral of primes, and π falling out of a pile of needles.</p>
+        <p class="hero-note"><span class="label">Live</span><span>Nothing on this page is an image or a video. Every picture is being calculated on your device as you watch.</span></p>
+        <div class="hero-actions">
+          <a class="cta cta--solid" href="#mandelbrot">Start exploring <span aria-hidden="true">↓</span></a>
+          <a class="cta" href="#colophon">How it was made</a>
+        </div>
+      </div>
+
+      <figure class="fig">
+        <div class="plate">
+          <div class="stage" id="hero-stage">
+            <canvas id="hero-canvas" role="img" aria-label="An animated zoom into Seahorse Valley on the edge of the Mandelbrot set, showing spirals of blue, white, yellow and red."></canvas>
+          </div>
+          <div class="readout" aria-live="off">
+            <span>zoom <b id="hero-zoom">×1</b></span>
+            <span>iterations <b id="hero-iter">140</b></span>
+            <span>center <b id="hero-center">−0.6 + 0i</b></span>
+            <button class="btn" id="hero-play" type="button" style="margin-left:auto">Pause</button>
+          </div>
+        </div>
+        <figcaption><b>Plate 0.</b> A continuous dive into Seahorse Valley, on the edge of the Mandelbrot set. At its deepest the view is about 15,000 times narrower than the whole set.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ Contents ============ -->
+    <section class="contents" aria-labelledby="contents-title">
+      <div class="contents-head">
+        <h2 class="label" id="contents-title">Contents</h2>
+        <p>Every experiment is interactive. Tap, drag and slide.</p>
+      </div>
+      <ol class="toc">
+        <li><a href="#mandelbrot">
+          <span class="toc-top"><span class="toc-num">§1</span><span class="toc-eq"><var>z</var> ↦ <var>z</var>² + <var>c</var></span></span>
+          <span class="toc-title">The Mandelbrot Set</span>
+          <span class="toc-desc">Infinite detail from one line of algebra.</span>
+        </a></li>
+        <li><a href="#fourier">
+          <span class="toc-top"><span class="toc-num">§2</span><span class="toc-eq">Σ <var>c<sub>n</sub></var><var>e</var><sup><var>int</var></sup></span></span>
+          <span class="toc-title">Drawing with Circles</span>
+          <span class="toc-desc">Any shape, rebuilt from spinning wheels.</span>
+        </a></li>
+        <li><a href="#chaos">
+          <span class="toc-top"><span class="toc-num">§3</span><span class="toc-eq"><var>σ</var>(<var>y</var> − <var>x</var>)</span></span>
+          <span class="toc-title">The Butterfly Effect</span>
+          <span class="toc-desc">Why a tiny error ruins next week's forecast.</span>
+        </a></li>
+        <li><a href="#sunflower">
+          <span class="toc-top"><span class="toc-num">§4</span><span class="toc-eq">137.508°</span></span>
+          <span class="toc-title">The Sunflower's Secret</span>
+          <span class="toc-desc">The most irrational angle in nature.</span>
+        </a></li>
+        <li><a href="#primes">
+          <span class="toc-top"><span class="toc-num">§5</span><span class="toc-eq">(<var>p</var>, <var>p</var>)</span></span>
+          <span class="toc-title">Spirals of Primes</span>
+          <span class="toc-desc">Hidden order in random-looking numbers.</span>
+        </a></li>
+        <li><a href="#buffon">
+          <span class="toc-top"><span class="toc-num">§6</span><span class="toc-eq">2<var>N</var> ⁄ <var>C</var></span></span>
+          <span class="toc-title">Finding π by Chance</span>
+          <span class="toc-desc">Estimating π by dropping needles.</span>
+        </a></li>
+      </ol>
+    </section>
+
+    <!-- ============ §1 Mandelbrot ============ -->
+    <section class="exp" id="mandelbrot" aria-labelledby="mandelbrot-title">
+      <header class="exp-head">
+        <div>
+          <p class="exp-num label">§1 · Fractals</p>
+          <h2 id="mandelbrot-title">The Mandelbrot Set</h2>
+          <p class="byline">Benoît Mandelbrot · IBM · 1980</p>
+        </div>
+        <p class="equation" aria-label="z maps to z squared plus c"><var>z</var> ↦ <var>z</var><sup>2</sup> + <var>c</var></p>
+      </header>
+
+      <div class="exp-body">
+        <div class="exp-text">
+          <p>Pick a point <var>c</var> on the plane. Start with <var>z</var> = 0, then keep replacing <var>z</var> with <var>z</var>² + <var>c</var>. For some points the numbers stay small forever. Those points make up the Mandelbrot set, shown here in black.</p>
+          <p>For every other point, the numbers eventually rush off toward infinity. The color shows how many steps that took. The edge between the two is infinitely detailed: zoom in anywhere along it and you find spirals, seahorses, lightning bolts and tiny copies of the whole set. Nobody designed any of it. It all comes from one line of algebra.</p>
+
+          <div class="tryit">
+            <h3 class="label">Try this</h3>
+            <ul>
+              <li>Tap or click anywhere on the plate to zoom in there. Drag with a mouse to move around.</li>
+              <li>With a mouse, hover over a point to see its orbit, the path <var>z</var> takes as the rule repeats. Inside the set the orbit circles forever. Outside, it escapes.</li>
+              <li>Press <b>A tiny copy</b> to find a miniature Mandelbrot set hiding on the needle to the left.</li>
+            </ul>
+          </div>
+
+          <details class="math">
+            <summary>The math behind it</summary>
+            <div class="math-body">
+              <p><b>Why stop at 2?</b> Once |<var>z</var>| is bigger than 2, squaring it always makes it grow faster than adding <var>c</var> can pull it back, so it is certain to escape. The program can stop counting there.</p>
+              <p><b>Smooth colors.</b> Counting whole steps gives hard color bands. The shader uses a fractional count, <var>n</var> + 1 − log₂(ln |<var>z</var>|), which blends one band into the next.</p>
+              <p><b>Why the zoom stops.</b> Graphics cards use 32-bit numbers with about 7 significant digits. Past roughly 25,000× zoom, neighboring pixels round to the same number and the picture turns to blocks. Deep-zoom videos use special software with hundreds of digits.</p>
+            </div>
+          </details>
+        </div>
+
+        <figure class="fig">
+          <div class="plate">
+            <div class="stage stage--grab" id="mandel-stage" tabindex="0" aria-label="Mandelbrot explorer. Click to zoom in. Arrow keys move, plus and minus keys zoom." aria-describedby="mandel-status">
+              <canvas id="mandel-canvas"></canvas>
+              <canvas id="mandel-overlay" class="overlay" aria-hidden="true"></canvas>
+            </div>
+            <div class="readout">
+              <span>zoom <b id="mandel-zoom">×1</b></span>
+              <span>iterations <b id="mandel-iter">140</b></span>
+              <span>center <b id="mandel-center">−0.6 + 0i</b></span>
+              <span class="wide" id="mandel-status" aria-live="polite">Click anywhere to zoom in.</span>
+            </div>
+            <div class="controls">
+              <div class="group" role="group" aria-label="Zoom">
+                <button class="btn" type="button" id="mandel-in" aria-label="Zoom in">Zoom in +</button>
+                <button class="btn" type="button" id="mandel-out" aria-label="Zoom out">Zoom out −</button>
+              </div>
+              <div class="group" role="group" aria-label="Places to visit">
+                <span class="group-label">Visit</span>
+                <button class="btn" type="button" data-mandel-go data-cx="-0.6" data-cy="0" data-w="3.4">Whole set</button>
+                <button class="btn" type="button" data-mandel-go data-cx="-0.74364" data-cy="0.13182" data-w="0.012">Seahorse Valley</button>
+                <button class="btn" type="button" data-mandel-go data-cx="0.2855" data-cy="0.0115" data-w="0.04">Elephant Valley</button>
+                <button class="btn" type="button" data-mandel-go data-cx="-1.7704" data-cy="0" data-w="0.07">A tiny copy</button>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Fig. 1.</b> The Mandelbrot set, drawn by a WebGL shader. Your graphics card runs the rule for every pixel at once, up to 1,800 times each.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ §2 Fourier ============ -->
+    <section class="exp exp--flip" id="fourier" aria-labelledby="fourier-title">
+      <header class="exp-head">
+        <div>
+          <p class="exp-num label">§2 · Waves</p>
+          <h2 id="fourier-title">Drawing with Circles</h2>
+          <p class="byline">Joseph Fourier · Paris · 1807</p>
+        </div>
+        <p class="equation" aria-label="f of t equals the sum of c n times e to the 2 pi i n t"><var>f</var>(<var>t</var>) = <span class="dim">Σ</span> <var>c<sub>n</sub></var> <var>e</var><sup>2π<var>int</var></sup></p>
+      </header>
+
+      <div class="exp-body">
+        <div class="exp-text">
+          <p>Fourier made a claim that sounded absurd: any repeating pattern, however jagged, can be built by adding up simple waves. Seen from above, a wave is just a circle turning at a steady speed.</p>
+          <p>Chain circles together, each one riding on the rim of the one before, and the tip of the last circle can trace any closed shape. A close cousin of this idea compresses the music on your phone (MP3) and the photos you send (JPEG), and lets MRI scanners turn radio signals into pictures of the inside of your body.</p>
+
+          <div class="tryit">
+            <h3 class="label">Try this</h3>
+            <ul>
+              <li>Slide the number of circles down to 3. You get a wobbly blob. Slide it back up and the shape snaps into focus.</li>
+              <li>Pick <b>Star</b> or <b>Square</b>. Sharp corners need far more circles than smooth curves.</li>
+              <li>Press <b>Draw your own</b> and sketch any single loop, such as the first letter of your name.</li>
+            </ul>
+          </div>
+
+          <details class="math">
+            <summary>The math behind it</summary>
+            <div class="math-body">
+              <p>The outline is sampled at 256 evenly spaced points, each treated as a complex number <var>x</var> + <var>iy</var>. A discrete Fourier transform turns those 256 points into 255 circles, each with a size, a starting angle and a whole-number speed <var>n</var>.</p>
+              <p>The circles are sorted largest first. That is why the first handful do most of the work and the rest only add fine detail.</p>
+            </div>
+          </details>
+        </div>
+
+        <figure class="fig">
+          <div class="plate">
+            <div class="stage" id="fourier-stage" aria-label="Fourier epicycles drawing a shape. In drawing mode, draw a loop here with your mouse or finger.">
+              <canvas id="fourier-canvas"></canvas>
+            </div>
+            <div class="readout">
+              <span class="wide" id="fourier-note" aria-live="polite">A heart, rebuilt from spinning circles.</span>
+            </div>
+            <div class="controls">
+              <label class="slider" for="fourier-count">
+                <span class="group-label">Circles</span>
+                <input type="range" id="fourier-count" min="1" max="120" step="1" value="30">
+                <output id="fourier-count-out" for="fourier-count">30</output>
+              </label>
+              <div class="group" role="group" aria-label="Shape">
+                <button class="btn" type="button" data-fourier-shape="heart" aria-pressed="true">Heart</button>
+                <button class="btn" type="button" data-fourier-shape="star" aria-pressed="false">Star</button>
+                <button class="btn" type="button" data-fourier-shape="square" aria-pressed="false">Square</button>
+                <button class="btn btn--primary" type="button" id="fourier-draw">Draw your own</button>
+              </div>
+              <button class="btn" type="button" id="fourier-play" style="margin-left:auto">Pause</button>
+            </div>
+          </div>
+          <figcaption><b>Fig. 2.</b> Epicycles from a discrete Fourier transform, computed in your browser from the shape's 256 sample points. The faint line is the original outline.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ §3 Chaos ============ -->
+    <section class="exp" id="chaos" aria-labelledby="chaos-title">
+      <header class="exp-head">
+        <div>
+          <p class="exp-num label">§3 · Chaos</p>
+          <h2 id="chaos-title">The Butterfly Effect</h2>
+          <p class="byline">Edward Lorenz · MIT · 1963</p>
+        </div>
+        <div class="equation equation--stack" aria-label="The Lorenz equations: dx by dt equals sigma times y minus x; dy by dt equals x times rho minus z, minus y; dz by dt equals x y minus beta z.">
+          <span><span class="frac"><span>d<var>x</var></span><span>d<var>t</var></span></span> = <var>σ</var>(<var>y</var> − <var>x</var>)</span>
+          <span><span class="frac"><span>d<var>y</var></span><span>d<var>t</var></span></span> = <var>x</var>(<var>ρ</var> − <var>z</var>) − <var>y</var></span>
+          <span><span class="frac"><span>d<var>z</var></span><span>d<var>t</var></span></span> = <var>xy</var> − <var>βz</var></span>
+        </div>
+      </header>
+
+      <div class="exp-body">
+        <div class="exp-text">
+          <p>In 1961 the meteorologist Edward Lorenz reran a weather simulation. To save time he typed in a number from a printout, 0.506, instead of the 0.506127 stored in the computer. That tiny difference grew until the forecast was completely different.</p>
+          <p>He boiled the problem down to these three equations. On the plate, two paths start one millionth of a unit apart. For a while they move as one. Then they split and never agree again, though both stay on the same butterfly-shaped track, now called the Lorenz attractor. This is why detailed weather forecasts lose their accuracy after a week or two.</p>
+
+          <div class="tryit">
+            <h3 class="label">Try this</h3>
+            <ul>
+              <li>Watch the chart. On a log scale the gap climbs in a straight line, which is the signature of exponential growth.</li>
+              <li>Switch the starting gap to <b>10⁻⁹</b>, a thousand times smaller. The paths stay together longer, but only by about 7 time units. Better measurements buy surprisingly little.</li>
+              <li>Drag the plate sideways to turn the attractor in 3D.</li>
+            </ul>
+          </div>
+
+          <details class="math">
+            <summary>The math behind it</summary>
+            <div class="math-body">
+              <p>These are Lorenz's original values: <var>σ</var> = 10, <var>ρ</var> = 28, <var>β</var> = 8⁄3. The equations are solved with the fourth-order Runge–Kutta method, 250 small steps per unit of time.</p>
+              <p>The gap grows roughly like <var>e</var><sup>0.9<var>t</var></sup>. The number 0.906 is the system's largest Lyapunov exponent. Shrinking the starting error 1,000 times delays the split by only ln(1000) ⁄ 0.906 ≈ 7.6 time units.</p>
+            </div>
+          </details>
+        </div>
+
+        <figure class="fig">
+          <div class="plate">
+            <div class="stage stage--grab stage--pan-y" id="lorenz-stage" tabindex="0" aria-label="Two paths tracing the Lorenz attractor in 3D. Drag or use the arrow keys to rotate.">
+              <canvas id="lorenz-canvas"></canvas>
+            </div>
+            <div class="chart" id="lorenz-chart-box">
+              <p class="chart-title">Gap between the paths over time · log scale</p>
+              <canvas id="lorenz-chart" role="img" aria-label="Line chart of the distance between the two paths over time, on a logarithmic scale."></canvas>
+            </div>
+            <div class="readout">
+              <span>time <b id="lorenz-time">0.0</b></span>
+              <span>gap <b id="lorenz-gap">10⁻⁶</b></span>
+              <span class="legend"><span><i class="swatch" style="background:var(--plate-red)"></i>Path A</span><span><i class="swatch" style="background:var(--plate-blue)"></i>Path B</span></span>
+              <span class="wide" id="lorenz-state" aria-live="polite">The two paths are moving together.</span>
+            </div>
+            <div class="controls">
+              <div class="group" role="group" aria-label="Starting gap">
+                <span class="group-label">Starting gap</span>
+                <button class="btn" type="button" data-lorenz-gap="3" aria-pressed="false">10⁻³</button>
+                <button class="btn" type="button" data-lorenz-gap="6" aria-pressed="true">10⁻⁶</button>
+                <button class="btn" type="button" data-lorenz-gap="9" aria-pressed="false">10⁻⁹</button>
+              </div>
+              <button class="btn" type="button" id="lorenz-restart">Restart</button>
+              <button class="btn" type="button" id="lorenz-play" style="margin-left:auto">Pause</button>
+            </div>
+          </div>
+          <figcaption><b>Fig. 3.</b> The Lorenz attractor, integrated live. Earlier runs stay on the chart in gray so you can compare starting gaps.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ §4 Sunflower ============ -->
+    <section class="exp exp--flip" id="sunflower" aria-labelledby="sunflower-title">
+      <header class="exp-head">
+        <div>
+          <p class="exp-num label">§4 · Nature</p>
+          <h2 id="sunflower-title">The Sunflower's Secret</h2>
+          <p class="byline">Helmut Vogel's model · 1979</p>
+        </div>
+        <p class="equation" aria-label="theta equals 360 degrees divided by phi squared, about 137.508 degrees"><var>θ</var> = 360° ⁄ <var>φ</var><sup>2</sup> <span class="dim">≈ 137.508°</span></p>
+      </header>
+
+      <div class="exp-body">
+        <div class="exp-text">
+          <p>A sunflower grows its seeds from the center outward, each new seed at a fixed turn from the one before. Which angle packs the most seeds with no wasted space?</p>
+          <p>If the turn is a simple fraction of a circle, like 2⁄5, the seeds line up in straight spokes with gaps between them. The best angle is the one furthest from every simple fraction. That is the golden angle, 137.508°, built from the golden ratio <var>φ</var> = (1 + √5) ⁄ 2. Count the spirals it makes and you find neighboring Fibonacci numbers such as 21, 34 and 55, the same numbers you can count on real sunflowers, pinecones and pineapples.</p>
+
+          <div class="tryit">
+            <h3 class="label">Try this</h3>
+            <ul>
+              <li>Drag the angle a fraction of a degree away from 137.508°. The perfect packing breaks into spokes.</li>
+              <li>Press <b>2⁄5 turn</b> for 5 straight arms, or <b>8⁄21 turn</b> for 21.</li>
+              <li>Press <b>Sweep</b> to glide slowly through nearby angles.</li>
+            </ul>
+          </div>
+
+          <details class="math">
+            <summary>The math behind it</summary>
+            <div class="math-body">
+              <p>Seed <var>n</var> sits at angle <var>n</var> × <var>θ</var> and distance <var>c</var>√<var>n</var> from the center. The square root gives every seed the same area.</p>
+              <p><var>φ</var> is called the "most irrational" number because its continued fraction is all ones: 1 + 1 ⁄ (1 + 1 ⁄ (1 + …)). Fractions approximate it worse than any other number, so the seeds never line up. Its best approximations are ratios of Fibonacci numbers, 13⁄8, 21⁄13, 34⁄21, and those are the spiral counts you see.</p>
+            </div>
+          </details>
+        </div>
+
+        <figure class="fig">
+          <div class="plate">
+            <div class="stage stage--square" id="phyllo-stage">
+              <canvas id="phyllo-canvas" role="img" aria-label="Seeds arranged by the golden angle, forming interlocking spirals."></canvas>
+            </div>
+            <div class="readout">
+              <span>turn <b id="phyllo-turn">0.381966</b></span>
+              <span>seeds <b id="phyllo-seeds">1,000</b></span>
+              <span>spiral families <b id="phyllo-families">21 · 34 · 55</b></span>
+              <span class="legend"><span><i class="swatch" style="background:var(--plate-red)"></i>Winds clockwise</span><span><i class="swatch" style="background:var(--plate-blue)"></i>Counterclockwise</span><span><i class="swatch" style="background:var(--plate-ink)"></i>Straight spoke</span></span>
+            </div>
+            <div class="controls">
+              <label class="slider" for="phyllo-angle">
+                <span class="group-label">Angle</span>
+                <input type="range" id="phyllo-angle" min="130" max="145" step="0.001" value="137.508">
+                <output id="phyllo-angle-out" for="phyllo-angle">137.508°</output>
+              </label>
+              <label class="slider" for="phyllo-count">
+                <span class="group-label">Seeds</span>
+                <input type="range" id="phyllo-count" min="50" max="2500" step="10" value="1000">
+                <output id="phyllo-count-out" for="phyllo-count">1,000</output>
+              </label>
+              <div class="group" role="group" aria-label="Preset angles">
+                <button class="btn" type="button" data-phyllo-angle="golden">Golden</button>
+                <button class="btn" type="button" data-phyllo-angle="144">2⁄5 turn</button>
+                <button class="btn" type="button" data-phyllo-angle="137.142857142857">8⁄21 turn</button>
+                <button class="btn" type="button" data-phyllo-angle="137.3">137.3°</button>
+              </div>
+              <label class="check" for="phyllo-spirals"><input type="checkbox" id="phyllo-spirals" checked>Trace spirals</label>
+              <button class="btn" type="button" id="phyllo-sweep" aria-pressed="false" style="margin-left:auto">Sweep</button>
+            </div>
+          </div>
+          <figcaption><b>Fig. 4.</b> Vogel's sunflower model. The program checks which seeds sit next to each other and traces the spiral families it finds.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ §5 Primes ============ -->
+    <section class="exp" id="primes" aria-labelledby="primes-title">
+      <header class="exp-head">
+        <div>
+          <p class="exp-num label">§5 · Number theory</p>
+          <h2 id="primes-title">Spirals of Primes</h2>
+          <p class="byline">Explained by Grant Sanderson (3Blue1Brown) · 2019</p>
+        </div>
+        <p class="equation" aria-label="r and theta both equal p">(<var>r</var>, <var>θ</var>) = (<var>p</var>, <var>p</var>)</p>
+      </header>
+
+      <div class="exp-body">
+        <div class="exp-text">
+          <p>Prime numbers have no divisors except 1 and themselves: 2, 3, 5, 7, 11, 13 and so on. They seem to turn up at random. Here is an odd way to plot them: put each whole number <var>n</var> at distance <var>n</var> from the center, turned <var>n</var> radians around, then keep only the primes.</p>
+          <p>Zoom out and spirals appear. Zoom out further and they straighten into rays. The cause is how well fractions approximate 2π. Because 44⁄7 is close to 2π, numbers 44 apart land almost in line. Because 710⁄113 is even closer, numbers 710 apart form nearly straight rays. Some spirals stay empty because their numbers all share a factor with 44 or 710, so they can't be prime. That leaves primes on 20 of the 44 spirals and 280 of the 710 rays.</p>
+
+          <div class="tryit">
+            <h3 class="label">Try this</h3>
+            <ul>
+              <li>Press <b>Zoom out</b> and watch. Around 3,000 you can count the spirals. Keep going past 50,000 for the rays.</li>
+              <li>Switch to <b>All numbers</b>. The spirals come from the plotting method itself; primes only decide which ones are empty.</li>
+              <li>Slide all the way in to read the first primes by name.</li>
+            </ul>
+          </div>
+
+          <details class="math">
+            <summary>The math behind it</summary>
+            <div class="math-body">
+              <p>44 radians is 7 full turns plus 0.0177 radians. So <var>n</var> and <var>n</var> + 44 sit at almost the same angle, and each group of numbers with the same remainder when divided by 44 forms a slowly curving spiral. Numbers with an even remainder, or a remainder of 11 or 33, are divisible by 2 or 11. That rules out 24 of the 44 spirals.</p>
+              <p>710 radians is 113 turns plus only 0.00006 radians, so those groups curve so slowly they look straight. 710 = 2 × 5 × 71, which leaves 280 remainders that primes can use.</p>
+              <p>The primes are found with the Sieve of Eratosthenes: all 25,997 primes below 300,000 in a few milliseconds.</p>
+            </div>
+          </details>
+        </div>
+
+        <figure class="fig">
+          <div class="plate">
+            <div class="stage stage--square" id="primes-stage">
+              <canvas id="primes-canvas" role="img" aria-label="Prime numbers plotted in polar coordinates, forming spirals."></canvas>
+            </div>
+            <div class="readout">
+              <span>numbers <b id="primes-range">1 to 6,000</b></span>
+              <span>primes shown <b id="primes-count">783</b></span>
+              <span class="legend"><span><i class="swatch" style="background:var(--plate-yellow)"></i>Prime</span><span id="primes-legend-other" hidden><i class="swatch" style="background:#4a5d8a"></i>Not prime</span></span>
+              <span class="wide" id="primes-pattern" aria-live="polite">44 spirals, and primes fill only 20 of them.</span>
+            </div>
+            <div class="controls">
+              <label class="slider" for="primes-zoom">
+                <span class="group-label">Zoom</span>
+                <input type="range" id="primes-zoom" min="0" max="1000" step="1" value="610">
+                <output id="primes-zoom-out" for="primes-zoom">6,000</output>
+              </label>
+              <div class="group" role="group" aria-label="Which numbers to show">
+                <button class="btn" type="button" data-primes-mode="primes" aria-pressed="true">Primes only</button>
+                <button class="btn" type="button" data-primes-mode="all" aria-pressed="false">All numbers</button>
+              </div>
+              <button class="btn btn--primary" type="button" id="primes-play" style="margin-left:auto">Zoom out</button>
+            </div>
+          </div>
+          <figcaption><b>Fig. 5.</b> Every prime up to the edge of the plate, placed at distance <var>p</var> and angle <var>p</var> radians.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ §6 Buffon ============ -->
+    <section class="exp exp--flip" id="buffon" aria-labelledby="buffon-title">
+      <header class="exp-head">
+        <div>
+          <p class="exp-num label">§6 · Probability</p>
+          <h2 id="buffon-title">Finding π by Chance</h2>
+          <p class="byline">Georges-Louis Leclerc, Comte de Buffon · 1777</p>
+        </div>
+        <p class="equation" aria-label="pi is approximately 2 N over C"><var>π</var> ≈ 2<var>N</var> ⁄ <var>C</var></p>
+      </header>
+
+      <div class="exp-body">
+        <div class="exp-text">
+          <p>Drop a needle on a floor of wooden planks, where the needle is exactly as long as a plank is wide. What is the chance it lands across a crack? Buffon worked out the answer: 2⁄π.</p>
+          <p>So π is hiding in a game of chance. Drop <var>N</var> needles, count the <var>C</var> that cross a line, and 2<var>N</var> ÷ <var>C</var> creeps toward 3.14159. It gets there slowly: each extra correct digit takes roughly 100 times as many needles. In 1901 the Italian mathematician Mario Lazzarini claimed 3.1415929 from just 3,408 needles, correct to six decimal places. That is so unlikely that most historians think he stopped when the answer looked good.</p>
+
+          <div class="tryit">
+            <h3 class="label">Try this</h3>
+            <ul>
+              <li>Drop one needle at a time and see how wild the early guesses are.</li>
+              <li>Press <b>Rain</b> and watch the estimate settle onto the π line in the chart.</li>
+              <li>Watch the yellow digits. They show how much of your estimate is right.</li>
+            </ul>
+          </div>
+
+          <details class="math">
+            <summary>The math behind it</summary>
+            <div class="math-body">
+              <p>A needle of length ℓ at angle <var>θ</var> crosses a line when its center lies within (ℓ⁄2) sin <var>θ</var> of one. Averaging sin <var>θ</var> over every possible angle gives 2⁄π, so the chance of a crossing is 2ℓ ⁄ (π<var>d</var>). With ℓ = <var>d</var>, that is 2⁄π.</p>
+              <p>Using randomness to calculate a number is called a Monte Carlo method. Scientists use it to simulate everything from nuclear reactors to the spread of diseases.</p>
+            </div>
+          </details>
+        </div>
+
+        <figure class="fig">
+          <div class="plate">
+            <div class="stage" id="buffon-stage">
+              <canvas id="buffon-canvas" role="img" aria-label="Needles dropped at random on a floor of parallel planks."></canvas>
+            </div>
+            <div class="estimate">
+              <span class="estimate-value" id="buffon-estimate" aria-live="polite">π ≈ –</span>
+              <span class="estimate-note" id="buffon-stats">No needles dropped yet.</span>
+            </div>
+            <div class="chart" id="buffon-chart-box">
+              <p class="chart-title">Estimate after each drop · log scale</p>
+              <canvas id="buffon-chart" role="img" aria-label="Line chart of the estimate of pi as more needles are dropped."></canvas>
+            </div>
+            <div class="controls">
+              <div class="group" role="group" aria-label="Drop needles">
+                <button class="btn" type="button" data-buffon-drop="1">Drop 1</button>
+                <button class="btn" type="button" data-buffon-drop="100">Drop 100</button>
+                <button class="btn" type="button" data-buffon-drop="1000">Drop 1,000</button>
+                <button class="btn btn--primary" type="button" id="buffon-rain" aria-pressed="false">Rain</button>
+                <button class="btn" type="button" id="buffon-reset">Reset</button>
+              </div>
+              <span class="legend" style="margin-left:auto"><span><i class="swatch" style="background:var(--plate-red)"></i>Crosses a line</span><span><i class="swatch" style="background:var(--plate-blue)"></i>Misses</span></span>
+            </div>
+          </div>
+          <figcaption><b>Fig. 6.</b> Buffon's needles, dropped with your browser's random number generator. Every drop updates the estimate and the chart.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ============ Colophon ============ -->
+    <section class="colophon" id="colophon" aria-labelledby="colophon-title">
+      <div class="colophon-grid">
+        <div class="colophon-intro">
+          <p class="exp-num label">Colophon</p>
+          <h2 id="colophon-title">How it was made</h2>
+          <p>This site is nearly 4,000 lines of hand-written HTML, CSS and JavaScript, with no frameworks, libraries, images or videos. Every picture is computed on your device.</p>
+          <p>Each experiment is built on a different technique from computer science.</p>
+        </div>
+        <dl class="techniques">
+          <div class="technique">
+            <dt><span>§1 · GPU programming</span>WebGL fragment shader</dt>
+            <dd>A small program that runs on the graphics card, once for every pixel, all in parallel.</dd>
+          </div>
+          <div class="technique">
+            <dt><span>§2 · Signal processing</span>Discrete Fourier transform</dt>
+            <dd>Turns 256 points of a drawing into 255 rotating circles.</dd>
+          </div>
+          <div class="technique">
+            <dt><span>§3 · Numerical methods</span>Runge–Kutta integration</dt>
+            <dd>Steps three differential equations forward 250 times per unit of time.</dd>
+          </div>
+          <div class="technique">
+            <dt><span>§4 · Computational geometry</span>Neighbor search</dt>
+            <dd>Finds which seeds touch, then groups them into spiral families.</dd>
+          </div>
+          <div class="technique">
+            <dt><span>§5 · Algorithms</span>Sieve of Eratosthenes</dt>
+            <dd>Crosses out multiples to find every prime below 300,000.</dd>
+          </div>
+          <div class="technique">
+            <dt><span>§6 · Statistics</span>Monte Carlo simulation</dt>
+            <dd>Uses thousands of random trials to estimate a number.</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div class="sources">
+        <h3 class="label">Sources</h3>
+        <ol>
+          <li>Mandelbrot, B. B. (1980). Fractal aspects of the iteration of <var>z</var> ↦ <var>λz</var>(1 − <var>z</var>) for complex <var>λ</var> and <var>z</var>. <i>Annals of the New York Academy of Sciences</i>, 357, 249–259.</li>
+          <li>Fourier, J. (1822). <i>Théorie analytique de la chaleur</i>. Paris: Firmin Didot.</li>
+          <li>Lorenz, E. N. (1963). Deterministic nonperiodic flow. <i>Journal of the Atmospheric Sciences</i>, 20(2), 130–141.</li>
+          <li>Gleick, J. (1987). <i>Chaos: Making a New Science</i>. New York: Viking. (The 0.506 story.)</li>
+          <li>Vogel, H. (1979). A better way to construct the sunflower head. <i>Mathematical Biosciences</i>, 44(3–4), 179–189.</li>
+          <li>Sanderson, G. (2019). <i>Why do prime numbers make these spirals?</i> 3Blue1Brown.</li>
+          <li>Buffon, G.-L. L., Comte de (1777). Essai d'arithmétique morale. <i>Supplément à l'Histoire naturelle</i>, vol. 4.</li>
+          <li>Further reading: <a href="https://en.wikipedia.org/wiki/Mandelbrot_set">Mandelbrot set</a>, <a href="https://en.wikipedia.org/wiki/Fourier_series">Fourier series</a>, <a href="https://en.wikipedia.org/wiki/Lorenz_system">Lorenz system</a>, <a href="https://en.wikipedia.org/wiki/Golden_angle">Golden angle</a>, <a href="https://en.wikipedia.org/wiki/Buffon%27s_needle_problem">Buffon's needle problem</a> (Wikipedia).</li>
+        </ol>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p><a class="wordmark" href="#top">The Shape <i>of</i> Numbers</a></p>
+      <p>Designed and coded by <b>@aaravlakhia</b> · 2026</p>
+      <p><a href="#top">Back to the top ↑</a></p>
+    </footer>
+
+  </div>
+</main>
+
+<script src="js/core.js"></script>
+<script src="js/mandelbrot.js"></script>
+<script src="js/fourier.js"></script>
+<script src="js/lorenz.js"></script>
+<script src="js/phyllotaxis.js"></script>
+<script src="js/primes.js"></script>
+<script src="js/buffon.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
