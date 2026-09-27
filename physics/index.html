@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chain Reaction</title>
+<meta name="description" content="Twelve physicists, twelve discoveries, twelve live experiments, and the world each discovery set off.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@500;700;800;900&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<a class="skip" href="#galileo">Skip to the first discovery</a>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <a class="wordmark" href="#top">Chain <span>Reaction</span></a>
+    <p class="now" aria-live="off"><b id="now-year">1638</b><span class="now-name" id="now-name">Galileo Galilei</span><a href="#contents">Contents</a></p>
+  </div>
+</header>
+
+<!-- ============ Hero ============ -->
+<section class="hero" id="top" aria-labelledby="title">
+  <canvas id="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-inner">
+    <p class="kicker label">A history of physics in twelve discoveries</p>
+    <h1 id="title"><span>Chain</span><span class="outline">Reaction</span></h1>
+    <p class="lede">In 1938 Lise Meitner worked out that when one uranium nucleus splits, it can split two more, and those can split four. <em>Ideas work the same way.</em> Here are twelve people who each split open an idea, a live experiment for every discovery, and the world each one set off.</p>
+    <ul class="hero-meta">
+      <li><b>12</b> discoveries</li>
+      <li><b>1638 → 2015</b></li>
+      <li><b>12</b> live experiments</li>
+      <li><b>0</b> videos. Everything runs on your device.</li>
+    </ul>
+    <div class="hero-actions">
+      <a class="cta cta--solid" href="#galileo">Light the fuse <span aria-hidden="true">↓</span></a>
+      <a class="cta" href="#pocket">What's in your pocket</a>
+    </div>
+  </div>
+  <p class="hero-caption"><span><b>Plate 0.</b> A live chain reaction: each neutron (blue) that hits a uranium nucleus splits it and frees two or three more.</span><button class="btn" type="button" id="hero-play">Pause</button></p>
+</section>
+
+<main class="page">
+  <div class="wrap">
+
+    <!-- ============ Contents ============ -->
+    <section class="contents" id="contents" aria-labelledby="contents-title">
+      <div class="section-head">
+        <h2 class="label" id="contents-title">The chain</h2>
+        <p>Each link made the next one possible.</p>
+      </div>
+      <ol class="toc">
+        <li><a href="#galileo"><span class="toc-year">1638</span><span class="toc-name">Galileo</span><span class="toc-idea">Everything falls the same way</span></a></li>
+        <li><a href="#newton"><span class="toc-year">1687</span><span class="toc-name">Newton</span><span class="toc-idea">The Moon is falling</span></a></li>
+        <li><a href="#faraday"><span class="toc-year">1831</span><span class="toc-name">Faraday</span><span class="toc-idea">Magnets make electricity</span></a></li>
+        <li><a href="#maxwell"><span class="toc-year">1865</span><span class="toc-name">Maxwell</span><span class="toc-idea">Light is an electromagnetic wave</span></a></li>
+        <li><a href="#curie"><span class="toc-year">1898</span><span class="toc-name">Curie</span><span class="toc-idea">Atoms are not forever</span></a></li>
+        <li><a href="#einstein"><span class="toc-year">1905</span><span class="toc-name">Einstein</span><span class="toc-idea">Moving clocks run slow</span></a></li>
+        <li><a href="#rutherford"><span class="toc-year">1911</span><span class="toc-name">Rutherford</span><span class="toc-idea">The atom is almost empty</span></a></li>
+        <li><a href="#bohr"><span class="toc-year">1913</span><span class="toc-name">Bohr</span><span class="toc-idea">Electrons jump</span></a></li>
+        <li><a href="#debroglie"><span class="toc-year">1924</span><span class="toc-name">de Broglie</span><span class="toc-idea">Matter is a wave</span></a></li>
+        <li><a href="#raman"><span class="toc-year">1928</span><span class="toc-name">Raman</span><span class="toc-idea">Light can change color</span></a></li>
+        <li><a href="#meitner"><span class="toc-year">1938</span><span class="toc-name">Meitner</span><span class="toc-idea">The nucleus splits</span></a></li>
+        <li><a href="#ligo"><span class="toc-year">2015</span><span class="toc-name">LIGO</span><span class="toc-idea">Space itself shakes</span></a></li>
+      </ol>
+    </section>
+
+    <div class="chapters" id="chapters">
+      <div class="fuse" aria-hidden="true"><div class="fuse-fill"></div><div class="fuse-spark"></div></div>
+
+      <!-- ============ 1 Galileo ============ -->
+      <section class="chapter" id="galileo" data-year="1638" data-name="Galileo Galilei" aria-labelledby="galileo-title">
+        <div class="meta">
+          <p class="year">1638</p>
+          <p class="who">Galileo Galilei</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1564–1642</dd></div>
+            <div><dt>Where</dt><dd>Pisa, Padua and Florence, Italy</dd></div>
+            <div><dt>Age</dt><dd>74, when he published</dd></div>
+            <div><dt>Book</dt><dd><i>Two New Sciences</i></dd></div>
+          </dl>
+          <p class="key-eq" aria-label="distance is proportional to time squared"><var>d</var> ∝ <var>t</var><sup>2</sup></p>
+        </div>
+        <div class="main">
+          <h2 id="galileo-title">Heavy things don't fall faster.</h2>
+          <div class="story">
+            <p>For almost 2,000 years, people believed Aristotle: a heavy stone falls faster than a light one. Galileo Galilei decided to test it.</p>
+            <p>The famous story of him dropping balls from the Leaning Tower of Pisa probably never happened. His real experiments rolled balls down gentle ramps, timed with a water clock. He found that everything speeds up in exactly the same way. Only air makes a feather lag behind. The distance fallen grows with the square of the time: in equal moments, a falling object covers 1, then 3, then 5, then 7 units.</p>
+            <p>He published this in 1638, at the age of 74, while under house arrest for teaching that the Earth moves around the Sun.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage stage--tall" id="gal-stage">
+                <canvas id="gal-canvas" role="img" aria-label="A hammer and a feather dropped side by side, with ghost images every tenth of a second."></canvas>
+              </div>
+              <div class="readout">
+                <span>hammer lands <b id="gal-hammer">–</b></span>
+                <span>feather lands <b id="gal-feather">–</b></span>
+                <span>fall in each 0.1 s <b id="gal-rule">1 : 3 : 5 : 7</b></span>
+                <span class="wide" id="gal-msg" aria-live="polite">Press Drop.</span>
+              </div>
+              <div class="controls">
+                <div class="group" role="group" aria-label="Where to drop them">
+                  <span class="group-label">Where</span>
+                  <button class="btn" type="button" data-gal-world="air" aria-pressed="true">Earth, in air</button>
+                  <button class="btn" type="button" data-gal-world="vacuum" aria-pressed="false">Earth, no air</button>
+                  <button class="btn" type="button" data-gal-world="moon" aria-pressed="false">The Moon</button>
+                </div>
+                <button class="btn btn--solid push" type="button" id="gal-drop">Drop</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 1.</b> A hammer and a feather dropped from 1.6 m, shown at one third of real speed. The ghost images are 0.1 seconds apart.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1656</span><span class="what">Christiaan Huygens builds the first pendulum clock, using Galileo's discovery that a pendulum keeps steady time.</span></li>
+              <li><span class="when">1687</span><span class="what">Isaac Newton turns Galileo's falling objects into three laws of motion.</span></li>
+              <li><span class="when">1971</span><span class="what">On the Moon, astronaut David Scott drops a hammer and a feather. They land together.</span></li>
+              <li><span class="when">2022</span><span class="what">The MICROSCOPE satellite confirms Galileo's rule to one part in a thousand trillion.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 2 Newton ============ -->
+      <section class="chapter" id="newton" data-year="1687" data-name="Isaac Newton" aria-labelledby="newton-title">
+        <div class="meta">
+          <p class="year">1687</p>
+          <p class="who">Isaac Newton</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1643–1727</dd></div>
+            <div><dt>Where</dt><dd>Cambridge, England</dd></div>
+            <div><dt>Age</dt><dd>44</dd></div>
+            <div><dt>Book</dt><dd><i>Principia</i></dd></div>
+          </dl>
+          <p class="key-eq" aria-label="F equals G m1 m2 over r squared"><var>F</var> = <var>G</var><var>m</var><sub>1</sub><var>m</var><sub>2</sub> ⁄ <var>r</var><sup>2</sup></p>
+        </div>
+        <div class="main">
+          <h2 id="newton-title">The Moon is falling, and always missing.</h2>
+          <div class="story">
+            <p>Newton said that watching an apple fall made him wonder how far the Earth's pull could reach. His answer: all the way to the Moon.</p>
+            <p>He imagined a cannon on a very tall mountain. Fire it gently and the ball lands nearby. Fire it harder and it lands further away. Fire it fast enough and the ground curves away beneath the ball as quickly as it falls, so it keeps falling forever and never lands. That is an orbit. The Moon does exactly this, pulled by the same gravity that pulls an apple.</p>
+            <p>His book <i>Principia</i> (1687) explained apples, tides, planets and comets with a single law. His friend Edmond Halley paid for it to be printed.</p>
+          </div>
+          <blockquote class="quote">
+            <p>If I have seen further it is by standing on the shoulders of Giants.</p>
+            <footer>Isaac Newton, in a letter to Robert Hooke, 1675</footer>
+          </blockquote>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage stage--tall" id="new-stage">
+                <canvas id="new-canvas" role="img" aria-label="Newton's cannon on a mountain above the Earth, firing balls into falling paths and orbits."></canvas>
+              </div>
+              <div class="readout">
+                <span>speed <b id="new-kms">7.2 km/s</b></span>
+                <span>that is <b id="new-kmh">25,920 km/h</b></span>
+                <span>flight <b id="new-time">–</b></span>
+                <span class="wide" id="new-msg" aria-live="polite">Set a speed and fire.</span>
+              </div>
+              <div class="controls">
+                <label class="slider" for="new-speed">
+                  <span class="group-label">Speed</span>
+                  <input type="range" id="new-speed" min="1" max="12" step="0.05" value="7.2">
+                  <output id="new-speed-out" for="new-speed">7.20 km/s</output>
+                </label>
+                <div class="group" role="group" aria-label="Preset speeds">
+                  <button class="btn" type="button" data-new-v="4">4 km/s</button>
+                  <button class="btn" type="button" data-new-v="7.82">Orbit · 7.82</button>
+                  <button class="btn" type="button" data-new-v="9.6">9.6 km/s</button>
+                  <button class="btn" type="button" data-new-v="11.2">Escape · 11.2</button>
+                </div>
+                <button class="btn btn--solid push" type="button" id="new-fire">Fire</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 2.</b> Newton's cannon, fired sideways from 150 km up. Real gravity and the real size of the Earth, with time sped up about 900 times.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1758</span><span class="what">Halley's comet returns exactly when Newton's laws said it would, 16 years after Halley's death.</span></li>
+              <li><span class="when">1846</span><span class="what">Astronomers find Neptune where the math predicted, before anyone had seen it.</span></li>
+              <li><span class="when">1957</span><span class="what">Sputnik 1, the first artificial satellite, circles the Earth at about 8 km/s.</span></li>
+              <li><span class="when">1969</span><span class="what">Apollo 11 lands on the Moon, steered the whole way by Newton's laws.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 3 Faraday ============ -->
+      <section class="chapter" id="faraday" data-year="1831" data-name="Michael Faraday" aria-labelledby="faraday-title">
+        <div class="meta">
+          <p class="year">1831</p>
+          <p class="who">Michael Faraday</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1791–1867</dd></div>
+            <div><dt>Where</dt><dd>Royal Institution, London</dd></div>
+            <div><dt>Age</dt><dd>40</dd></div>
+            <div><dt>School</dt><dd>Left at 13</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="EMF equals minus the rate of change of magnetic flux">ℰ = −d<var>Φ</var> ⁄ d<var>t</var></p>
+        </div>
+        <div class="main">
+          <h2 id="faraday-title">Move a magnet, make electricity.</h2>
+          <div class="story">
+            <p>Michael Faraday grew up poor and left school at 13 to work for a bookbinder. He read the science books he was binding, went to public lectures by the chemist Humphry Davy, and sent Davy a neatly bound copy of his notes. Davy gave him a job as his lab assistant.</p>
+            <p>In 1831 Faraday pushed a magnet into a coil of wire, and the needle on his meter flicked. When he held the magnet still, nothing happened. When he pulled it out, the needle flicked the other way. Electricity comes from change: a moving magnet, or a changing magnetic field.</p>
+            <p>Faraday knew very little mathematics. He pictured invisible "lines of force" around magnets instead. A young Scottish physicist would later turn those pictures into equations.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage stage--drag" id="far-stage" tabindex="0" aria-label="A bar magnet and a coil. Drag the magnet, or use the arrow keys, to move it through the coil.">
+                <canvas id="far-canvas"></canvas>
+                <p class="stage-note">Drag the magnet through the coil</p>
+              </div>
+              <div class="readout">
+                <span>voltage <b id="far-volts">0.00 V</b></span>
+                <span>magnet speed <b id="far-speed">0.0 cm/s</b></span>
+                <span class="wide" id="far-msg" aria-live="polite">Push the magnet into the coil.</span>
+              </div>
+              <div class="controls">
+                <button class="btn" type="button" id="far-spin" aria-pressed="false">Run as a generator</button>
+                <span class="legend push"><span><i class="swatch" style="background:var(--red)"></i>North pole</span><span><i class="swatch" style="background:var(--glow)"></i>South pole</span></span>
+              </div>
+            </div>
+            <figcaption><b>Exp. 3.</b> A magnet and a coil wired to a bulb and a meter. The voltage depends on how fast the magnetic field through the coil changes, not on how strong it is.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1832</span><span class="what">Hippolyte Pixii builds the first electric generator by spinning a magnet past coils.</span></li>
+              <li><span class="when">1882</span><span class="what">Edison's Pearl Street Station starts selling electricity to homes and offices in New York.</span></li>
+              <li><span class="when">1896</span><span class="what">Generators at Niagara Falls send power 40 km to the city of Buffalo.</span></li>
+              <li><span class="when">Today</span><span class="what">Coal, gas, nuclear, wind and hydro plants all make electricity by spinning magnets past coils. Your phone's wireless charger uses the same idea.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 4 Maxwell ============ -->
+      <section class="chapter" id="maxwell" data-year="1865" data-name="James Clerk Maxwell" aria-labelledby="maxwell-title">
+        <div class="meta">
+          <p class="year">1865</p>
+          <p class="who">James Clerk Maxwell</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1831–1879</dd></div>
+            <div><dt>Where</dt><dd>King's College, London</dd></div>
+            <div><dt>Age</dt><dd>34</dd></div>
+            <div><dt>Born</dt><dd>The year Faraday found induction</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="c equals one over the square root of mu zero epsilon zero"><var>c</var> = 1 ⁄ √(<var>μ</var><sub>0</sub><var>ε</var><sub>0</sub>)</p>
+        </div>
+        <div class="main">
+          <h2 id="maxwell-title">Light is electricity and magnetism.</h2>
+          <div class="story">
+            <p>James Clerk Maxwell took Faraday's pictures of force lines and wrote them as equations. The equations predicted something nobody had imagined: waves of electric and magnetic field that travel on their own, even through empty space.</p>
+            <p>Maxwell worked out how fast these waves should travel, using only lab measurements of magnets and electric charges. The answer was almost exactly the speed of light. Light, he realized, is one of these waves. So are many kinds of invisible light that nobody had detected yet.</p>
+          </div>
+          <blockquote class="quote">
+            <p>We can scarcely avoid the inference that light consists in the transverse undulations of the same medium which is the cause of electric and magnetic phenomena.</p>
+            <footer>James Clerk Maxwell, 1862</footer>
+          </blockquote>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="max-stage">
+                <canvas id="max-canvas" role="img" aria-label="An electromagnetic wave traveling from an antenna, above a spectrum bar from radio waves to gamma rays."></canvas>
+              </div>
+              <div class="readout">
+                <span>frequency <b id="max-f">2.40 GHz</b></span>
+                <span>wavelength <b id="max-l">12.5 cm</b></span>
+                <span>band <b id="max-band">Microwave</b></span>
+                <span class="wide" id="max-use" aria-live="polite">Wi-Fi and microwave ovens.</span>
+              </div>
+              <div class="controls">
+                <label class="slider" for="max-freq">
+                  <span class="group-label">Frequency</span>
+                  <input type="range" id="max-freq" min="0" max="1000" step="1" value="292">
+                  <output id="max-freq-out" for="max-freq">2.40 GHz</output>
+                </label>
+                <div class="group" role="group" aria-label="Examples">
+                  <button class="btn" type="button" data-max-f="1e6">AM radio</button>
+                  <button class="btn" type="button" data-max-f="2.4e9">Wi-Fi</button>
+                  <button class="btn" type="button" data-max-f="3e13">Body heat</button>
+                  <button class="btn" type="button" data-max-f="5.4e14">Green light</button>
+                  <button class="btn" type="button" data-max-f="3e18">X-ray</button>
+                </div>
+              </div>
+            </div>
+            <figcaption><b>Exp. 4.</b> An electromagnetic wave: the electric field in color, the magnetic field in gray at right angles to it. Every band of the spectrum is this same wave at a different wavelength. Visible light is the thin rainbow slice.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1887</span><span class="what">Heinrich Hertz makes and detects radio waves in his lab, proving Maxwell right.</span></li>
+              <li><span class="when">1895</span><span class="what">Jagadish Chandra Bose uses microwaves in Kolkata to ring a bell at a distance.</span></li>
+              <li><span class="when">1901</span><span class="what">Guglielmo Marconi sends a radio signal across the Atlantic Ocean.</span></li>
+              <li><span class="when">Today</span><span class="what">Radio, TV, Wi-Fi, mobile networks, GPS, radar, X-ray scans and microwave ovens all use Maxwell's waves.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 5 Curie ============ -->
+      <section class="chapter" id="curie" data-year="1898" data-name="Marie Curie" aria-labelledby="curie-title">
+        <div class="meta">
+          <p class="year">1898</p>
+          <p class="who">Marie Skłodowska-Curie</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1867–1934</dd></div>
+            <div><dt>Where</dt><dd>Paris, France (born in Warsaw, Poland)</dd></div>
+            <div><dt>Age</dt><dd>31</dd></div>
+            <div><dt>Nobels</dt><dd>Physics 1903, Chemistry 1911</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="N equals N zero times two to the power minus t over the half-life"><var>N</var> = <var>N</var><sub>0</sub> · 2<sup>−<var>t</var> ⁄ <var>T</var></sup></p>
+        </div>
+        <div class="main">
+          <h2 id="curie-title">Atoms are not forever.</h2>
+          <div class="story">
+            <p>In 1896 Henri Becquerel found that uranium gives off invisible rays. Marie Skłodowska-Curie set out to discover why. She showed the rays come from inside the atoms themselves, and named the effect radioactivity.</p>
+            <p>With her husband Pierre, she ground up tonnes of a uranium ore called pitchblende and in 1898 found two new elements: polonium, named after her homeland, Poland, and radium, which glows in the dark. Radioactive atoms break apart into other elements. Nobody can say when any single atom will go, but in a large group, half of them decay in a fixed time called the half-life.</p>
+            <p>She was the first woman to win a Nobel Prize, and she is still the only person to win Nobel Prizes in two different sciences.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="cur-stage">
+                <canvas id="cur-canvas" role="img" aria-label="A grid of 400 radioactive atoms decaying at random."></canvas>
+              </div>
+              <div class="chart" id="cur-chart-box">
+                <p class="chart-title">Atoms left · real count and ideal halving</p>
+                <canvas id="cur-chart" role="img" aria-label="Line chart of how many atoms are left over time, against the ideal halving curve."></canvas>
+              </div>
+              <div class="readout">
+                <span>atoms left <b id="cur-left">400 of 400</b></span>
+                <span>half-lives <b id="cur-halves">0.0</b></span>
+                <span>time <b id="cur-time">0 years</b></span>
+                <span class="legend"><span><i class="swatch" style="background:var(--ink)"></i>Count</span><span><i class="swatch" style="background:#2f96d6"></i>Ideal curve</span></span>
+                <span class="wide" id="cur-msg" aria-live="polite">No one can say which atom goes next.</span>
+              </div>
+              <div class="controls">
+                <div class="group" role="group" aria-label="Which element">
+                  <span class="group-label">Element</span>
+                  <button class="btn" type="button" data-cur-iso="radium" aria-pressed="true">Radium-226</button>
+                  <button class="btn" type="button" data-cur-iso="carbon" aria-pressed="false">Carbon-14</button>
+                  <button class="btn" type="button" data-cur-iso="polonium" aria-pressed="false">Polonium-210</button>
+                  <button class="btn" type="button" data-cur-iso="iodine" aria-pressed="false">Iodine-131</button>
+                </div>
+                <button class="btn" type="button" id="cur-restart">Restart</button>
+                <button class="btn push" type="button" id="cur-play">Pause</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 5.</b> 400 atoms, each with exactly the same chance of decaying at every moment. Only the time scale changes between elements; the pattern of halving is always the same.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1903</span><span class="what">Nobel Prize in Physics, shared with Pierre Curie and Henri Becquerel.</span></li>
+              <li><span class="when">1914</span><span class="what">In World War I, Curie drives X-ray vans to the front line so surgeons can find bullets and shrapnel.</span></li>
+              <li><span class="when">1949</span><span class="what">Willard Libby uses the steady decay of carbon-14 to date ancient objects: radiocarbon dating.</span></li>
+              <li><span class="when">Today</span><span class="what">About half of all cancer patients are treated with radiation therapy.</span></li>
+            </ol>
+          </div>
+          <aside class="cost">
+            <h3 class="label">The cost</h3>
+            <p>Curie often carried test tubes of radium in her pockets. She died in 1934 of a blood disease almost certainly caused by radiation. Her notebooks are still radioactive and are kept in lead-lined boxes in Paris. Anyone who wants to read them must sign a waiver.</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ 6 Einstein ============ -->
+      <section class="chapter" id="einstein" data-year="1905" data-name="Albert Einstein" aria-labelledby="einstein-title">
+        <div class="meta">
+          <p class="year">1905</p>
+          <p class="who">Albert Einstein</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1879–1955</dd></div>
+            <div><dt>Where</dt><dd>Patent office, Bern, Switzerland</dd></div>
+            <div><dt>Age</dt><dd>26</dd></div>
+            <div><dt>Nobel</dt><dd>1921, for a different 1905 paper</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="t prime equals t over the square root of one minus v squared over c squared"><var>t</var>′ = <var>t</var> ⁄ √(1 − <var>v</var><sup>2</sup>⁄<var>c</var><sup>2</sup>)</p>
+        </div>
+        <div class="main">
+          <h2 id="einstein-title">Moving clocks run slow.</h2>
+          <div class="story">
+            <p>In 1905 Albert Einstein was a 26-year-old clerk at the patent office in Bern. In his spare time that year he wrote four papers that changed physics.</p>
+            <p>One started from a simple rule: light always travels at the same speed, however fast you are moving. If that is true, then time itself has to stretch. A clock moving past you ticks slower than your own. The effect is tiny at everyday speeds and enormous close to the speed of light. Another paper from the same year gave the most famous equation in physics, <var>E</var> = <var>mc</var>²: mass is a huge store of energy.</p>
+            <p>His Nobel Prize wasn't for relativity. It was for a third 1905 paper, which showed that light arrives in particles.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="ein-stage">
+                <canvas id="ein-canvas" role="img" aria-label="Two light clocks. The top one is at rest; the bottom one moves sideways and ticks more slowly."></canvas>
+              </div>
+              <div class="readout">
+                <span>time stretch <b id="ein-gamma">×1.00</b></span>
+                <span>Earth clock <b id="ein-rest">0 ticks</b></span>
+                <span>ship clock <b id="ein-ship">0 ticks</b></span>
+                <span class="legend"><span><i class="swatch" style="background:#2f96d6"></i>Earth clock</span><span><i class="swatch" style="background:#c47a1e"></i>Ship clock</span></span>
+                <span class="wide" id="ein-msg" aria-live="polite">Speed the ship up.</span>
+              </div>
+              <div class="controls">
+                <label class="slider" for="ein-speed">
+                  <span class="group-label">Ship speed</span>
+                  <input type="range" id="ein-speed" min="0" max="995" step="1" value="866">
+                  <output id="ein-speed-out" for="ein-speed">86.6% of c</output>
+                </label>
+                <div class="group" role="group" aria-label="Preset speeds">
+                  <button class="btn" type="button" data-ein-v="0">Standing still</button>
+                  <button class="btn" type="button" data-ein-v="500">50% of c</button>
+                  <button class="btn" type="button" data-ein-v="866">86.6% · twice as slow</button>
+                  <button class="btn" type="button" data-ein-v="995">99.5% · ten times</button>
+                </div>
+                <button class="btn push" type="button" id="ein-play">Pause</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 6.</b> Two light clocks. Each tick is a flash of light bouncing between two mirrors. Seen from Earth, the moving clock's light travels a longer, slanted path at the same speed, so it ticks slower.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1919</span><span class="what">Arthur Eddington photographs a solar eclipse and finds starlight bent by the Sun's gravity, as Einstein predicted.</span></li>
+              <li><span class="when">1971</span><span class="what">Physicists fly atomic clocks around the world on passenger jets. The clocks come back out of step, exactly as relativity says.</span></li>
+              <li><span class="when">1978</span><span class="what">The first GPS satellite is launched, carrying atomic clocks.</span></li>
+              <li><span class="when">Today</span><span class="what">GPS satellite clocks gain 38 microseconds a day. Without Einstein's correction, your phone's map would drift by about 10 km a day.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 7 Rutherford ============ -->
+      <section class="chapter" id="rutherford" data-year="1911" data-name="Ernest Rutherford" aria-labelledby="rutherford-title">
+        <div class="meta">
+          <p class="year">1911</p>
+          <p class="who">Ernest Rutherford</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1871–1937</dd></div>
+            <div><dt>Where</dt><dd>Manchester, England (born in New Zealand)</dd></div>
+            <div><dt>Age</dt><dd>39</dd></div>
+            <div><dt>Nobel</dt><dd>Chemistry 1908, three years earlier</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="Number scattered is proportional to one over sine to the fourth of half the angle"><var>N</var>(<var>θ</var>) ∝ 1 ⁄ sin<sup>4</sup>(<var>θ</var>⁄2)</p>
+        </div>
+        <div class="main">
+          <h2 id="rutherford-title">The atom is almost empty.</h2>
+          <div class="story">
+            <p>In 1909 Ernest Rutherford asked Hans Geiger and a 20-year-old student, Ernest Marsden, to fire alpha particles at a thin sheet of gold foil. Sitting in the dark, they counted tiny flashes where the particles hit a screen.</p>
+            <p>At the time, most physicists pictured an atom as a soft ball of positive charge with electrons dotted through it, like a plum pudding. Alpha particles should have passed straight through. Almost all of them did. But about 1 in 8,000 bounced back.</p>
+          </div>
+          <blockquote class="quote">
+            <p>It was almost as incredible as if you fired a 15-inch shell at a piece of tissue paper and it came back and hit you.</p>
+            <footer>Ernest Rutherford</footer>
+          </blockquote>
+          <div class="story">
+            <p>In 1911 Rutherford explained it. Nearly all of an atom's mass sits in a tiny, dense nucleus, about 100,000 times smaller than the atom itself. The rest is empty space, and that includes every atom in you.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="ruth-stage">
+                <canvas id="ruth-canvas" role="img" aria-label="Alpha particles fired at a column of gold atoms, with a detector ring that flashes where they land."></canvas>
+              </div>
+              <div class="readout">
+                <span>fired <b id="ruth-total">0</b></span>
+                <span>straight through <b id="ruth-through">0</b></span>
+                <span>deflected <b id="ruth-deflect">0</b></span>
+                <span>bounced back <b id="ruth-back">0</b></span>
+                <span class="legend"><span><i class="swatch" style="background:#2f96d6"></i>Through</span><span><i class="swatch" style="background:#c47a1e"></i>Deflected</span><span><i class="swatch" style="background:#d75ac0"></i>Bounced back</span></span>
+                <span class="wide" id="ruth-msg" aria-live="polite">Rutherford's model: a tiny, heavy nucleus.</span>
+              </div>
+              <div class="controls">
+                <div class="group" role="group" aria-label="Model of the atom">
+                  <span class="group-label">Atom</span>
+                  <button class="btn" type="button" data-ruth-model="thomson" aria-pressed="false">Plum pudding</button>
+                  <button class="btn" type="button" data-ruth-model="rutherford" aria-pressed="true">Tiny nucleus</button>
+                </div>
+                <button class="btn" type="button" id="ruth-reset">Clear counts</button>
+                <button class="btn push" type="button" id="ruth-play">Pause</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 7.</b> Alpha particles fired at gold atoms. The nuclei are drawn much bigger than real ones so you can see what happens. In the real experiment only about 1 in 8,000 bounced back.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1917</span><span class="what">Rutherford turns nitrogen into oxygen by hitting it with alpha particles: the first nuclear reaction made by people.</span></li>
+              <li><span class="when">1932</span><span class="what">James Chadwick, in Rutherford's lab, discovers the neutron, the particle that would later split uranium.</span></li>
+              <li><span class="when">1932</span><span class="what">John Cockcroft and Ernest Walton, also in his lab, split atoms with the first particle accelerator.</span></li>
+              <li><span class="when">2012</span><span class="what">CERN's 27 km Large Hadron Collider, a descendant of this experiment, discovers the Higgs boson.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 8 Bohr ============ -->
+      <section class="chapter" id="bohr" data-year="1913" data-name="Niels Bohr" aria-labelledby="bohr-title">
+        <div class="meta">
+          <p class="year">1913</p>
+          <p class="who">Niels Bohr</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1885–1962</dd></div>
+            <div><dt>Where</dt><dd>Copenhagen, Denmark</dd></div>
+            <div><dt>Age</dt><dd>27</dd></div>
+            <div><dt>Nobel</dt><dd>Physics 1922</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="E n equals minus 13.6 electron volts over n squared"><var>E<sub>n</sub></var> = −13.6 eV ⁄ <var>n</var><sup>2</sup></p>
+        </div>
+        <div class="main">
+          <h2 id="bohr-title">Electrons jump.</h2>
+          <div class="story">
+            <p>Heat hydrogen gas and it glows. Pass that glow through a prism and you don't get a rainbow. You get four thin lines of color: red, cyan, blue and violet. Nobody knew why.</p>
+            <p>Niels Bohr, who had just worked with Rutherford in Manchester, proposed a strange rule. An electron in an atom can only sit on certain energy levels, never in between. When it drops from a higher level to a lower one, it gives off one packet of light whose color exactly matches the size of the drop. Different drops, different colors. His formula predicted hydrogen's lines perfectly.</p>
+            <p>It meant every element has its own barcode of colors. That is how we know what the Sun and distant stars are made of.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="bohr-stage">
+                <canvas id="bohr-canvas" role="img" aria-label="A hydrogen atom with six energy levels, sending photons into a spectrum."></canvas>
+              </div>
+              <div class="readout">
+                <span>last jump <b id="bohr-last">–</b></span>
+                <span>light <b id="bohr-light">–</b></span>
+                <span>invisible <b id="bohr-invisible">0 UV · 0 infrared</b></span>
+                <span class="wide" id="bohr-msg" aria-live="polite">Kick the electron up, then watch it fall.</span>
+              </div>
+              <div class="controls">
+                <div class="group" role="group" aria-label="Kick the electron up to a level">
+                  <span class="group-label">Kick to level</span>
+                  <button class="btn" type="button" data-bohr-n="3">3</button>
+                  <button class="btn" type="button" data-bohr-n="4">4</button>
+                  <button class="btn" type="button" data-bohr-n="5">5</button>
+                  <button class="btn" type="button" data-bohr-n="6">6</button>
+                </div>
+                <button class="btn btn--solid" type="button" id="bohr-heat" aria-pressed="true">Heat the gas</button>
+                <button class="btn push" type="button" id="bohr-clear">Clear spectrum</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 8.</b> A hydrogen atom (levels not to scale). Every photon it gives off lands on the spectrum at the bottom. Only drops that end on level 2 make visible light, and they build up hydrogen's four real lines.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1925</span><span class="what">Werner Heisenberg and Erwin Schrödinger turn Bohr's jumping electrons into quantum mechanics.</span></li>
+              <li><span class="when">1960</span><span class="what">Theodore Maiman builds the first laser, which makes huge numbers of electrons drop together.</span></li>
+              <li><span class="when">1990s</span><span class="what">Blue LEDs are invented, making bright white LED lighting possible.</span></li>
+              <li><span class="when">2022</span><span class="what">The James Webb Space Telescope reads the light of a planet 700 light-years away and finds carbon dioxide in its air.</span></li>
+            </ol>
+          </div>
+          <aside class="aside">
+            <h3 class="label">Strange but true</h3>
+            <p>In 1940, as Nazi troops entered Copenhagen, the chemist George de Hevesy dissolved two colleagues' gold Nobel medals in acid at Bohr's institute so they couldn't be seized. The jar sat on a shelf through the war. Afterwards the gold was recovered and the medals were recast.</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ 9 de Broglie ============ -->
+      <section class="chapter" id="debroglie" data-year="1924" data-name="Louis de Broglie" aria-labelledby="debroglie-title">
+        <div class="meta">
+          <p class="year">1924</p>
+          <p class="who">Louis de Broglie</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1892–1987</dd></div>
+            <div><dt>Where</dt><dd>Paris, France</dd></div>
+            <div><dt>Age</dt><dd>32</dd></div>
+            <div><dt>First degree</dt><dd>History</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="lambda equals h over p"><var>λ</var> = <var>h</var> ⁄ <var>p</var></p>
+        </div>
+        <div class="main">
+          <h2 id="debroglie-title">Matter is a wave.</h2>
+          <div class="story">
+            <p>Einstein had shown that light, a wave, can behave like a stream of particles. In his 1924 PhD thesis, Louis de Broglie asked the reverse: can particles, such as electrons, behave like waves?</p>
+            <p>His examiners weren't sure what to make of it, so they sent the thesis to Einstein, who approved. Three years later, experiments showed that electrons really do spread out and interfere like waves. Fire electrons one at a time at two narrow slits and each one lands as a single dot. Yet thousands of dots build up a pattern of stripes, as if each electron went through both slits at once.</p>
+            <p>Try to watch which slit each electron goes through, and the stripes disappear.</p>
+          </div>
+          <blockquote class="quote">
+            <p>A phenomenon which is impossible, absolutely impossible, to explain in any classical way, and which has in it the heart of quantum mechanics.</p>
+            <footer>Richard Feynman, <i>The Feynman Lectures on Physics</i>, 1965</footer>
+          </blockquote>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="dbg-stage">
+                <canvas id="dbg-canvas" role="img" aria-label="Electrons fired one at a time at two slits, building up a pattern of stripes on a screen."></canvas>
+              </div>
+              <div class="readout">
+                <span>electrons <b id="dbg-count">0</b></span>
+                <span>detector <b id="dbg-detector">off</b></span>
+                <span class="wide" id="dbg-msg" aria-live="polite">Each dot is one electron. Wait for the stripes.</span>
+              </div>
+              <div class="controls">
+                <div class="group" role="group" aria-label="Firing rate">
+                  <span class="group-label">Rate</span>
+                  <button class="btn" type="button" data-dbg-rate="2" aria-pressed="false">One at a time</button>
+                  <button class="btn" type="button" data-dbg-rate="40" aria-pressed="true">Fast</button>
+                  <button class="btn" type="button" data-dbg-rate="400" aria-pressed="false">Very fast</button>
+                </div>
+                <label class="check" for="dbg-watch"><input type="checkbox" id="dbg-watch">Watch which slit</label>
+                <button class="btn push" type="button" id="dbg-reset">Clear screen</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 9.</b> The double-slit experiment with electrons. Each electron lands at a random spot, but the chances follow a wave pattern. Turn on the detector and the pattern becomes two plain bands.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1927</span><span class="what">Experiments show electrons acting as waves. One was by George Thomson, whose father J. J. Thomson had won a Nobel for showing the electron is a particle.</span></li>
+              <li><span class="when">1931</span><span class="what">Ernst Ruska and Max Knoll build the first electron microscope. It would soon show viruses for the first time.</span></li>
+              <li><span class="when">1947</span><span class="what">The transistor is invented at Bell Labs, built on the quantum behavior of electrons in crystals.</span></li>
+              <li><span class="when">Today</span><span class="what">A phone's processor holds around 20 billion transistors, each far smaller than a virus.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ 10 Raman ============ -->
+      <section class="chapter" id="raman" data-year="1928" data-name="C. V. Raman" aria-labelledby="raman-title">
+        <div class="meta">
+          <p class="year">1928</p>
+          <p class="who">C. V. Raman</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1888–1970</dd></div>
+            <div><dt>Where</dt><dd>Calcutta, India</dd></div>
+            <div><dt>Age</dt><dd>39</dd></div>
+            <div><dt>Nobel</dt><dd>Physics 1930</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="nu out equals nu in minus nu of the molecule"><var>ν</var><sub>out</sub> = <var>ν</var><sub>in</sub> − <var>ν</var><sub>molecule</sub></p>
+        </div>
+        <div class="main">
+          <h2 id="raman-title">Light can change color.</h2>
+          <div class="story">
+            <p>In 1921, sailing home to India from Europe, C. V. Raman stared at the deep blue of the Mediterranean Sea. The accepted explanation was that the sea simply reflects the blue sky. Raman didn't believe it. He tested it on deck with a small prism and became convinced the water itself was scattering the light.</p>
+            <p>Back in Calcutta, he and his student K. S. Krishnan shone strong, filtered sunlight through dozens of liquids. On 28 February 1928 they saw it: a tiny fraction of the scattered light comes out a slightly different color. The shift comes from the vibrations of the molecules, so every substance has its own pattern of shifted colors, like a fingerprint.</p>
+            <p>India celebrates 28 February as National Science Day in his honor.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="ram-stage">
+                <canvas id="ram-canvas" role="img" aria-label="A green laser beam scattering off a sample, with a spectrum of the scattered colors."></canvas>
+              </div>
+              <div class="readout">
+                <span>sample <b id="ram-sample">Diamond</b></span>
+                <span>fingerprint <b id="ram-lines">572.6 nm</b></span>
+                <span>scattered <b id="ram-count">0</b></span>
+                <span class="wide" id="ram-msg" aria-live="polite">Most light scatters unchanged. A little comes out a new color.</span>
+              </div>
+              <div class="controls">
+                <div class="group" role="group" aria-label="Sample">
+                  <span class="group-label">Sample</span>
+                  <button class="btn" type="button" data-ram-sample="diamond" aria-pressed="true">Diamond</button>
+                  <button class="btn" type="button" data-ram-sample="water" aria-pressed="false">Water</button>
+                  <button class="btn" type="button" data-ram-sample="benzene" aria-pressed="false">Benzene</button>
+                </div>
+                <button class="btn" type="button" id="ram-reset">Clear spectrum</button>
+                <button class="btn push" type="button" id="ram-play">Pause</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 10.</b> A green laser (532 nm) passing through a sample. The spectrum counts the colors of the scattered light on a log scale. Real Raman light is about 1 photon in 10 million; here it is boosted so you can see it.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1930</span><span class="what">Raman wins the Nobel Prize in Physics, the first Asian to win a Nobel in science.</span></li>
+              <li><span class="when">1960s</span><span class="what">Lasers make Raman's faint effect easy to measure, turning it into a tool for identifying substances.</span></li>
+              <li><span class="when">2000s</span><span class="what">Handheld Raman scanners check medicines for fakes and luggage for explosives, and help experts identify the paints in old artworks.</span></li>
+              <li><span class="when">2021</span><span class="what">NASA's Perseverance rover lands on Mars carrying SHERLOC, a Raman instrument that searches rocks for signs of ancient life.</span></li>
+            </ol>
+          </div>
+          <aside class="aside">
+            <h3 class="label">Also from India, the same decade</h3>
+            <p>In 1924 Satyendra Nath Bose sent Einstein a paper, which Einstein translated into German and had published. Particles called bosons, including the Higgs boson, are named after Bose.</p>
+            <p>In 1930, on a ship to England, 19-year-old Subrahmanyan Chandrasekhar, Raman's nephew, calculated the heaviest a white dwarf star can be before it collapses. It won him a Nobel Prize in 1983.</p>
+            <p>And Raman was born on 7 November, the same birthday as Marie Curie.</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ 11 Meitner ============ -->
+      <section class="chapter" id="meitner" data-year="1938" data-name="Lise Meitner" aria-labelledby="meitner-title">
+        <div class="meta">
+          <p class="year">1938</p>
+          <p class="who">Lise Meitner</p>
+          <dl class="facts">
+            <div><dt>Lived</dt><dd>1878–1968</dd></div>
+            <div><dt>Where</dt><dd>In exile in Sweden (born in Vienna, Austria)</dd></div>
+            <div><dt>Age</dt><dd>60</dd></div>
+            <div><dt>Nobel</dt><dd>Never. It went to her colleague.</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="Uranium 235 plus a neutron gives barium 141, krypton 92 and three neutrons"><sup>235</sup>U + <var>n</var> → <sup>141</sup>Ba + <sup>92</sup>Kr + 3<var>n</var></p>
+        </div>
+        <div class="main">
+          <h2 id="meitner-title">The nucleus splits.</h2>
+          <div class="story">
+            <p>Lise Meitner spent 30 years in Berlin studying radioactivity with the chemist Otto Hahn. She was Jewish, and in July 1938 she escaped Nazi Germany with a small suitcase and a diamond ring Hahn gave her in case she needed money.</p>
+            <p>That December, Hahn wrote to her with a puzzle: firing neutrons at uranium had produced barium, an element about half its size. Over Christmas, walking in the snow in Sweden with her nephew Otto Frisch, Meitner worked it out. The uranium nucleus wobbles like a drop of water and splits in two. Using <var>E</var> = <var>mc</var>², they calculated the huge energy each split releases. Frisch named it fission.</p>
+            <p>Within weeks, other physicists found that each split also frees two or three neutrons. Those can split more nuclei, which free more neutrons. A chain reaction.</p>
+          </div>
+          <blockquote class="quote">
+            <p>I will have nothing to do with a bomb!</p>
+            <footer>Lise Meitner, refusing to join the project to build the atomic bomb</footer>
+          </blockquote>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="mei-stage">
+                <canvas id="mei-canvas" role="img" aria-label="A chain reaction among uranium nuclei, with control rods that absorb neutrons."></canvas>
+              </div>
+              <div class="chart" id="mei-chart-box">
+                <p class="chart-title">Neutrons in the reactor · log scale</p>
+                <canvas id="mei-chart" role="img" aria-label="Line chart of the number of neutrons over the last 20 seconds."></canvas>
+              </div>
+              <div class="readout">
+                <span>neutrons <b id="mei-neutrons">0</b></span>
+                <span>splits per second <b id="mei-rate">0</b></span>
+                <span class="wide" id="mei-state" aria-live="polite">Fire a neutron to start.</span>
+              </div>
+              <div class="controls">
+                <label class="slider" for="mei-rods">
+                  <span class="group-label">Control rods</span>
+                  <input type="range" id="mei-rods" min="0" max="100" step="1" value="50">
+                  <output id="mei-rods-out" for="mei-rods">50% in</output>
+                </label>
+                <button class="btn btn--solid" type="button" id="mei-fire">Fire a neutron</button>
+                <button class="btn" type="button" id="mei-reset">Fresh fuel</button>
+                <button class="btn push" type="button" id="mei-play">Pause</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 11.</b> A chain reaction. Control rods soak up spare neutrons: pull them out and the reaction runs away, push them in and it dies. A power station keeps it balanced in between.</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">1942</span><span class="what">Enrico Fermi's team runs the first controlled chain reaction, in a squash court under a football stadium in Chicago.</span></li>
+              <li><span class="when">1945</span><span class="what">Atomic bombs destroy Hiroshima and Nagasaki, killing well over 100,000 people.</span></li>
+              <li><span class="when">1954</span><span class="what">The first nuclear power station to supply an electricity grid opens in Obninsk, near Moscow.</span></li>
+              <li><span class="when">Today</span><span class="what">Nuclear power stations make about a tenth of the world's electricity, with almost no carbon emissions.</span></li>
+            </ol>
+          </div>
+          <aside class="cost">
+            <h3 class="label">The cost</h3>
+            <p>The same discovery made the most destructive weapons ever built, and about 12,000 nuclear warheads exist today. Meitner refused to work on the bomb. The 1944 Nobel Prize for the discovery went to Hahn alone. In 1997, element 109 was named meitnerium in her honor.</p>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ 12 LIGO ============ -->
+      <section class="chapter" id="ligo" data-year="2015" data-name="Weiss, Thorne & Barish (LIGO)" aria-labelledby="ligo-title">
+        <div class="meta">
+          <p class="year">2015</p>
+          <p class="who">Rainer Weiss, Kip Thorne &amp; Barry Barish</p>
+          <dl class="facts">
+            <div><dt>Where</dt><dd>LIGO: Hanford, Washington and Livingston, Louisiana, USA</dd></div>
+            <div><dt>Team</dt><dd>More than 1,000 scientists</dd></div>
+            <div><dt>Predicted</dt><dd>By Einstein, 99 years earlier</dd></div>
+            <div><dt>Nobel</dt><dd>Physics 2017</dd></div>
+          </dl>
+          <p class="key-eq" aria-label="strain h equals change in length over length, about 10 to the minus 21"><var>h</var> = Δ<var>L</var> ⁄ <var>L</var> ≈ 10<sup>−21</sup></p>
+        </div>
+        <div class="main">
+          <h2 id="ligo-title">Space itself shakes.</h2>
+          <div class="story">
+            <p>In 1916 Einstein predicted that colliding masses should send ripples through space itself, stretching and squeezing everything they pass. He also thought the ripples would be far too small ever to measure.</p>
+            <p>In 1972 Rainer Weiss sketched a way to do it: a giant L-shaped instrument with laser beams running along two 4 km arms. A passing wave would stretch one arm and squeeze the other by less than a ten-thousandth of the width of a proton. Building it took more than 40 years and over a thousand people.</p>
+            <p>On 14 September 2015, both LIGO detectors, 3,000 km apart, caught the same 0.2-second signal, 7 milliseconds apart. Two black holes, 36 and 29 times the mass of the Sun, had spiraled together 1.3 billion years ago. In the final fraction of a second, they turned three Suns' worth of mass into gravitational waves.</p>
+          </div>
+
+          <figure class="fig">
+            <div class="plate">
+              <div class="stage" id="ligo-stage">
+                <canvas id="ligo-canvas" role="img" aria-label="Two black holes spiraling together, with a grid showing space rippling and a detector trace underneath."></canvas>
+              </div>
+              <div class="readout">
+                <span>stage <b id="ligo-phase">Inspiral</b></span>
+                <span>wave frequency <b id="ligo-freq">35 Hz</b></span>
+                <span class="wide" id="ligo-msg" aria-live="polite">The black holes are circling closer and faster.</span>
+              </div>
+              <div class="controls">
+                <button class="btn btn--solid" type="button" id="ligo-hear">Hear the chirp</button>
+                <button class="btn" type="button" id="ligo-replay">Replay</button>
+                <button class="btn push" type="button" id="ligo-play">Pause</button>
+              </div>
+            </div>
+            <figcaption><b>Exp. 12.</b> Two black holes spiral together and merge. The grid shows space stretching and squeezing, hugely exaggerated. The trace at the bottom is the signal a detector records: a rising "chirp".</figcaption>
+          </figure>
+
+          <div class="setoff">
+            <h3 class="label">What it set off</h3>
+            <ol class="links">
+              <li><span class="when">2016</span><span class="what">The discovery is announced, and the sound of the collision is played around the world.</span></li>
+              <li><span class="when">2017</span><span class="what">Detectors catch two neutron stars colliding, and telescopes see the explosion that forged heavy elements such as gold.</span></li>
+              <li><span class="when">Today</span><span class="what">Gravitational-wave detectors have recorded hundreds of black hole collisions.</span></li>
+              <li><span class="when">2035</span><span class="what">LISA, a detector made of three spacecraft 2.5 million km apart, is planned to launch.</span></li>
+            </ol>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ In your pocket ============ -->
+    <section class="pocket" id="pocket" aria-labelledby="pocket-title">
+      <div class="pocket-head">
+        <p class="label" style="color:var(--amber)">The consequences</p>
+        <h2 id="pocket-title">In your pocket</h2>
+        <p>Six of these twelve discoveries are working inside your phone right now. Choose a part to see whose idea it is.</p>
+      </div>
+      <div class="pocket-body">
+        <svg class="phone" viewBox="0 0 260 520" role="img" aria-labelledby="phone-title">
+          <title id="phone-title">A phone opened up, with seven numbered parts.</title>
+          <rect class="part" data-part="antenna" x="6" y="6" width="248" height="508" rx="38" fill="none" stroke="#ebe7df" stroke-opacity="0.55" stroke-width="3"></rect>
+          <rect class="part" data-part="screen" x="18" y="18" width="224" height="484" rx="28" fill="#0c0f14" stroke="#ebe7df" stroke-opacity="0.25" stroke-width="1.5"></rect>
+          <rect x="98" y="30" width="64" height="16" rx="8" fill="#07090c" stroke="#ebe7df" stroke-opacity="0.3"></rect>
+          <circle class="part" data-part="camera" cx="66" cy="84" r="22" fill="#07090c" stroke="#ebe7df" stroke-opacity="0.6" stroke-width="2"></circle>
+          <circle cx="66" cy="84" r="9" fill="none" stroke="#ebe7df" stroke-opacity="0.4"></circle>
+          <rect x="34" y="128" width="192" height="130" rx="10" fill="none" stroke="#ebe7df" stroke-opacity="0.18"></rect>
+          <rect class="part" data-part="processor" x="110" y="150" width="60" height="60" rx="6" fill="#07090c" stroke="#ebe7df" stroke-opacity="0.6" stroke-width="2"></rect>
+          <rect x="122" y="162" width="36" height="36" rx="3" fill="none" stroke="#ebe7df" stroke-opacity="0.25"></rect>
+          <rect class="part" data-part="gps" x="186" y="150" width="28" height="22" rx="3" fill="#07090c" stroke="#ebe7df" stroke-opacity="0.6" stroke-width="2"></rect>
+          <rect class="part" data-part="motion" x="52" y="208" width="22" height="22" rx="3" fill="#07090c" stroke="#ebe7df" stroke-opacity="0.6" stroke-width="2"></rect>
+          <rect x="34" y="276" width="192" height="200" rx="14" fill="none" stroke="#ebe7df" stroke-opacity="0.18"></rect>
+          <g class="part" data-part="coil" fill="none" stroke="#ebe7df" stroke-opacity="0.6" stroke-width="2">
+            <circle cx="130" cy="376" r="70"></circle>
+            <circle cx="130" cy="376" r="58"></circle>
+            <circle cx="130" cy="376" r="46"></circle>
+            <circle cx="130" cy="376" r="34"></circle>
+          </g>
+          <g class="tag" data-part="screen"><circle cx="232" cy="470" r="11"></circle><text x="232" y="474" text-anchor="middle">1</text></g>
+          <g class="tag" data-part="processor"><circle cx="140" cy="180" r="11"></circle><text x="140" y="184" text-anchor="middle">2</text></g>
+          <g class="tag" data-part="antenna"><circle cx="232" cy="28" r="11"></circle><text x="232" y="32" text-anchor="middle">3</text></g>
+          <g class="tag" data-part="gps"><circle cx="200" cy="192" r="11"></circle><text x="200" y="196" text-anchor="middle">4</text></g>
+          <g class="tag" data-part="coil"><circle cx="130" cy="376" r="11"></circle><text x="130" y="380" text-anchor="middle">5</text></g>
+          <g class="tag" data-part="motion"><circle cx="63" cy="246" r="11"></circle><text x="63" y="250" text-anchor="middle">6</text></g>
+          <g class="tag" data-part="camera"><circle cx="100" cy="84" r="11"></circle><text x="100" y="88" text-anchor="middle">7</text></g>
+        </svg>
+
+        <ol class="parts">
+          <li><button type="button" data-part="screen"><span class="n">1</span><span class="part-name">Screen</span><span class="part-who">Bohr · 1913</span><span class="part-how">Each pixel glows a precise color when electrons drop between energy levels.</span></button></li>
+          <li><button type="button" data-part="processor"><span class="n">2</span><span class="part-name">Processor</span><span class="part-who">de Broglie · 1924</span><span class="part-how">About 20 billion transistors, each relying on the wave nature of electrons.</span></button></li>
+          <li><button type="button" data-part="antenna"><span class="n">3</span><span class="part-name">Antennas</span><span class="part-who">Maxwell · 1865</span><span class="part-how">Wi-Fi, Bluetooth and 5G are Maxwell's waves, a few centimeters long.</span></button></li>
+          <li><button type="button" data-part="gps"><span class="n">4</span><span class="part-name">GPS chip</span><span class="part-who">Einstein · 1905</span><span class="part-how">Satellite clocks are corrected for relativity, or your location would drift about 10 km a day.</span></button></li>
+          <li><button type="button" data-part="coil"><span class="n">5</span><span class="part-name">Charging coil</span><span class="part-who">Faraday · 1831</span><span class="part-how">A changing magnetic field in the charger pushes current around a coil in the phone.</span></button></li>
+          <li><button type="button" data-part="motion"><span class="n">6</span><span class="part-name">Motion sensor</span><span class="part-who">Newton · 1687</span><span class="part-how">A tiny mass on springs measures <var>F</var> = <var>ma</var>, so the screen knows which way is up.</span></button></li>
+          <li><button type="button" data-part="camera"><span class="n">7</span><span class="part-name">Camera</span><span class="part-who">Einstein · 1905</span><span class="part-how">Light knocks electrons loose in each pixel of the sensor: the effect that won Einstein his Nobel Prize.</span></button></li>
+        </ol>
+      </div>
+      <p class="pocket-foot">The other six keep the lights on, treat cancer, date the past, and listen to black holes colliding.</p>
+    </section>
+
+    <!-- ============ The next link ============ -->
+    <section class="onward" aria-labelledby="onward-title">
+      <div class="onward-grid">
+        <div class="onward-intro">
+          <p class="label" style="color:var(--glow)">The chain continues</p>
+          <h2 id="onward-title">The next link</h2>
+          <p>Every discovery on this page started with someone noticing something that didn't fit. Physics still has plenty that doesn't fit.</p>
+        </div>
+        <ul class="open">
+          <li><b>Dark matter</b><span>About 85% of the matter in the universe is invisible. We can see its pull on galaxies, but nobody knows what it is.</span></li>
+          <li><b>Dark energy</b><span>The expansion of the universe is speeding up. Something is pushing it apart, and we don't know what.</span></li>
+          <li><b>Quantum gravity</b><span>Einstein's gravity and quantum physics each work perfectly, but they don't fit together. Nobody has joined them yet.</span></li>
+          <li><b>Room-temperature superconductors</b><span>Some materials carry electricity with zero loss, but only when they are extremely cold. One that works at room temperature would change the world.</span></li>
+          <li><b>You</b><span>Many people in this story made their discovery young. Marsden was 20. Einstein was 26. Bohr was 27. Chandrasekhar was 19.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Colophon ============ -->
+    <section class="colophon" aria-labelledby="colophon-title">
+      <div class="colophon-grid">
+        <div class="colophon-intro">
+          <p class="label" style="color:var(--muted)">Colophon</p>
+          <h2 id="colophon-title">How it was made</h2>
+          <p>Hand-written HTML, CSS and JavaScript with no libraries, images or videos. Each experiment is a small physics simulation that runs on your device: gravity, induction, electromagnetic waves, random decay, relativity, Coulomb scattering, energy levels, quantum probability, light scattering, neutron chain reactions and a gravitational-wave chirp.</p>
+          <p>Experiments pause when they scroll out of view, and none start moving on their own if your device is set to reduce motion.</p>
+        </div>
+        <div class="sources">
+          <h3 class="label">Sources</h3>
+          <ol>
+            <li>Galilei, G. (1638). <i>Discorsi e dimostrazioni matematiche intorno a due nuove scienze</i>. Leiden: Elzevir.</li>
+            <li>Newton, I. (1687). <i>Philosophiæ Naturalis Principia Mathematica</i>. London.</li>
+            <li>Faraday, M. (1832). Experimental researches in electricity. <i>Philosophical Transactions of the Royal Society</i>, 122, 125–162.</li>
+            <li>Maxwell, J. C. (1865). A dynamical theory of the electromagnetic field. <i>Philosophical Transactions of the Royal Society</i>, 155, 459–512.</li>
+            <li>Curie, P., &amp; Curie, M. (1898). Sur une substance nouvelle radio-active, contenue dans la pechblende. <i>Comptes rendus</i>, 127, 175–178.</li>
+            <li>Einstein, A. (1905). Zur Elektrodynamik bewegter Körper. <i>Annalen der Physik</i>, 17, 891–921.</li>
+            <li>Rutherford, E. (1911). The scattering of α and β particles by matter and the structure of the atom. <i>Philosophical Magazine</i>, 21, 669–688.</li>
+            <li>Bohr, N. (1913). On the constitution of atoms and molecules. <i>Philosophical Magazine</i>, 26, 1–25.</li>
+            <li>de Broglie, L. (1924). <i>Recherches sur la théorie des quanta</i>. PhD thesis, University of Paris.</li>
+            <li>Raman, C. V., &amp; Krishnan, K. S. (1928). A new type of secondary radiation. <i>Nature</i>, 121, 501–502.</li>
+            <li>Meitner, L., &amp; Frisch, O. R. (1939). Disintegration of uranium by neutrons: a new type of nuclear reaction. <i>Nature</i>, 143, 239–240.</li>
+            <li>Abbott, B. P., et al. (2016). Observation of gravitational waves from a binary black hole merger. <i>Physical Review Letters</i>, 116, 061102.</li>
+            <li>Tonomura, A., et al. (1989). Demonstration of single-electron buildup of an interference pattern. <i>American Journal of Physics</i>, 57, 117–120.</li>
+            <li>Ashby, N. (2003). Relativity in the Global Positioning System. <i>Living Reviews in Relativity</i>, 6, 1.</li>
+          </ol>
+        </div>
+      </div>
+      <footer class="site-footer">
+        <p>Chain Reaction · Designed and coded by @aaravlakhia · 2026</p>
+        <p><a href="#top">Back to the top ↑</a></p>
+      </footer>
+    </section>
+
+  </div>
+</main>
+
+<script src="js/core.js"></script>
+<script src="js/reactor.js"></script>
+<script src="js/galileo.js"></script>
+<script src="js/newton.js"></script>
+<script src="js/faraday.js"></script>
+<script src="js/maxwell.js"></script>
+<script src="js/curie.js"></script>
+<script src="js/einstein.js"></script>
+<script src="js/rutherford.js"></script>
+<script src="js/bohr.js"></script>
+<script src="js/debroglie.js"></script>
+<script src="js/raman.js"></script>
+<script src="js/ligo.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

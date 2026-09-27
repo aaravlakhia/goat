@@ -1,5 +1,7 @@
 # The Shape of Numbers
 
+> Also in this repository: **[Chain Reaction](physics/)**, twelve physicists, twelve discoveries and twelve live experiments.
+
 Six live, interactive experiments in mathematics. Each one turns a short equation into a picture that is computed on your device as you watch.
 
 | § | Experiment | Idea | Technique |
