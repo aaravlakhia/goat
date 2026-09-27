@@ -114,11 +114,15 @@
     return s;
   };
 
+  // Call fn when el changes size. Hidden elements (exhibit mode hides every
+  // chapter but one) report zero size; they are skipped until shown again.
   PH.onResize = function (el, fn) {
     let raf = 0;
     const run = function () {
       cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(fn);
+      raf = requestAnimationFrame(function () {
+        if (el.clientWidth > 0 && el.clientHeight > 0) fn();
+      });
     };
     if ('ResizeObserver' in window) new ResizeObserver(run).observe(el);
     else window.addEventListener('resize', run);
@@ -161,6 +165,7 @@
   PH.Loop = class Loop {
     constructor(target, frame) {
       this.frame = frame;
+      this.target = target;
       this.visible = false;
       this.running = false;
       this.raf = 0;
@@ -204,6 +209,9 @@
       const dt = Math.min(0.05, Math.max(0, (now - this.last) / 1000));
       this.last = now;
       this.raf = requestAnimationFrame(this.tick);
+      // A plate that was just hidden keeps its loop for a frame or two until
+      // the observer notices; don't draw it at zero size.
+      if (this.target.clientWidth === 0) return;
       this.frame(dt);
     }
   };

@@ -17,7 +17,11 @@
 <header class="masthead">
   <div class="masthead-inner">
     <a class="wordmark" href="#top">Chain <span>Reaction</span></a>
-    <p class="now" aria-live="off"><b id="now-year">1638</b><span class="now-name" id="now-name">Galileo Galilei</span><a href="#contents">Contents</a></p>
+    <p class="now" aria-live="off"><b id="now-year">1638</b><span class="now-name" id="now-name">Galileo Galilei</span></p>
+    <div class="mast-actions">
+      <button class="mast-btn" type="button" id="find-open" aria-haspopup="dialog" aria-label="Find a physicist or discovery"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span>Find</span><kbd>/</kbd></button>
+      <a class="mast-btn" href="#map" id="map-open" aria-label="Open the chain map"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="13" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="8" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M5 4h6M4 6l3 4.5M12 6l-3 4.5" fill="none" stroke="currentColor" stroke-width="1.3"></path></svg><span>Map</span></a>
+    </div>
   </div>
 </header>
 
@@ -35,8 +39,8 @@
       <li><b>0</b> videos. Everything runs on your device.</li>
     </ul>
     <div class="hero-actions">
-      <a class="cta cta--solid" href="#galileo">Light the fuse <span aria-hidden="true">↓</span></a>
-      <a class="cta" href="#pocket">What's in your pocket</a>
+      <a class="cta cta--solid" href="#map">Explore the chain map <span aria-hidden="true">↓</span></a>
+      <a class="cta" href="#galileo">Light the fuse: read it all</a>
     </div>
   </div>
   <p class="hero-caption"><span><b>Plate 0.</b> A live chain reaction: each neutron (blue) that hits a uranium nucleus splits it and frees two or three more.</span><button class="btn" type="button" id="hero-play">Pause</button></p>
@@ -45,26 +49,29 @@
 <main class="page">
   <div class="wrap">
 
-    <!-- ============ Contents ============ -->
-    <section class="contents" id="contents" aria-labelledby="contents-title">
-      <div class="section-head">
-        <h2 class="label" id="contents-title">The chain</h2>
-        <p>Each link made the next one possible.</p>
+    <!-- ============ The chain map ============ -->
+    <section class="mapsec" id="map" aria-labelledby="map-title">
+      <div class="map-head">
+        <div>
+          <p class="label map-kicker">The chain map</p>
+          <h2 id="map-title">Jump to anyone</h2>
+        </div>
+        <p class="map-intro">Each line is an idea one discovery handed to the next. Choose a physicist to open their exhibit, or <button class="linkish" type="button" id="find-open-2">search by what they gave us</button>, like GPS, Wi-Fi or cancer treatment.</p>
       </div>
-      <ol class="toc">
-        <li><a href="#galileo"><span class="toc-year">1638</span><span class="toc-name">Galileo</span><span class="toc-idea">Everything falls the same way</span></a></li>
-        <li><a href="#newton"><span class="toc-year">1687</span><span class="toc-name">Newton</span><span class="toc-idea">The Moon is falling</span></a></li>
-        <li><a href="#faraday"><span class="toc-year">1831</span><span class="toc-name">Faraday</span><span class="toc-idea">Magnets make electricity</span></a></li>
-        <li><a href="#maxwell"><span class="toc-year">1865</span><span class="toc-name">Maxwell</span><span class="toc-idea">Light is an electromagnetic wave</span></a></li>
-        <li><a href="#curie"><span class="toc-year">1898</span><span class="toc-name">Curie</span><span class="toc-idea">Atoms are not forever</span></a></li>
-        <li><a href="#einstein"><span class="toc-year">1905</span><span class="toc-name">Einstein</span><span class="toc-idea">Moving clocks run slow</span></a></li>
-        <li><a href="#rutherford"><span class="toc-year">1911</span><span class="toc-name">Rutherford</span><span class="toc-idea">The atom is almost empty</span></a></li>
-        <li><a href="#bohr"><span class="toc-year">1913</span><span class="toc-name">Bohr</span><span class="toc-idea">Electrons jump</span></a></li>
-        <li><a href="#debroglie"><span class="toc-year">1924</span><span class="toc-name">de Broglie</span><span class="toc-idea">Matter is a wave</span></a></li>
-        <li><a href="#raman"><span class="toc-year">1928</span><span class="toc-name">Raman</span><span class="toc-idea">Light can change color</span></a></li>
-        <li><a href="#meitner"><span class="toc-year">1938</span><span class="toc-name">Meitner</span><span class="toc-idea">The nucleus splits</span></a></li>
-        <li><a href="#ligo"><span class="toc-year">2015</span><span class="toc-name">LIGO</span><span class="toc-idea">Space itself shakes</span></a></li>
-      </ol>
+      <div class="map-legend" id="map-legend" aria-hidden="true"></div>
+      <div class="chainmap" id="chainmap">
+        <svg class="chainmap-lines" id="chainmap-lines" aria-hidden="true"></svg>
+      </div>
+      <div class="map-info" id="map-info" aria-live="polite">
+        <p class="mi-year" id="mi-year">1638</p>
+        <div class="mi-body">
+          <p class="mi-name" id="mi-name">Galileo Galilei</p>
+          <p class="mi-idea" id="mi-idea">Everything falls the same way</p>
+          <p class="mi-links" id="mi-links"></p>
+        </div>
+        <button class="btn btn--solid" type="button" id="mi-open">Open exhibit →</button>
+      </div>
+      <p class="map-foot">Prefer the whole story? <a href="#galileo">Light the fuse</a> and scroll through all twelve in order.</p>
     </section>
 
     <div class="chapters" id="chapters">
@@ -853,16 +860,17 @@
         </svg>
 
         <ol class="parts">
-          <li><button type="button" data-part="screen"><span class="n">1</span><span class="part-name">Screen</span><span class="part-who">Bohr · 1913</span><span class="part-how">Each pixel glows a precise color when electrons drop between energy levels.</span></button></li>
-          <li><button type="button" data-part="processor"><span class="n">2</span><span class="part-name">Processor</span><span class="part-who">de Broglie · 1924</span><span class="part-how">About 20 billion transistors, each relying on the wave nature of electrons.</span></button></li>
-          <li><button type="button" data-part="antenna"><span class="n">3</span><span class="part-name">Antennas</span><span class="part-who">Maxwell · 1865</span><span class="part-how">Wi-Fi, Bluetooth and 5G are Maxwell's waves, a few centimeters long.</span></button></li>
-          <li><button type="button" data-part="gps"><span class="n">4</span><span class="part-name">GPS chip</span><span class="part-who">Einstein · 1905</span><span class="part-how">Satellite clocks are corrected for relativity, or your location would drift about 10 km a day.</span></button></li>
-          <li><button type="button" data-part="coil"><span class="n">5</span><span class="part-name">Charging coil</span><span class="part-who">Faraday · 1831</span><span class="part-how">A changing magnetic field in the charger pushes current around a coil in the phone.</span></button></li>
-          <li><button type="button" data-part="motion"><span class="n">6</span><span class="part-name">Motion sensor</span><span class="part-who">Newton · 1687</span><span class="part-how">A tiny mass on springs measures <var>F</var> = <var>ma</var>, so the screen knows which way is up.</span></button></li>
-          <li><button type="button" data-part="camera"><span class="n">7</span><span class="part-name">Camera</span><span class="part-who">Einstein · 1905</span><span class="part-how">Light knocks electrons loose in each pixel of the sensor: the effect that won Einstein his Nobel Prize.</span></button></li>
+          <li><button type="button" data-part="screen" data-ch="bohr"><span class="n">1</span><span class="part-name">Screen</span><span class="part-who">Bohr · 1913</span><span class="part-how">Each pixel glows a precise color when electrons drop between energy levels.</span></button></li>
+          <li><button type="button" data-part="processor" data-ch="debroglie"><span class="n">2</span><span class="part-name">Processor</span><span class="part-who">de Broglie · 1924</span><span class="part-how">About 20 billion transistors, each relying on the wave nature of electrons.</span></button></li>
+          <li><button type="button" data-part="antenna" data-ch="maxwell"><span class="n">3</span><span class="part-name">Antennas</span><span class="part-who">Maxwell · 1865</span><span class="part-how">Wi-Fi, Bluetooth and 5G are Maxwell's waves, a few centimeters long.</span></button></li>
+          <li><button type="button" data-part="gps" data-ch="einstein"><span class="n">4</span><span class="part-name">GPS chip</span><span class="part-who">Einstein · 1905</span><span class="part-how">Satellite clocks are corrected for relativity, or your location would drift about 10 km a day.</span></button></li>
+          <li><button type="button" data-part="coil" data-ch="faraday"><span class="n">5</span><span class="part-name">Charging coil</span><span class="part-who">Faraday · 1831</span><span class="part-how">A changing magnetic field in the charger pushes current around a coil in the phone.</span></button></li>
+          <li><button type="button" data-part="motion" data-ch="newton"><span class="n">6</span><span class="part-name">Motion sensor</span><span class="part-who">Newton · 1687</span><span class="part-how">A tiny mass on springs measures <var>F</var> = <var>ma</var>, so the screen knows which way is up.</span></button></li>
+          <li><button type="button" data-part="camera" data-ch="einstein"><span class="n">7</span><span class="part-name">Camera</span><span class="part-who">Einstein · 1905</span><span class="part-how">Light knocks electrons loose in each pixel of the sensor: the effect that won Einstein his Nobel Prize.</span></button></li>
         </ol>
       </div>
       <p class="pocket-foot">The other six keep the lights on, treat cancer, date the past, and listen to black holes colliding.</p>
+      <p class="pocket-go"><button class="btn btn--solid" type="button" id="pocket-open" hidden>Open exhibit →</button></p>
     </section>
 
     <!-- ============ The next link ============ -->
@@ -921,6 +929,25 @@
   </div>
 </main>
 
+<nav class="exhibit-bar" id="exhibit-bar" aria-label="Exhibits" hidden>
+  <div class="exhibit-inner">
+    <button class="ex-step ex-prev" type="button" id="ex-prev"><span aria-hidden="true">←</span><span class="ex-label" id="ex-prev-label"></span></button>
+    <ol class="ex-dots" id="ex-dots"></ol>
+    <button class="ex-step ex-next" type="button" id="ex-next"><span class="ex-label" id="ex-next-label"></span><span aria-hidden="true">→</span></button>
+    <button class="ex-close" type="button" id="ex-close">Map</button>
+  </div>
+</nav>
+
+<dialog class="finder" id="finder" aria-labelledby="finder-title">
+  <form class="finder-form" id="finder-form" method="dialog">
+    <label class="label" for="finder-input" id="finder-title">Find a physicist, a discovery, or something they gave us</label>
+    <input id="finder-input" type="search" autocomplete="off" spellcheck="false" placeholder="Try GPS, Wi-Fi, cancer or Einstein" aria-controls="finder-results" aria-autocomplete="list">
+    <div class="finder-suggest" id="finder-suggest"></div>
+  </form>
+  <ul class="finder-results" id="finder-results" role="listbox" aria-label="Results"></ul>
+  <p class="finder-hint"><span>↑ ↓ choose</span><span>Enter open</span><span>Esc close</span></p>
+</dialog>
+
 <script src="js/core.js"></script>
 <script src="js/reactor.js"></script>
 <script src="js/galileo.js"></script>
@@ -934,6 +961,7 @@
 <script src="js/debroglie.js"></script>
 <script src="js/raman.js"></script>
 <script src="js/ligo.js"></script>
+<script src="js/navigator.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

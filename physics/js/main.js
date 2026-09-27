@@ -25,6 +25,8 @@
 
     function update() {
       raf = 0;
+      // In exhibit mode the navigator owns the chapter state and the readout.
+      if (document.body.classList.contains('is-exhibit')) return;
       const vh = window.innerHeight;
       const line = vh * 0.55;
       const box = chapters.getBoundingClientRect();
@@ -55,9 +57,18 @@
   function initPhone() {
     const buttons = Array.from(document.querySelectorAll('.parts button'));
     const shapes = Array.from(document.querySelectorAll('.phone [data-part]'));
+    const go = document.getElementById('pocket-open');
+    const names = {};
+    document.querySelectorAll('.chapter').forEach(function (ch) { names[ch.id] = ch.dataset.name; });
     let pinned = null;
 
     function show(part) {
+      const btn = buttons.find(function (b) { return b.dataset.part === part; });
+      if (go && btn) {
+        go.hidden = false;
+        go.dataset.ch = btn.dataset.ch;
+        go.textContent = 'Open the ' + names[btn.dataset.ch] + ' exhibit →';
+      }
       buttons.forEach(function (b) {
         b.classList.toggle('is-on', b.dataset.part === part);
         b.setAttribute('aria-pressed', String(b.dataset.part === part));
@@ -85,6 +96,14 @@
     });
   }
 
+  function initPocketLink() {
+    const go = document.getElementById('pocket-open');
+    if (!go) return;
+    go.addEventListener('click', function () {
+      if (PH.nav && go.dataset.ch) PH.nav.open(go.dataset.ch);
+    });
+  }
+
   function boot() {
     start('hero', PH.initHero);
     start('galileo', PH.initGalileo);
@@ -99,8 +118,10 @@
     start('raman', PH.initRaman);
     start('meitner', PH.initMeitner);
     start('ligo', PH.initLigo);
+    start('navigator', PH.initNavigator);
     start('fuse', initFuse);
     start('phone', initPhone);
+    start('pocket', initPocketLink);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
