@@ -300,6 +300,7 @@
     draw();
     if (PH.reducedMotion()) setHeat(false);
     else loop.play();
+    PH.onStill(function () { if (heat) setHeat(false); });
     heatBtn.setAttribute('aria-pressed', String(heat));
     heatBtn.textContent = heat ? 'Stop heating' : 'Heat the gas';
   };

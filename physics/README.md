@@ -53,11 +53,35 @@ Each part of the page has its own formation, worked out on the graphics card:
 | Your phone | GPS satellites in six orbital planes, signals converging on one phone |
 | The next link | A spiral galaxy |
 
-Particles move aside for the pointer and a click sends out a ripple. Changing exhibit swoops the camera around. The pause button in the top bar stops the motion (the choice is remembered), and the page starts paused for anyone whose device asks for reduced motion. On a slow device the universe draws fewer particles. Without WebGL2 the page keeps its plain background and a flat 2D chain reaction on the title.
+Particles move aside for the pointer and a click sends out a ripple (at most about three a second, so fast clicking can't make the screen strobe). Changing exhibit swoops the camera around. On a slow device the universe draws fewer particles. Without WebGL2 the page keeps its plain background and a flat 2D chain reaction on the title.
+
+The text always comes first. By default (Calm) the universe is bright on the title, the map and in Present mode, flares up for a moment as each new chapter begins, and then fades to a faint glow while you read. Every block of text also sits on a soft pool of shadow, so a particle never crosses a letter at full brightness: even in the worst case, gray text keeps at least 5.6:1 contrast.
 
 It is written directly in WebGL2. Each particle carries a few random numbers, and one shader turns them into all sixteen formations. When the scene changes, the graphics card records where every particle is (transform feedback), and they fly from there to the new shape. That keeps the flight smooth even if you change your mind halfway.
 
 Hand-written HTML, CSS, JavaScript and GLSL. No libraries, images or videos; the only external request is for web fonts.
+
+## Made for everyone
+
+The **Display** button in the top bar (or the second skip link, for keyboard users) opens a panel where every change shows straight away and is saved on the device:
+
+| Setting | Choices |
+|---------|---------|
+| Easiest reading | One tap: 130% text, high contrast, the easy-to-read typeface, wide spacing and no motion. Tap again to undo |
+| 3D background | Vivid, Calm (the default) or Off |
+| Text size | 100%, 115%, 130% or 150%. The layout, the chain map and the top bar all adapt, down to a 320 px phone |
+| Contrast | Standard or High: white text, brighter colors, stronger lines, solid panels |
+| Typeface | Classic or Easy to read ([Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/), made for low vision) |
+| Spacing | Normal or Wide: more room between lines, words and paragraphs |
+| Motion | On or Off. Off stills the universe, page animations and every experiment |
+| Read-aloud speed | Slow, normal or fast |
+| Keyboard shortcuts | On or Off. Off keeps single keys like `/` and `P` from doing anything, for speech control and switch users |
+
+Anything left alone follows the device: reduced motion, more contrast, reduced transparency and Windows high contrast (forced colors) are all respected.
+
+**Listen.** Every chapter has a Listen button that reads it aloud with the browser's own voice: the name, the story, the quote, the experiment and what it set off. The paragraph being read is highlighted and kept in view, and a small player pauses, skips paragraphs, changes speed or stops.
+
+Everything works with a keyboard and a screen reader: skip links, labeled controls, focus that stays inside dialogs and returns where it came from, live readouts in every experiment, and a text description for every canvas. The page passes an automated [axe](https://github.com/dequelabs/axe-core) check with no violations at desktop and phone sizes, with the panel open, in Easiest reading, while reading aloud and in Present mode. Printing gives black text on white paper, without the controls.
 
 ## Run it
 
@@ -74,6 +98,9 @@ js/galileo.js … js/ligo.js   One file per experiment
 js/navigator.js   The chain map, exhibit mode, lineage links and Find
 js/cosmos.js      The 3D universe: WebGL2 particles, formations, camera and pointer
 js/cinema.js      Present mode
+js/prefs.js       The reader's display choices, applied before the first paint
+js/display.js     The Display panel
+js/listen.js      Read aloud
 js/main.js        Starts everything; the scroll fuse and the phone diagram
 ```
 

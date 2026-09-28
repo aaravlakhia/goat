@@ -48,6 +48,15 @@
     cinema: [[0.4, 0.0, 1.12, 1.0, 1.0], [0.0, 0.42, 0.85, 1.0, 1.0]]
   };
 
+  // The Calm look: while the reader is in the text, the formation fades to a
+  // faint glow, flaring only briefly as it changes. [reading, just after]
+  const CALM = {
+    map: [[0.48, 0.72], [0.36, 0.56]],
+    page: [[0.12, 0.46], [0.08, 0.34]]
+  };
+
+  const SHOCK_GAP = 350; // ms between ripples, so fast clicking can't strobe
+
   const FOV = (38 * Math.PI) / 180;
   const MORPH = 1.8;   // seconds for particles to reach a new formation
   const BANG = 2.6;    // the opening burst
@@ -955,11 +964,9 @@ void main() {
     let morphStart = Infinity, morphDur = MORPH, stagger = 0.55, bang = 0, boost = 0;
     let clock = 0;
     let paused = PH.reducedMotion();
-    try {
-      const saved = localStorage.getItem('ph-motion');
-      if (saved) paused = saved === 'off';
-    } catch (err) { /* storage can be blocked; motion follows the system setting */ }
-    let held = false, placeName = 'hero';
+    let look = PH.prefs ? PH.prefs.get('bg') : 'calm';
+    let off = look === 'off';
+    let held = false, placeName = 'hero', lastShock = 0;
 
     let aspect = 1, pxRatio = 1;
     let yaw = 0.6, spinAcc = 0.6, pitch = 0.3, fyaw = 0.6, fpitch = 0.3, curDist = 7;
@@ -1264,7 +1271,7 @@ void main() {
 
     function frame(now) {
       raf = 0;
-      if (lost || failed || document.hidden) {
+      if (lost || failed || off || document.hidden) {
         last = 0;
         return;
       }
@@ -1294,7 +1301,7 @@ void main() {
     }
 
     function wake() {
-      if (!raf && !lost && !failed && !document.hidden) raf = requestAnimationFrame(frame);
+      if (!raf && !lost && !failed && !off && !document.hidden) raf = requestAnimationFrame(frame);
     }
 
     function resize() {
@@ -1317,11 +1324,12 @@ void main() {
     function applyPlace() {
       const wide = window.innerWidth >= 900 && aspect > 1.15;
       const v = PLACES[placeName][wide ? 0 : 1];
+      const calm = look === 'calm' && CALM[placeName];
       place.tx = v[0];
       place.ty = v[1];
       place.tzoom = v[2];
-      place.tgain = v[3];
-      place.tpeak = v[4];
+      place.tgain = calm ? calm[wide ? 0 : 1][0] : v[3];
+      place.tpeak = calm ? calm[wide ? 0 : 1][1] : v[4];
     }
 
     function setPlace(name) {
@@ -1347,20 +1355,20 @@ void main() {
       if (!def || failed || name === scene) return;
       const now = performance.now();
       const first = scene === null;
-      if (ready && !first) capture(now);
+      if (ready && !first && !off) capture(now);
       scene = name;
       sceneDef = def;
       if (first) {
-        bang = paused ? 0 : 1;
-        morphDur = paused ? 0.01 : BANG;
+        bang = paused || off ? 0 : 1;
+        morphDur = paused || off ? 0.01 : BANG;
         stagger = 0.3;
         morphStart = ready ? now : Infinity;
       } else {
         bang = 0;
-        morphDur = paused ? 0.01 : MORPH;
+        morphDur = paused || off ? 0.01 : MORPH;
         stagger = 0.55;
         morphStart = now;
-        if (paused) fade();
+        if (paused && !off) fade();
       }
       if (name === 'hero') waveTimer = first ? 1.2 : 0.3;
       boost = 1;
@@ -1369,14 +1377,16 @@ void main() {
     }
 
     function warp(dir) {
-      if (paused || failed) return;
+      if (paused || failed || off) return;
       warpT = 0;
       warpDir = dir < 0 ? -1 : 1;
       wake();
     }
 
     function shock(cx, cy) {
-      if (paused || failed || !ready) return;
+      const t = performance.now();
+      if (paused || failed || off || !ready || t - lastShock < SHOCK_GAP) return;
+      lastShock = t;
       const r = canvas.getBoundingClientRect();
       const x = ((cx - r.left) / r.width) * 2 - 1;
       const y = 1 - ((cy - r.top) / r.height) * 2;
@@ -1414,9 +1424,28 @@ void main() {
       wake();
     }
 
+    // Vivid, Calm or Off. Coming back from Off, the current formation is
+    // simply there (no burst, no flight).
+    function setLook(v) {
+      if (v === look) return;
+      const wasOff = off;
+      look = v;
+      off = v === 'off';
+      applyPlace();
+      if (wasOff && !off) {
+        bang = 0;
+        warpT = -1;
+        morphDur = 0.01;
+        morphStart = ready ? performance.now() : Infinity;
+        place.gain = place.tgain;
+        place.peak = place.tpeak;
+      }
+      busyUntil = performance.now() + 1500;
+      wake();
+    }
+
     function setPaused(v) {
       paused = !!v;
-      try { localStorage.setItem('ph-motion', paused ? 'off' : 'on'); } catch (err) { /* ignore */ }
       if (paused) {
         warpT = -1;
         mouse.ts = 0;
@@ -1433,10 +1462,12 @@ void main() {
       pointer: pointer,
       focus: focus,
       setPaused: setPaused,
+      setLook: setLook,
       hold: function (v) { held = !!v; },
       direct: function () {},
       onfail: null,
       get paused() { return paused; },
+      get look() { return look; },
       get held() { return held; },
       get current() { return scene; },
       get ready() { return ready; },
@@ -1546,10 +1577,21 @@ void main() {
     [toggle, heroBtn].forEach(function (b) {
       if (!b) return;
       b.addEventListener('click', function () {
-        engine.setPaused(!engine.paused);
+        if (PH.prefs) PH.prefs.set('motion', engine.paused ? 'on' : 'off');
+        else engine.setPaused(!engine.paused);
         sync();
       });
     });
+    if (PH.prefs) {
+      PH.prefs.on(function (name, value) {
+        if (name === 'motion') {
+          engine.setPaused(value === 'off');
+          sync();
+        } else if (name === 'bg') {
+          engine.setLook(value);
+        }
+      });
+    }
     sync();
   }
 

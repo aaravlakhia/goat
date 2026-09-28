@@ -31,6 +31,7 @@
     let trace = [];
     let clock = 0;
     let demo = !PH.reducedMotion();
+    PH.onStill(function () { demo = false; });
 
     function layout() {
       size = PH.fitCanvas(canvas);

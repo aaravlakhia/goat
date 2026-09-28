@@ -280,5 +280,6 @@
     readout();
     draw();
     if (!PH.reducedMotion()) loop.play();
+    PH.onStill(function () { loop.pause(); });
   };
 })();

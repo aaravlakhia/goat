@@ -8,8 +8,9 @@
     ? window.matchMedia('(prefers-reduced-motion: reduce)')
     : { matches: false };
 
+  // The reader's Motion choice (see prefs.js), which starts from the device's.
   PH.reducedMotion = function () {
-    return motion.matches;
+    return PH.prefs ? PH.prefs.get('motion') === 'off' : motion.matches;
   };
 
   // Plate colors. The glow colors light up experiments; the "mark" colors are
@@ -256,10 +257,29 @@
     return sync;
   };
 
-  // Start a loop unless the reader prefers reduced motion.
+  // Start a loop unless the reader prefers reduced motion. If they turn
+  // motion off later, every experiment that started by itself stops.
+  const autoplayed = [];
   PH.autoplay = function (loop, syncLabel) {
     if (!PH.reducedMotion()) loop.play();
     if (syncLabel) syncLabel();
+    autoplayed.push([loop, syncLabel]);
+  };
+
+  const stillHooks = [];
+  PH.onStill = function (fn) {
+    stillHooks.push(fn);
+  };
+
+  PH.stillAll = function () {
+    autoplayed.forEach(function (a) {
+      if (!a[0].running) return;
+      a[0].pause();
+      if (a[1]) a[1]();
+    });
+    stillHooks.forEach(function (fn) {
+      try { fn(); } catch (err) { console.error(err); }
+    });
   };
 
   /* A small line chart for the plates: hairline grid, labeled ticks, one or

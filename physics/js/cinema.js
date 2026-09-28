@@ -210,6 +210,7 @@
       root.hidden = false;
       body.classList.add('is-cinema');
       PH.hush = true;
+      if (PH.listen) PH.listen.pause();
       setInert(true);
       if (PH.cosmos) {
         PH.cosmos.hold(true);
@@ -319,22 +320,24 @@
       const typing = t && t.closest && t.closest('input, textarea, select, [contenteditable="true"]');
       if (!isOpen) {
         // P starts Present mode from anywhere on the page.
-        const finder = document.getElementById('finder');
-        if ((e.key === 'p' || e.key === 'P') && !typing && !(finder && finder.open) && !(t && t.closest && t.closest('.stage'))) {
+        const ok = PH.prefs ? PH.prefs.shortcutsOK(e) : !typing && !document.querySelector('dialog[open]') && !(t && t.closest && t.closest('.stage'));
+        if ((e.key === 'p' || e.key === 'P') && ok) {
           e.preventDefault();
           open(startIndex());
         }
         return;
       }
       const onButton = t && t.closest && t.closest('button');
+      // Letter keys can be turned off (Display settings); the others always work.
+      const letters = !PH.prefs || PH.prefs.get('keys') === 'on';
       let used = true;
-      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === 'n' || ((e.key === ' ' || e.key === 'Enter') && !onButton)) go(index + 1);
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || (e.key === 'n' && letters) || ((e.key === ' ' || e.key === 'Enter') && !onButton)) go(index + 1);
       else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') go(index - 1);
       else if (e.key === 'Home') go(0);
       else if (e.key === 'End') go(slides.length - 1);
       else if (e.key === 'Escape') close();
-      else if (e.key === 'a' || e.key === 'A') setAuto(!auto);
-      else if ((e.key === 'f' || e.key === 'F') && canFull) fullBtn.click();
+      else if ((e.key === 'a' || e.key === 'A') && letters) setAuto(!auto);
+      else if ((e.key === 'f' || e.key === 'F') && letters && canFull) fullBtn.click();
       else used = false;
       if (used) e.preventDefault();
     });

@@ -136,6 +136,8 @@
     start('navigator', PH.initNavigator);
     start('background', initBackground);
     start('present', PH.initCinema);
+    start('display', PH.initDisplay);
+    start('listen', PH.initListen);
     start('fuse', initFuse);
     start('phone', initPhone);
     start('pocket', initPocketLink);

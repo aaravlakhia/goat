@@ -44,6 +44,7 @@
 
     let shots = [];
     let demo = PH.reducedMotion() ? DEMO.length : 0;
+    PH.onStill(function () { demo = DEMO.length; });
     let pause = 0;
 
     function speed() {

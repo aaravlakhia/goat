@@ -188,6 +188,8 @@
       if (!c) return;
       const was = current ? byId[current] : null;
       current = id;
+      // Reading another chapter aloud? It is about to be hidden.
+      if (PH.listen && PH.listen.chapter && PH.listen.chapter.id !== id) PH.listen.stop();
       body.classList.add('is-exhibit');
       bar.hidden = false;
       CH.forEach(function (o) {
@@ -406,7 +408,9 @@
     function layout() {
       const w = map.clientWidth;
       if (!w) return;
-      const vertical = w < 860;
+      // Larger text (Display settings) spreads the map out to match.
+      const k = Math.max(1, (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16) / 16);
+      const vertical = w < 860 * k;
       sec.classList.toggle('is-vertical', vertical);
       map.classList.toggle('is-v', vertical);
       map.classList.toggle('is-h', !vertical);
@@ -414,9 +418,9 @@
       let height;
       if (!vertical) {
         const gutter = w > 1100 ? 150 : 124, colW = (w - gutter - 12) / CH.length;
-        const rowH = 84, top = 50;
+        const rowH = Math.round(84 * k), top = Math.round(50 * k);
         CH.forEach(function (c, i) { pos[c.id] = { x: gutter + (i + 0.5) * colW, y: top + c.lane * rowH }; });
-        height = top + (LANES.length - 1) * rowH + 56;
+        height = top + (LANES.length - 1) * rowH + Math.round(56 * k);
         map.style.setProperty('--cw', colW.toFixed(1));
         laneLabels.forEach(function (d, i) {
           d.style.top = (top + i * rowH) + 'px';
@@ -425,9 +429,9 @@
         });
       } else {
         const track = function (lane) { return 18 + lane * 14; };
-        const rowH = 66, top = 30;
+        const rowH = Math.round(66 * k), top = Math.round(30 * k);
         CH.forEach(function (c, i) { pos[c.id] = { x: track(c.lane), y: top + i * rowH }; });
-        height = top + (CH.length - 1) * rowH + 40;
+        height = top + (CH.length - 1) * rowH + Math.round(40 * k);
         laneLabels.forEach(function (d) { d.hidden = true; });
       }
       map.style.height = height + 'px';
@@ -464,6 +468,7 @@
     }
 
     PH.onResize(map, layout);
+    if (PH.prefs) PH.prefs.on(function (name) { if (name === 'size') layout(); });
     layout();
     preview('galileo');
     highlight(null);
@@ -617,9 +622,10 @@
     });
 
     document.addEventListener('keydown', function (e) {
-      const typing = e.target && e.target.closest && e.target.closest('input, textarea, select, [contenteditable="true"]');
       if (dlg.open || document.body.classList.contains('is-cinema')) return;
-      if ((e.key === '/' && !typing) || ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K'))) {
+      // "/" is a single-key shortcut the reader can turn off; Ctrl+K always works.
+      const slash = e.key === '/' && (PH.prefs ? PH.prefs.shortcutsOK(e) : !(e.target.closest && e.target.closest('input, textarea, select, [contenteditable="true"]')));
+      if (slash || ((e.ctrlKey || e.metaKey) && !document.querySelector('dialog[open]') && (e.key === 'k' || e.key === 'K'))) {
         e.preventDefault();
         open();
       }
