@@ -384,6 +384,7 @@
     miOpen.addEventListener('click', function () { nav.open(shown); });
 
     function highlight(id) {
+      if (PH.cosmos) PH.cosmos.focus(id);
       const hot = new Set();
       if (id) {
         hot.add(id);

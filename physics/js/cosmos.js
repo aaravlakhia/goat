@@ -80,6 +80,8 @@ uniform vec4 uWave[3];
 uniform vec3 uStars[12];
 uniform vec3 uStarCol[12];
 uniform vec2 uEdges[14];
+uniform float uFocus;
+uniform float uFocusAmt;
 
 out vec3 vPos;
 out vec4 vCol;
@@ -186,8 +188,11 @@ void sceneMap(vec4 a, vec4 b, float t, float f, out vec3 p, out vec3 c, out floa
     p = uStars[k] + sdir(a.y, a.z) * r;
     float core = 1.0 - smoothstep(0.0, 0.14, r);
     float tw = 0.85 + 0.15 * sin(t * 2.0 + float(k) * 1.3);
-    c = (uStarCol[k] * (0.3 + 0.9 * core) + WHITE * core * 0.45) * tw;
-    s = 0.9 + 1.4 * core;
+    // The star under the pointer on the chain map flares; the rest dim.
+    float hot = uFocusAmt * (1.0 - step(0.5, abs(float(k) - uFocus)));
+    float calm = 1.0 - 0.45 * (uFocusAmt - hot);
+    c = (uStarCol[k] * (0.3 + 0.9 * core) + WHITE * core * 0.45) * tw * (calm + 1.6 * hot);
+    s = 0.9 + 1.4 * core + 1.2 * hot * core;
   } else if (f < 0.82) {
     int e = int(min(13.0, floor(a.x * 14.0)));
     vec2 ed = uEdges[e];
@@ -199,8 +204,10 @@ void sceneMap(vec4 a, vec4 b, float t, float f, out vec3 p, out vec3 c, out floa
     float v = 1.0 - u;
     p = v * v * A + 2.0 * u * v * C + u * u * B + sdir(a.w, b.z) * 0.025;
     float pulse = pow(0.5 + 0.5 * cos(TAU * fract(a.y * 4.0)), 6.0);
-    c = mix(uStarCol[int(ed.x)], uStarCol[int(ed.y)], u) * (0.3 + 0.9 * pulse);
-    s = 0.75 + 0.9 * pulse;
+    float on = uFocusAmt * max(1.0 - step(0.5, abs(ed.x - uFocus)), 1.0 - step(0.5, abs(ed.y - uFocus)));
+    float calm = 1.0 - 0.6 * (uFocusAmt - on);
+    c = mix(uStarCol[int(ed.x)], uStarCol[int(ed.y)], u) * (0.3 + 0.9 * pulse) * (calm + 1.4 * on);
+    s = 0.75 + 0.9 * pulse + 0.5 * on;
   } else {
     float u = -0.06 + 1.12 * a.x;
     float th = -1.2 + u * 6.6;
@@ -898,7 +905,8 @@ void main() {
 `;
 
   const UNIFORMS = ['uScene', 'uMorph', 'uStagger', 'uBang', 'uTime', 'uCount', 'uView', 'uProj', 'uShift',
-    'uAspect', 'uPx', 'uDist', 'uGain', 'uMouse', 'uShock', 'uWave', 'uStars', 'uStarCol', 'uEdges'];
+    'uAspect', 'uPx', 'uDist', 'uGain', 'uMouse', 'uShock', 'uWave', 'uStars', 'uStarCol', 'uEdges',
+    'uFocus', 'uFocusAmt'];
 
   function hexRGB(hex, lift) {
     const n = parseInt(hex.slice(1), 16);
@@ -963,6 +971,7 @@ void main() {
     const shocks = new Float32Array(12);
     const waves = new Float32Array(12);
     let shockSlot = 0, waveSlot = 0, waveTimer = 1.2;
+    let focusIdx = -1, focusAmt = 0, focusTarget = 0;
 
     let raf = 0, last = 0, busyUntil = 0, ema = 1 / 60, nextCheck = performance.now() + 6000;
 
@@ -1112,6 +1121,8 @@ void main() {
       gl.uniform3f(U.uMouse, mouse.x, mouse.y, paused ? 0 : mouse.s);
       gl.uniform4fv(U.uShock, shocks);
       gl.uniform4fv(U.uWave, waves);
+      gl.uniform1f(U.uFocus, focusIdx);
+      gl.uniform1f(U.uFocusAmt, focusAmt);
     }
 
     // Record where every particle is right now, so the next flight starts there.
@@ -1225,6 +1236,7 @@ void main() {
         }
       }
       boost = Math.max(0, boost - dt / 2.6);
+      focusAmt += (focusTarget - focusAmt) * (1 - Math.exp(-dt * 7));
     }
 
     // If the device struggles, draw fewer particles (they glide into the new
@@ -1393,6 +1405,15 @@ void main() {
       if (!paused) wake();
     }
 
+    // Light up one physicist's star on the map formation (null for none).
+    function focus(id) {
+      const c = id && PH.story && PH.story.byId[id];
+      if (c) focusIdx = c.index;
+      focusTarget = c ? 1 : 0;
+      busyUntil = performance.now() + 900;
+      wake();
+    }
+
     function setPaused(v) {
       paused = !!v;
       try { localStorage.setItem('ph-motion', paused ? 'off' : 'on'); } catch (err) { /* ignore */ }
@@ -1410,6 +1431,7 @@ void main() {
       warp: warp,
       shock: shock,
       pointer: pointer,
+      focus: focus,
       setPaused: setPaused,
       hold: function (v) { held = !!v; },
       direct: function () {},
@@ -1503,7 +1525,8 @@ void main() {
     window.addEventListener('pointerup', function (e) {
       if (e.pointerType === 'touch') engine.pointer(null);
     }, { passive: true });
-    document.addEventListener('pointerdown', function (e) {
+    // A click or a tap (not the touch that starts a scroll) sends the ripple.
+    document.addEventListener('click', function (e) {
       if (e.button !== 0) return;
       const t = e.target;
       if (t && t.closest && t.closest('a, button, input, select, textarea, label, summary, [role="button"], .plate, .chainmap, .masthead, .exhibit-bar, dialog, .cinema, .parts, .phone')) return;
