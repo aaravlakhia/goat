@@ -1,6 +1,6 @@
-/* Start every experiment, burn the fuse as the reader scrolls, and wire up
-   the phone diagram. Each experiment starts on its own, so one failure never
-   takes the rest of the page down with it. */
+/* Start every experiment and the 3D background, burn the fuse as the reader
+   scrolls, and wire up the phone diagram. Each part starts on its own, so one
+   failure never takes the rest of the page down with it. */
 (function () {
   'use strict';
 
@@ -40,7 +40,7 @@
         ch.classList.toggle('is-lit', lit);
         if (lit) current = ch;
       });
-      PH.text(yearOut, current.dataset.year);
+      PH.rollYear(yearOut, current.dataset.year);
       PH.text(nameOut, current.dataset.name);
     }
 
@@ -104,8 +104,23 @@
     });
   }
 
+  // Without WebGL2 (or if its shaders fail), the title keeps the flat
+  // chain reaction instead of the 3D one.
+  function initBackground() {
+    PH.initCosmos();
+    if (!PH.cosmos) {
+      start('hero', PH.initHero);
+      return;
+    }
+    PH.cosmos.onfail = function () {
+      PH.cosmos = null;
+      const old = document.getElementById('hero-play');
+      if (old) old.replaceWith(old.cloneNode(true));
+      start('hero', PH.initHero);
+    };
+  }
+
   function boot() {
-    start('hero', PH.initHero);
     start('galileo', PH.initGalileo);
     start('newton', PH.initNewton);
     start('faraday', PH.initFaraday);
@@ -119,6 +134,8 @@
     start('meitner', PH.initMeitner);
     start('ligo', PH.initLigo);
     start('navigator', PH.initNavigator);
+    start('background', initBackground);
+    start('present', PH.initCinema);
     start('fuse', initFuse);
     start('phone', initPhone);
     start('pocket', initPocketLink);

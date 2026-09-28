@@ -136,6 +136,9 @@
   const byId = {};
   CH.forEach(function (c, i) { c.index = i; byId[c.id] = c; });
 
+  // Shared with the 3D background (the map's stars and links) and Present mode.
+  PH.story = { lanes: LANES, chapters: CH, edges: EDGES, byId: byId };
+
   function builtOn(id) { return EDGES.filter(function (e) { return e[1] === id; }); }
   function ledTo(id) { return EDGES.filter(function (e) { return e[0] === id; }); }
 
@@ -211,7 +214,7 @@
         if (i === c.index) b.setAttribute('aria-current', 'true');
         else b.removeAttribute('aria-current');
       });
-      PH.text(yearOut, String(c.year));
+      PH.rollYear(yearOut, String(c.year));
       PH.text(nameOut, c.name);
       try { history.replaceState(null, '', '#exhibit-' + id); } catch (err) { /* the frame may refuse; the page still works */ }
       const h = el.querySelector('h2');
@@ -222,6 +225,9 @@
       // An explicit "instant" beats the page's smooth scrolling, so each
       // exhibit opens at its top straight away.
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      // The 3D background swoops to the new formation.
+      if (PH.cosmos && (!was || was.id !== id)) PH.cosmos.warp(was && was.index > c.index ? -1 : 1);
+      window.dispatchEvent(new Event('scroll'));
     }
 
     // Leave exhibit mode. With a target, jump to that part of the page.
@@ -251,6 +257,7 @@
 
     document.addEventListener('keydown', function (e) {
       if (!current || e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+      if (body.classList.contains('is-cinema')) return;
       const t = e.target;
       if (t && (t.closest('input, textarea, select, dialog, [contenteditable="true"]') || t.closest('.stage'))) return;
       if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
@@ -610,7 +617,7 @@
 
     document.addEventListener('keydown', function (e) {
       const typing = e.target && e.target.closest && e.target.closest('input, textarea, select, [contenteditable="true"]');
-      if (dlg.open) return;
+      if (dlg.open || document.body.classList.contains('is-cinema')) return;
       if ((e.key === '/' && !typing) || ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K'))) {
         e.preventDefault();
         open();

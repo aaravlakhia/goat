@@ -143,6 +143,27 @@
     if (el && el.textContent !== value) el.textContent = value;
   };
 
+  // Show a year, counting through the years in between like a time machine.
+  PH.rollYear = function (el, value) {
+    if (!el) return;
+    value = String(value);
+    if (el.dataset.to === value) return;
+    el.dataset.to = value;
+    const from = parseInt(el.textContent, 10), to = parseInt(value, 10);
+    cancelAnimationFrame(el.rollRaf || 0);
+    if (PH.reducedMotion() || isNaN(from) || isNaN(to) || from === to) {
+      el.textContent = value;
+      return;
+    }
+    const t0 = performance.now(), dur = 700;
+    const step = function (now) {
+      const k = Math.min(1, (now - t0) / dur);
+      el.textContent = String(Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3))));
+      if (k < 1) el.rollRaf = requestAnimationFrame(step);
+    };
+    el.rollRaf = requestAnimationFrame(step);
+  };
+
   // A soft round glow, pre-rendered once per color and reused for every flash.
   const glowCache = new Map();
   PH.glowSprite = function (color) {
@@ -210,8 +231,9 @@
       this.last = now;
       this.raf = requestAnimationFrame(this.tick);
       // A plate that was just hidden keeps its loop for a frame or two until
-      // the observer notices; don't draw it at zero size.
-      if (this.target.clientWidth === 0) return;
+      // the observer notices; don't draw it at zero size. While Present mode
+      // covers the page, the experiments rest.
+      if (this.target.clientWidth === 0 || PH.hush) return;
       this.frame(dt);
     }
   };

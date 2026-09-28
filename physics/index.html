@@ -12,6 +12,8 @@
 </head>
 <body>
 
+<canvas id="cosmos" aria-hidden="true"></canvas>
+
 <a class="skip" href="#galileo">Skip to the first discovery</a>
 
 <header class="masthead">
@@ -21,6 +23,8 @@
     <div class="mast-actions">
       <button class="mast-btn" type="button" id="find-open" aria-haspopup="dialog" aria-label="Find a physicist or discovery"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span>Find</span><kbd>/</kbd></button>
       <a class="mast-btn" href="#map" id="map-open" aria-label="Open the chain map"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="13" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="8" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M5 4h6M4 6l3 4.5M12 6l-3 4.5" fill="none" stroke="currentColor" stroke-width="1.3"></path></svg><span>Map</span></a>
+      <button class="mast-btn" type="button" id="present-open" aria-haspopup="dialog" aria-label="Present: play the story as full-screen slides"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"></rect><path d="M6.6 4.9v4.2L10.2 7z" fill="currentColor"></path><path d="M5 14h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg><span>Present</span></button>
+      <button class="mast-btn mast-btn--icon" type="button" id="motion-toggle" aria-pressed="false" aria-label="Pause background animation" title="Pause or play the background animation"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 3.5v9M10.5 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10l8-5z" fill="currentColor"></path></svg></button>
     </div>
   </div>
 </header>
@@ -41,9 +45,10 @@
     <div class="hero-actions">
       <a class="cta cta--solid" href="#map">Explore the chain map <span aria-hidden="true">↓</span></a>
       <a class="cta" href="#galileo">Light the fuse: read it all</a>
+      <button class="cta cta--play" type="button" id="present-open-2" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5v11l9-5.5z" fill="currentColor"></path></svg>Present mode</button>
     </div>
   </div>
-  <p class="hero-caption"><span><b>Plate 0.</b> A live chain reaction: each neutron (blue) that hits a uranium nucleus splits it and frees two or three more.</span><button class="btn" type="button" id="hero-play">Pause</button></p>
+  <p class="hero-caption"><span id="hero-caption-text"><b>Plate 0.</b> A live chain reaction: each neutron (blue) that hits a uranium nucleus splits it and frees two or three more.</span><button class="btn" type="button" id="hero-play">Pause</button></p>
 </section>
 
 <main class="page">
@@ -948,6 +953,22 @@
   <p class="finder-hint"><span>↑ ↓ choose</span><span>Enter open</span><span>Esc close</span></p>
 </dialog>
 
+<div class="cinema" id="cinema" role="dialog" aria-modal="true" aria-label="Present mode" tabindex="-1" hidden>
+  <div class="cin-top">
+    <p class="cin-brand">Chain <span>Reaction</span></p>
+    <p class="cin-count" id="cin-count" aria-hidden="true"></p>
+    <button class="cin-exit" type="button" id="cin-exit">Exit <kbd>Esc</kbd></button>
+  </div>
+  <div class="cin-stage" id="cin-stage" aria-live="polite"></div>
+  <div class="cin-bar">
+    <button class="cin-btn" type="button" id="cin-prev" aria-label="Previous slide"><span aria-hidden="true">←</span></button>
+    <ol class="cin-progress" id="cin-progress"></ol>
+    <button class="cin-btn" type="button" id="cin-next" aria-label="Next slide"><span aria-hidden="true">→</span></button>
+    <button class="cin-btn cin-btn--text" type="button" id="cin-auto" aria-pressed="false">Autoplay</button>
+    <button class="cin-btn cin-btn--text" type="button" id="cin-full">Full screen</button>
+  </div>
+</div>
+
 <script src="js/core.js"></script>
 <script src="js/reactor.js"></script>
 <script src="js/galileo.js"></script>
@@ -962,6 +983,8 @@
 <script src="js/raman.js"></script>
 <script src="js/ligo.js"></script>
 <script src="js/navigator.js"></script>
+<script src="js/cosmos.js"></script>
+<script src="js/cinema.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
