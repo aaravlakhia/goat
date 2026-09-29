@@ -139,6 +139,7 @@
     start('display', PH.initDisplay);
     start('listen', PH.initListen);
     start('fuse', initFuse);
+    start('flair', PH.initFlair);
     start('phone', initPhone);
     start('pocket', initPocketLink);
   }

@@ -219,10 +219,12 @@
       const rot = cfg.air ? Math.sin(t * 2.6 + 0.8) * 0.5 : 0;
       drawFeather(fx + sway, start + feather.y * scale, feather.landed ? 1.35 : rot, 1);
 
+      // The clock sits in the ground strip, clear of the labels on narrow screens.
       ctx.fillStyle = PH.color.muted;
-      ctx.textAlign = 'left';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'middle';
       ctx.font = '10px "IBM Plex Mono", ui-monospace, monospace';
-      ctx.fillText('t = ' + t.toFixed(2) + ' s', w - 110, 20);
+      ctx.fillText('t = ' + t.toFixed(2) + ' s', w - 34, floorY + (h - floorY) / 2);
     }
 
     const loop = new PH.Loop(stage, function (dt) {

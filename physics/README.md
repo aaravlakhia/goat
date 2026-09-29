@@ -30,6 +30,16 @@ You never have to scroll past eleven people to reach the twelfth:
 - **Light the fuse.** The original long read is still there for anyone who wants all twelve in order.
 - **Present mode** (press `P`, or the Present button). The story as full-screen slides over the 3D scenes, for showing in class: a title, the twelve discoveries and a last word. Move with the arrow keys, clicks or swipes, or turn on autoplay. Full screen works where the browser allows it.
 
+## The look
+
+- **A color for each branch of physics.** Every chapter wears its lane's color from the chain map (blue for motion and gravity, orange for space and time, green for electricity and light, amber for atoms and nuclei, pink for quantum). The fuse down the side keeps the color of each chapter you have passed, and a slim twelve-part bar under the top bar fills in as you read. Every accent keeps at least 7:1 contrast on the page.
+- **The year turns over.** When the fuse reaches a chapter, the digits that differ from the last discovery's year spin like an odometer and land on the new one: 1905 to 1911 turns only the last two digits, 1938 to 2015 turns all four.
+- **Headlines rise into place** word by word, and each experiment, quote and timeline slides up the first time it comes into view.
+- **Instrument frames.** Each experiment has a header strip (its number, its branch and a live light) and viewfinder corners on the stage.
+- **Light under the pointer.** The outlined word REACTION on the title fills with all five colors where the pointer passes (a spark runs through it once as the page opens), and panels and cards light up along their edge near the pointer. The page ends with the title again, huge, outlined and lit the same way.
+
+With Motion turned off in Display nothing moves: headlines, years and panels are simply there. If the web fonts can't load, the giant title lines shrink to fit the wider fallback typeface instead of running off the screen.
+
 ## The 3D universe
 
 Each part of the page has its own formation, worked out on the graphics card:
@@ -101,6 +111,7 @@ js/cinema.js      Present mode
 js/prefs.js       The reader's display choices, applied before the first paint
 js/display.js     The Display panel
 js/listen.js      Read aloud
+js/flair.js       Chapter colors, the odometer year, reveals, instrument frames, pointer light
 js/main.js        Starts everything; the scroll fuse and the phone diagram
 ```
 

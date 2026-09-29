@@ -39,17 +39,17 @@
     <p class="kicker label">A history of physics in twelve discoveries</p>
     <h1 id="title"><span>Chain</span><span class="outline">Reaction</span></h1>
     <p class="lede">In 1938 Lise Meitner worked out that when one uranium nucleus splits, it can split two more, and those can split four. <em>Ideas work the same way.</em> Here are twelve people who each split open an idea, a live experiment for every discovery, and the world each one set off.</p>
-    <ul class="hero-meta">
-      <li><b>12</b> discoveries</li>
-      <li><b>1638 → 2015</b></li>
-      <li><b>12</b> live experiments</li>
-      <li><b>0</b> videos. Everything runs on your device.</li>
-    </ul>
     <div class="hero-actions">
       <a class="cta cta--solid" href="#map">Explore the chain map <span aria-hidden="true">↓</span></a>
       <a class="cta" href="#galileo">Light the fuse: read it all</a>
       <button class="cta cta--play" type="button" id="present-open-2" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5v11l9-5.5z" fill="currentColor"></path></svg>Present mode</button>
     </div>
+    <ul class="hero-meta">
+      <li><b data-count="12">12</b> <span>discoveries</span></li>
+      <li><b data-count="377">377</b> <span>years, 1638 to 2015</span></li>
+      <li><b data-count="12">12</b> <span>live experiments</span></li>
+      <li><b>0</b> <span>videos: it all runs live</span></li>
+    </ul>
   </div>
   <p class="hero-caption"><span id="hero-caption-text"><b>Plate 0.</b> A live chain reaction: each neutron (blue) that hits a uranium nucleus splits it and frees two or three more.</span><button class="btn" type="button" id="hero-play">Pause</button></p>
 </section>
@@ -62,7 +62,7 @@
       <div class="map-head">
         <div>
           <p class="label map-kicker">The chain map</p>
-          <h2 id="map-title">Jump to anyone</h2>
+          <h2 id="map-title">Jump to <span class="outline">anyone</span></h2>
         </div>
         <p class="map-intro">Each line is an idea one discovery handed to the next. Choose a physicist to open their exhibit, or <button class="linkish" type="button" id="find-open-2">search by what they gave us</button>, like GPS, Wi-Fi or cancer treatment.</p>
       </div>
@@ -835,7 +835,7 @@
     <section class="pocket" id="pocket" aria-labelledby="pocket-title">
       <div class="pocket-head">
         <p class="label" style="color:var(--amber)">The consequences</p>
-        <h2 id="pocket-title">In your pocket</h2>
+        <h2 id="pocket-title">In your <span class="outline">pocket</span></h2>
         <p>Six of these twelve discoveries are working inside your phone right now. Choose a part to see whose idea it is.</p>
       </div>
       <div class="pocket-body">
@@ -886,7 +886,7 @@
       <div class="onward-grid">
         <div class="onward-intro">
           <p class="label" style="color:var(--glow)">The chain continues</p>
-          <h2 id="onward-title">The next link</h2>
+          <h2 id="onward-title">The next <span class="outline">link</span></h2>
           <p>Every discovery on this page started with someone noticing something that didn't fit. Physics still has plenty that doesn't fit.</p>
         </div>
         <ul class="open">
@@ -904,7 +904,7 @@
       <div class="colophon-grid">
         <div class="colophon-intro">
           <p class="label" style="color:var(--muted)">Colophon</p>
-          <h2 id="colophon-title">How it was made</h2>
+          <h2 id="colophon-title">How it was <span class="outline">made</span></h2>
           <p>Hand-written HTML, CSS and JavaScript with no libraries, images or videos. Each experiment is a small physics simulation that runs on your device: gravity, induction, electromagnetic waves, random decay, relativity, Coulomb scattering, energy levels, quantum probability, light scattering, neutron chain reactions and a gravitational-wave chirp.</p>
           <p>The universe behind the page is written directly in WebGL2: one shader turns each particle's random numbers into sixteen formations, and the graphics card records every particle's position so they can fly smoothly from one scene to the next.</p>
           <p>Experiments pause when they scroll out of view, and none start moving on their own if your device is set to reduce motion. The pause button in the top bar stops the background too.</p>
@@ -935,6 +935,8 @@
         <p><a href="#top">Back to the top ↑</a></p>
       </footer>
     </section>
+
+    <p class="endmark" aria-hidden="true"><span>Chain</span> <span>Reaction</span></p>
 
   </div>
 </main>
@@ -1098,6 +1100,7 @@
 <script src="js/cinema.js"></script>
 <script src="js/display.js"></script>
 <script src="js/listen.js"></script>
+<script src="js/flair.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
