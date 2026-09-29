@@ -27,6 +27,10 @@
       on: 'The background drifts and experiments start by themselves.',
       off: 'Nothing moves until you press Play: the background stands still, page animations stop and experiments wait for you.'
     },
+    sound: {
+      off: 'Silent. Nothing on this page makes a sound unless you press a play or hear button.',
+      on: 'Soft clicks, chimes and pops for predictions, cards, the spinning years and chain reactions.'
+    },
     keys: {
       on: 'Single keys like / and P work as shortcuts.',
       off: 'Only arrow keys, Esc and Ctrl+K do anything, so speech control or a stray key never triggers a shortcut.'

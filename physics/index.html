@@ -26,6 +26,7 @@
       <button class="mast-btn" type="button" id="find-open" aria-haspopup="dialog" aria-label="Find a physicist or discovery"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="1.6"></circle><path d="M11 11l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path></svg><span>Find</span><kbd>/</kbd></button>
       <a class="mast-btn" href="#map" id="map-open" aria-label="Open the chain map"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="13" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><circle cx="8" cy="12" r="2" fill="none" stroke="currentColor" stroke-width="1.5"></circle><path d="M5 4h6M4 6l3 4.5M12 6l-3 4.5" fill="none" stroke="currentColor" stroke-width="1.3"></path></svg><span>Map</span></a>
       <button class="mast-btn" type="button" id="present-open" aria-haspopup="dialog" aria-label="Present: play the story as full-screen slides"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="9" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"></rect><path d="M6.6 4.9v4.2L10.2 7z" fill="currentColor"></path><path d="M5 14h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path></svg><span>Present</span></button>
+      <button class="mast-btn mast-deck" type="button" id="deck-open" aria-haspopup="dialog" aria-label="Deck, 0 of 12 cards collected"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="1.8" width="8.5" height="11.4" rx="1.4" fill="none" stroke="currentColor" stroke-width="1.4" transform="rotate(10 9.75 7.5)"></rect><rect x="2" y="3" width="8.5" height="11.4" rx="1.4" fill="var(--film)" stroke="currentColor" stroke-width="1.4"></rect><path d="M6.25 6.2l.9 1.9 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2L3.35 8.4l2-.3z" fill="currentColor"></path></svg><span>Deck</span><b class="deck-count" id="deck-count" aria-hidden="true">0/12</b></button>
       <button class="mast-btn" type="button" id="display-open" data-display-open aria-haspopup="dialog" aria-label="Display and reading settings" title="Text size, contrast, background, motion and more"><b class="mast-aa" aria-hidden="true">Aa</b><span>Display</span></button>
       <button class="mast-btn mast-btn--icon" type="button" id="motion-toggle" aria-pressed="false" aria-label="Pause background animation" title="Pause or play the background animation"><svg class="i-pause" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 3.5v9M10.5 3.5v9" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg><svg class="i-play" viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10l8-5z" fill="currentColor"></path></svg></button>
     </div>
@@ -41,7 +42,7 @@
     <p class="lede">In 1938 Lise Meitner worked out that when one uranium nucleus splits, it can split two more, and those can split four. <em>Ideas work the same way.</em> Here are twelve people who each split open an idea, a live experiment for every discovery, and the world each one set off.</p>
     <div class="hero-actions">
       <a class="cta cta--solid" href="#map">Explore the chain map <span aria-hidden="true">↓</span></a>
-      <a class="cta" href="#galileo">Light the fuse: read it all</a>
+      <a class="cta cta--game" href="#galileo"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.9 4 4.4.5-3.3 3 .9 4.4L8 11.2l-3.9 2.2.9-4.4-3.3-3 4.4-.5z" fill="currentColor"></path></svg>Play: call all 12</a>
       <button class="cta cta--play" type="button" id="present-open-2" aria-haspopup="dialog"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 2.5v11l9-5.5z" fill="currentColor"></path></svg>Present mode</button>
     </div>
     <ul class="hero-meta">
@@ -216,7 +217,7 @@
           <dl class="facts">
             <div><dt>Lived</dt><dd>1791–1867</dd></div>
             <div><dt>Where</dt><dd>Royal Institution, London</dd></div>
-            <div><dt>Age</dt><dd>40</dd></div>
+            <div><dt>Age</dt><dd>39</dd></div>
             <div><dt>School</dt><dd>Left at 13</dd></div>
           </dl>
           <p class="key-eq" aria-label="EMF equals minus the rate of change of magnetic flux">ℰ = −d<var>Φ</var> ⁄ d<var>t</var></p>
@@ -831,6 +832,18 @@
       </section>
     </div>
 
+    <!-- ============ The time machine ============ -->
+    <section class="lives" id="lives" aria-labelledby="lives-title">
+      <div class="lives-head">
+        <div>
+          <p class="label" style="color:var(--glow)">The time machine</p>
+          <h2 id="lives-title">Their lives <span class="outline">overlapped</span></h2>
+        </div>
+        <p class="lives-intro">Each bar is a lifetime and each dot is a discovery. Drag through 450 years, or press Play. Newton was born within a year of Galileo's death, and Einstein was born the year Maxwell died.</p>
+      </div>
+      <div class="tm" id="tm"></div>
+    </section>
+
     <!-- ============ In your pocket ============ -->
     <section class="pocket" id="pocket" aria-labelledby="pocket-title">
       <div class="pocket-head">
@@ -896,6 +909,15 @@
           <li><b>Room-temperature superconductors</b><span>Some materials carry electricity with zero loss, but only when they are extremely cold. One that works at room temperature would change the world.</span></li>
           <li><b>You</b><span>Many people in this story made their discovery young. Marsden was 20. Einstein was 26. Bohr was 27. Chandrasekhar was 19.</span></li>
         </ul>
+      </div>
+      <div class="age" id="age">
+        <div class="age-head">
+          <label class="age-label" for="age-in">How old are you?</label>
+          <input id="age-in" type="number" inputmode="numeric" min="5" max="110" placeholder="15" autocomplete="off">
+          <span class="age-note">Nothing you type is saved or sent anywhere.</span>
+        </div>
+        <p class="age-out" id="age-out" aria-live="polite"></p>
+        <div class="age-plot" id="age-plot"><p class="age-cap label" aria-hidden="true">Age when they did it</p></div>
       </div>
     </section>
 
@@ -1033,6 +1055,15 @@
       <p class="opt-hint" data-hint="motion"></p>
     </fieldset>
 
+    <fieldset class="opt" id="opt-sound">
+      <legend>Sound effects</legend>
+      <div class="seg">
+        <label><input type="radio" name="sound" value="off"><span>Off</span></label>
+        <label><input type="radio" name="sound" value="on"><span>On</span></label>
+      </div>
+      <p class="opt-hint" data-hint="sound"></p>
+    </fieldset>
+
     <fieldset class="opt" id="opt-rate" hidden>
       <legend>Read-aloud speed</legend>
       <div class="seg">
@@ -1053,6 +1084,7 @@
       <dl class="keys-list">
         <div class="k-letter"><dt><kbd>/</kbd></dt><dd>Find anyone</dd></div>
         <div class="k-letter"><dt><kbd>P</kbd></dt><dd>Present mode</dd></div>
+        <div class="k-letter"><dt><kbd>Q</kbd></dt><dd>In Present mode, quiz the class (<kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> lock in their answer)</dd></div>
         <div><dt><kbd>Ctrl</kbd> <kbd>K</kbd></dt><dd>Find anyone</dd></div>
         <div><dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Previous or next exhibit, or slide</dd></div>
         <div><dt><kbd>Esc</kbd></dt><dd>Close whatever is open</dd></div>
@@ -1066,6 +1098,36 @@
   </form>
 </dialog>
 
+<dialog class="deck" id="deck" aria-labelledby="deck-title" aria-describedby="deck-summary">
+  <div class="deck-inner">
+    <div class="deck-head">
+      <div>
+        <p class="label deck-kicker">Twelve discoveries, twelve cards</p>
+        <h2 id="deck-title">Your deck</h2>
+        <p class="deck-summary" id="deck-summary"></p>
+        <div class="deck-meter" id="deck-meter" aria-hidden="true"></div>
+      </div>
+      <div class="deck-tools">
+        <button class="btn deck-reset" type="button" id="deck-reset" hidden>Start over</button>
+        <button class="display-x" type="button" id="deck-close" aria-label="Close your deck"><span aria-hidden="true">×</span></button>
+      </div>
+    </div>
+    <p class="sr-only" role="status" id="deck-status"></p>
+    <section class="deck-cert" id="deck-cert" aria-labelledby="cert-title" hidden>
+      <h3 id="cert-title">The chain is complete</h3>
+      <p>You made the call on all twelve discoveries. Put your name on a certificate to keep.</p>
+      <div class="cert-form">
+        <label class="label" for="cert-name">Your name</label>
+        <input id="cert-name" type="text" maxlength="60" autocomplete="name" placeholder="Your name">
+        <button class="btn btn--solid" type="button" id="cert-make">Make my certificate</button>
+      </div>
+      <div class="cert-out" id="cert-out"></div>
+    </section>
+    <ol class="deck-grid" id="deck-grid"></ol>
+    <p class="deck-hint">Cards are saved in this browser only. Tap a card to turn it over.</p>
+  </div>
+</dialog>
+
 <div class="cinema" id="cinema" role="dialog" aria-modal="true" aria-label="Present mode" tabindex="-1" hidden>
   <div class="cin-top">
     <p class="cin-brand">Chain <span>Reaction</span></p>
@@ -1077,6 +1139,7 @@
     <button class="cin-btn" type="button" id="cin-prev" aria-label="Previous slide"><span aria-hidden="true">←</span></button>
     <ol class="cin-progress" id="cin-progress"></ol>
     <button class="cin-btn" type="button" id="cin-next" aria-label="Next slide"><span aria-hidden="true">→</span></button>
+    <button class="cin-btn cin-btn--text" type="button" id="cin-quiz" aria-pressed="false">Quiz</button>
     <button class="cin-btn cin-btn--text" type="button" id="cin-auto" aria-pressed="false">Autoplay</button>
     <button class="cin-btn cin-btn--text" type="button" id="cin-full">Full screen</button>
   </div>
@@ -1100,6 +1163,12 @@
 <script src="js/cinema.js"></script>
 <script src="js/display.js"></script>
 <script src="js/listen.js"></script>
+<script src="js/emblems.js"></script>
+<script src="js/sound.js"></script>
+<script src="js/play.js"></script>
+<script src="js/lives.js"></script>
+<script src="js/drop.js"></script>
+<script src="js/ask.js"></script>
 <script src="js/flair.js"></script>
 <script src="js/main.js"></script>
 </body>

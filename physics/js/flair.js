@@ -82,6 +82,7 @@
     el.textContent = '';
     el.append(sr, odo);
     el.classList.add('is-rolling');
+    if (PH.sound) PH.sound.play('spin');
     let left = anims.length;
     const done = function () {
       if (--left > 0) return;
@@ -120,7 +121,7 @@
   function initReveal() {
     const heads = Array.from(document.querySelectorAll('.chapter h2'));
     heads.forEach(splitWords);
-    const blocks = Array.from(document.querySelectorAll('.chapter .quote, .chapter .fig, .chapter .setoff, .parts li, .open li, .endmark'));
+    const blocks = Array.from(document.querySelectorAll('.chapter .quote, .chapter .call, .chapter .fig, .chapter .setoff, .parts li, .open li, .endmark'));
     if (!('IntersectionObserver' in window)) return;
     const io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -332,7 +333,8 @@
   function initFit() {
     const items = [
       { el: document.querySelector('.hero h1'), line: document.querySelector('.hero h1 .outline') },
-      { el: document.querySelector('.endmark'), line: null }
+      { el: document.querySelector('.endmark'), line: null },
+      { el: document.querySelector('.lives h2'), line: null }
     ].filter(function (it) { return it.el; });
     let raf = 0;
     function run() {

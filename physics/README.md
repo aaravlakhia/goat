@@ -29,6 +29,18 @@ You never have to scroll past eleven people to reach the twelfth:
 - **Find** (press `/` or Ctrl+K). Search by name, by discovery, or by what a discovery gave us: "GPS" finds Einstein, "Wi-Fi" finds Maxwell, "cancer" finds Curie, "your phone" finds six of them.
 - **Light the fuse.** The original long read is still there for anyone who wants all twelve in order.
 - **Present mode** (press `P`, or the Present button). The story as full-screen slides over the 3D scenes, for showing in class: a title, the twelve discoveries and a last word. Move with the arrow keys, clicks or swipes, or turn on autoplay. Full screen works where the browser allows it.
+- **Class quiz** (press `Q` in Present mode, or the Quiz button). Each discovery is preceded by its "Your call" question. The class votes, then the presenter taps their answer (or presses `1`, `2` or `3`) or just presses → to reveal the right one and why.
+
+## Play along
+
+- **Make the call.** Before each experiment there is a question with three answers: what happens when you drop a hammer and a feather on the Moon, why the Moon doesn't fall, how far LIGO's arms stretched. Pick one, see if you were right, then press "Test it" to run the experiment and watch it happen.
+- **Collect the deck.** Every call wins that discovery's card: a holographic trading card with the physicist, the year, the idea and their age at the time, drawn with its own emblem. Calls you got right win the foil version. Tilt the cards with the pointer and click to turn them over for the question and your answer. The deck is kept on your device.
+- **Earn the certificate.** With all twelve cards, type your name to get a certificate of discovery with all twelve emblems and how many you called right, as a picture to download.
+- **Drop the headline.** In Galileo's chapter the headline itself falls. Big letters and small land at the same moment, as Galileo said they would with no air in the way. Grab and throw them, then put them back with the button or Esc.
+- **The time machine.** Their lives, drawn as bars from 1550 to today, with a dot for each discovery. Drag through the years or press Play to see who was alive at the same time, who had already made their discovery, and what the world got that year. Newton was born within a year of Galileo's death; Einstein was born the year Maxwell died. A table gives the same dates.
+- **How old are you?** Type your age to see who in the story made their discovery younger than you are now, and who is next. Nothing you type is saved or sent.
+- **Ask Claude.** Where the page runs on claude.ai, every chapter ends with a box for questions about its discovery, with suggestions to start from. Claude answers from the chapter's own text, in plain words for a 12 to 16 year old, and says so when something is uncertain. Anywhere else the boxes don't appear.
+- **Sound.** Off unless you turn it on in Display: clicks as the year turns over, a chime for a right call, a shimmer for a new card, a thump when a nucleus splits. Every sound is made on the spot with the Web Audio API.
 
 ## The look
 
@@ -69,7 +81,7 @@ The text always comes first. By default (Calm) the universe is bright on the tit
 
 It is written directly in WebGL2. Each particle carries a few random numbers, and one shader turns them into all sixteen formations. When the scene changes, the graphics card records where every particle is (transform feedback), and they fly from there to the new shape. That keeps the flight smooth even if you change your mind halfway.
 
-Hand-written HTML, CSS, JavaScript and GLSL. No libraries, images or videos; the only external request is for web fonts.
+Hand-written HTML, CSS, JavaScript and GLSL. No libraries, images, sounds or videos: the emblems are drawn in SVG, the certificate on a canvas and the sounds with Web Audio. The only external request is for web fonts (and, on claude.ai, Ask Claude's answers).
 
 ## Made for everyone
 
@@ -84,6 +96,7 @@ The **Display** button in the top bar (or the second skip link, for keyboard use
 | Typeface | Classic or Easy to read ([Atkinson Hyperlegible](https://www.brailleinstitute.org/freefont/), made for low vision) |
 | Spacing | Normal or Wide: more room between lines, words and paragraphs |
 | Motion | On or Off. Off stills the universe, page animations and every experiment |
+| Sound | Off (the default) or On |
 | Read-aloud speed | Slow, normal or fast |
 | Keyboard shortcuts | On or Off. Off keeps single keys like `/` and `P` from doing anything, for speech control and switch users |
 
@@ -91,7 +104,7 @@ Anything left alone follows the device: reduced motion, more contrast, reduced t
 
 **Listen.** Every chapter has a Listen button that reads it aloud with the browser's own voice: the name, the story, the quote, the experiment and what it set off. The paragraph being read is highlighted and kept in view, and a small player pauses, skips paragraphs, changes speed or stops.
 
-Everything works with a keyboard and a screen reader: skip links, labeled controls, focus that stays inside dialogs and returns where it came from, live readouts in every experiment, and a text description for every canvas. The page passes an automated [axe](https://github.com/dequelabs/axe-core) check with no violations at desktop and phone sizes, with the panel open, in Easiest reading, while reading aloud and in Present mode. Printing gives black text on white paper, without the controls.
+Everything works with a keyboard and a screen reader: skip links, labeled controls, focus that stays inside dialogs and returns where it came from, live readouts in every experiment, and a text description for every canvas. The page passes an automated [axe](https://github.com/dequelabs/axe-core) check with no violations at desktop and phone sizes, with the panel open, in Easiest reading, while reading aloud, in Present mode, with calls answered, with the deck and certificate open and with the headline dropped. Every call can be answered from the keyboard, the cards turn with Enter or Space, and the time machine is a slider with a text readout. Printing gives black text on white paper, without the controls, and each "Your call" prints as a quiz question.
 
 ## Run it
 
@@ -107,7 +120,13 @@ js/reactor.js     Neutron chain reaction: the Meitner reactor, and the 2D title 
 js/galileo.js … js/ligo.js   One file per experiment
 js/navigator.js   The chain map, exhibit mode, lineage links and Find
 js/cosmos.js      The 3D universe: WebGL2 particles, formations, camera and pointer
-js/cinema.js      Present mode
+js/cinema.js      Present mode and the class quiz
+js/emblems.js     An SVG emblem for each discovery (cards and certificate)
+js/play.js        Your call, the card deck, the toast and the certificate
+js/lives.js       The time machine and How old are you?
+js/drop.js        Drop the headline
+js/ask.js         Ask Claude (only on claude.ai)
+js/sound.js       Sound effects, made with Web Audio
 js/prefs.js       The reader's display choices, applied before the first paint
 js/display.js     The Display panel
 js/listen.js      Read aloud

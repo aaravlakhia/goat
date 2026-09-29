@@ -17,7 +17,8 @@
     font: ['classic', 'easy'],
     spacing: ['normal', 'wide'],
     rate: ['slow', 'normal', 'fast'],
-    keys: ['on', 'off']
+    keys: ['on', 'off'],
+    sound: ['off', 'on']
   };
 
   const media = function (q) {
@@ -29,7 +30,7 @@
   function fallback(name) {
     if (name === 'motion') return sysMotion.matches ? 'off' : 'on';
     if (name === 'contrast') return sysContrast.matches ? 'high' : 'standard';
-    return { bg: 'calm', size: '1', font: 'classic', spacing: 'normal', rate: 'normal', keys: 'on' }[name];
+    return { bg: 'calm', size: '1', font: 'classic', spacing: 'normal', rate: 'normal', keys: 'on', sound: 'off' }[name];
   }
 
   let saved = {};

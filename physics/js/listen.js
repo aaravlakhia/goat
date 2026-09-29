@@ -43,8 +43,13 @@
     };
     add(ch.querySelector('.who'), ch.dataset.year + '. ' + ch.dataset.name + '.');
     add(ch.querySelector('h2'));
-    ch.querySelectorAll('.main .story p, .main .quote, .main .fig figcaption, .main .setoff h3, .main .setoff li').forEach(function (el) {
-      if (el.matches('.quote')) {
+    ch.querySelectorAll('.main .story p, .main .quote, .main .call, .main .fig figcaption, .main .setoff h3, .main .setoff li').forEach(function (el) {
+      if (el.matches('.call')) {
+        // The prediction, read as a question with its choices.
+        const q = el.querySelector('.call-q');
+        const opts = Array.from(el.querySelectorAll('.call-text')).map(function (o, i) { return 'ABCD'[i] + ': ' + o.textContent + '.'; });
+        add(el, 'Your call. ' + (q ? q.textContent : '') + ' ' + opts.join(' '));
+      } else if (el.matches('.quote')) {
         const q = el.querySelector('p'), who = el.querySelector('footer');
         add(el, (q ? q.textContent : '') + (who ? ' That was ' + who.textContent + '.' : ''));
       } else if (el.matches('li')) {

@@ -1,7 +1,8 @@
 /* Present mode: the story as full-screen slides over the 3D universe, for
    showing on a projector. A title, the twelve discoveries and a last word.
    Arrow keys, clicks, swipes or autoplay move through them; each slide flies
-   the background to that discovery's formation. */
+   the background to that discovery's formation. With Quiz on, each
+   discovery is preceded by its "Your call" question for the class. */
 (function () {
   'use strict';
 
@@ -82,36 +83,49 @@
     const autoBtn = document.getElementById('cin-auto');
     const fullBtn = document.getElementById('cin-full');
     const exitBtn = document.getElementById('cin-exit');
+    const quizBtn = document.getElementById('cin-quiz');
 
-    const slides = [{ kind: 'title', scene: 'hero', label: 'Chain Reaction' }];
-    story.chapters.forEach(function (c) {
-      const h2 = document.querySelector('#' + c.id + ' h2');
-      slides.push({ kind: 'chapter', scene: c.id, c: c, line: h2 ? h2.textContent : c.idea, label: c.year + ', ' + c.name });
-    });
-    slides.push({ kind: 'end', scene: 'galaxy', label: 'The next link' });
-
+    let slides = [], segs = [];
     let index = 0, isOpen = false, auto = false, timer = 0, lastFocus = null, enteredFull = false;
-    let shownYear = null, swiped = false, down = null;
+    let shownYear = null, swiped = false, down = null, quiz = false, revealed = false;
 
-    slides.forEach(function (s, i) {
-      const li = document.createElement('li');
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' + s.label);
-      b.addEventListener('click', function () { go(i); });
-      li.appendChild(b);
-      progress.appendChild(li);
-    });
-    const segs = Array.from(progress.querySelectorAll('button'));
+    function build() {
+      const calls = quiz && PH.play && PH.play.calls;
+      slides = [{ kind: 'title', scene: 'hero', label: 'Chain Reaction' }];
+      story.chapters.forEach(function (c) {
+        const h2 = document.querySelector('#' + c.id + ' h2');
+        if (calls && calls[c.id]) slides.push({ kind: 'quiz', scene: c.id, c: c, call: calls[c.id], label: 'Your call, before ' + c.year });
+        slides.push({ kind: 'chapter', scene: c.id, c: c, line: h2 ? h2.textContent : c.idea, label: c.year + ', ' + c.name });
+      });
+      slides.push({ kind: 'end', scene: 'galaxy', label: 'The next link' });
+      progress.textContent = '';
+      slides.forEach(function (s, i) {
+        const li = document.createElement('li');
+        if (s.kind === 'quiz') li.className = 'is-quiz';
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' + s.label);
+        b.addEventListener('click', function () { go(i); });
+        li.appendChild(b);
+        progress.appendChild(li);
+      });
+      segs = Array.from(progress.querySelectorAll('button'));
+    }
+    build();
 
     function render(s, dir) {
+      const touch = window.matchMedia && matchMedia('(pointer: coarse)').matches;
       let html;
       if (s.kind === 'title') {
         html = '<div class="cin-slide cin-slide--title">' +
           '<p class="cin-kicker">A history of physics in twelve discoveries</p>' +
           '<h2 class="cin-title"><span>Chain</span><span class="outline">Reaction</span></h2>' +
           '<p class="cin-lede">Twelve people. Twelve ideas. Each one set off the next, and together they built the world in your pocket.</p>' +
-          '<p class="cin-hint">Press <kbd>→</kbd> or tap to begin</p></div>';
+          '<p class="cin-hint">Press <kbd>→</kbd> or tap to begin</p>' +
+          (quiz ? '<p class="cin-hint cin-hint--quiz">Quiz is on: each discovery starts with a question. The class votes, then ' +
+              (touch ? 'tap their answer.' : 'pick <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> or press <kbd>→</kbd> to reveal.') + '</p>' :
+            (PH.play ? '<p class="cin-hint cin-hint--quiz">Quiz the class first: ' + (touch ? 'tap Quiz below.' : 'press <kbd>Q</kbd> or the Quiz button.') + '</p>' : '')) +
+          '</div>';
       } else if (s.kind === 'end') {
         html = '<div class="cin-slide cin-slide--end">' +
           '<p class="cin-kicker">1638 → today</p>' +
@@ -119,6 +133,17 @@
           '<p class="cin-lede">Every discovery here began with someone noticing something that didn\'t fit. Dark matter, dark energy and quantum gravity still don\'t. Einstein was 26. Bohr was 27. Marsden was 20.</p>' +
           '<div class="cin-actions"><button class="cin-go" type="button" data-go="map">Explore the chain map →</button>' +
           '<button class="cin-go cin-go--ghost" type="button" data-go="restart">Start again</button></div></div>';
+      } else if (s.kind === 'quiz') {
+        const c = s.c, lane = story.lanes[c.lane], k = s.call;
+        html = '<div class="cin-slide cin-slide--quiz" style="--lane:' + lane.color + '">' +
+          '<p class="cin-kicker"><span class="cin-lane">Your call</span><span>' + c.year + ' · ' + esc(c.name) + '</span></p>' +
+          '<h2 class="cin-q">' + esc(k.q) + '</h2>' +
+          '<ol class="cin-opts">' + k.opts.map(function (o, i) {
+            return '<li><button class="cin-opt" type="button" data-opt="' + i + '"><b class="cin-opt-letter">' + 'ABC'[i] + '</b>' +
+              '<span class="cin-opt-text">' + esc(o) + '</span><span class="cin-opt-mark"></span></button></li>';
+          }).join('') + '</ol>' +
+          '<p class="cin-why" hidden></p>' +
+          '<button class="cin-go cin-reveal" type="button" data-reveal>Reveal the answer</button></div>';
       } else {
         const c = s.c, lane = story.lanes[c.lane], x = EXTRA[c.id] || {};
         html = '<div class="cin-slide" style="--lane:' + lane.color + '">' +
@@ -132,6 +157,7 @@
           '<button class="cin-go" type="button" data-go="' + c.id + '">Open the exhibit →</button></div>';
       }
       stage.innerHTML = html;
+      revealed = false;
       const slide = stage.firstChild;
       slide.dataset.dir = dir < 0 ? 'prev' : 'next';
       if (s.kind === 'chapter') {
@@ -143,6 +169,59 @@
         }
         shownYear = s.c.year;
       }
+    }
+
+    // Show the answer on a question slide. pick is the class's choice, if
+    // the presenter entered one.
+    function reveal(pick) {
+      const s = slides[index];
+      if (!s || s.kind !== 'quiz' || revealed) return;
+      revealed = true;
+      const k = s.call, slide = stage.firstChild;
+      const hasPick = typeof pick === 'number';
+      slide.classList.add('is-revealed');
+      slide.querySelectorAll('.cin-opt').forEach(function (b, i) {
+        b.setAttribute('aria-disabled', 'true');
+        const mark = b.querySelector('.cin-opt-mark');
+        if (i === k.a) {
+          b.classList.add('is-answer');
+          mark.textContent = hasPick && pick === i ? '✓ The class\'s pick, and right' : '✓ The answer';
+        } else if (hasPick && i === pick) {
+          b.classList.add('is-miss');
+          mark.textContent = '✗ The class\'s pick';
+        }
+      });
+      const why = slide.querySelector('.cin-why');
+      const head = !hasPick ? 'The answer is ' + 'ABC'[k.a] + '.' : pick === k.a ? 'Right!' : 'Not quite.';
+      why.innerHTML = '<b>' + head + '</b> ' + esc(k.why);
+      why.hidden = false;
+      const btn = slide.querySelector('.cin-reveal');
+      btn.removeAttribute('data-reveal');
+      btn.setAttribute('data-next', '');
+      btn.textContent = 'Next: the discovery →';
+      if (PH.sound) PH.sound.play(hasPick && pick !== k.a ? 'wrong' : 'right');
+      if (auto) {
+        restartFill();
+        schedule();
+      }
+    }
+
+    // Forward: a question shows its answer before the story moves on.
+    function next() {
+      const s = slides[index];
+      if (s && s.kind === 'quiz' && !revealed) reveal();
+      else go(index + 1);
+    }
+
+    function setQuiz(on) {
+      const cur = slides[index];
+      quiz = !!on;
+      quizBtn.setAttribute('aria-pressed', String(quiz));
+      build();
+      // Stay with the same discovery (its question, when quiz turns on).
+      const i = Math.max(0, slides.findIndex(function (s) { return s.scene === cur.scene; }));
+      index = i;
+      go(i);
     }
 
     function go(i) {
@@ -162,6 +241,7 @@
       nextBtn.disabled = i === slides.length - 1;
       if (PH.cosmos) {
         if (changed) PH.cosmos.warp(dir);
+        if (changed && PH.sound) PH.sound.play('whoosh');
         PH.cosmos.scene(s.scene);
       }
       schedule();
@@ -176,21 +256,25 @@
       }
       const wait = index === 0 ? AUTO_FIRST : AUTO;
       root.style.setProperty('--auto', wait + 'ms');
-      timer = setTimeout(function () { go(index + 1); }, wait);
+      timer = setTimeout(next, wait);
     }
 
     function setAuto(on) {
       auto = !!on;
       autoBtn.setAttribute('aria-pressed', String(auto));
       root.classList.toggle('is-auto', auto);
-      // Restart the current bar's fill from the beginning.
+      restartFill();
+      schedule();
+    }
+
+    // Restart the current bar's fill from the beginning.
+    function restartFill() {
       const curSeg = segs[index];
       if (curSeg) {
         curSeg.removeAttribute('aria-current');
         void curSeg.offsetWidth;
         curSeg.setAttribute('aria-current', 'step');
       }
-      schedule();
     }
 
     function setInert(on) {
@@ -217,6 +301,8 @@
         PH.cosmos.place('cinema');
       }
       shownYear = null;
+      // The questions come from the play-along layer; no layer, no quiz.
+      quizBtn.hidden = !PH.play;
       index = typeof start === 'number' ? start : 0;
       go(index);
       root.focus({ preventScroll: true });
@@ -244,7 +330,7 @@
     // Begin at the exhibit being read, if there is one.
     function startIndex() {
       const cur = PH.nav && PH.nav.current;
-      return cur && story.byId[cur] ? story.byId[cur].index + 1 : 0;
+      return cur && story.byId[cur] ? Math.max(0, slides.findIndex(function (s) { return s.scene === cur; })) : 0;
     }
 
     ['present-open', 'present-open-2'].forEach(function (id) {
@@ -253,8 +339,9 @@
     });
     exitBtn.addEventListener('click', close);
     prevBtn.addEventListener('click', function () { go(index - 1); });
-    nextBtn.addEventListener('click', function () { go(index + 1); });
+    nextBtn.addEventListener('click', next);
     autoBtn.addEventListener('click', function () { setAuto(!auto); });
+    quizBtn.addEventListener('click', function () { setQuiz(!quiz); });
 
     const canFull = !!(document.documentElement.requestFullscreen && document.fullscreenEnabled);
     if (!canFull) fullBtn.hidden = true;
@@ -271,6 +358,19 @@
 
     // Buttons on the slides themselves.
     stage.addEventListener('click', function (e) {
+      const opt = e.target.closest && e.target.closest('[data-opt]');
+      if (opt) {
+        reveal(+opt.dataset.opt);
+        return;
+      }
+      if (e.target.closest && e.target.closest('[data-reveal]')) {
+        reveal();
+        return;
+      }
+      if (e.target.closest && e.target.closest('[data-next]')) {
+        go(index + 1);
+        return;
+      }
       const b = e.target.closest && e.target.closest('[data-go]');
       if (b) {
         const where = b.dataset.go;
@@ -296,7 +396,7 @@
       }
       if (e.target.closest('button, a')) return;
       if (e.clientX < window.innerWidth * 0.3) go(index - 1);
-      else go(index + 1);
+      else next();
     });
 
     // Swipe on touch screens.
@@ -309,7 +409,8 @@
       down = null;
       if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.4) {
         swiped = true;
-        go(index + (dx < 0 ? 1 : -1));
+        if (dx < 0) next();
+        else go(index - 1);
         setTimeout(function () { swiped = false; }, 400);
       }
     });
@@ -331,17 +432,19 @@
       // Letter keys can be turned off (Display settings); the others always work.
       const letters = !PH.prefs || PH.prefs.get('keys') === 'on';
       let used = true;
-      if (e.key === 'ArrowRight' || e.key === 'PageDown' || (e.key === 'n' && letters) || ((e.key === ' ' || e.key === 'Enter') && !onButton)) go(index + 1);
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || (e.key === 'n' && letters) || ((e.key === ' ' || e.key === 'Enter') && !onButton)) next();
       else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') go(index - 1);
       else if (e.key === 'Home') go(0);
       else if (e.key === 'End') go(slides.length - 1);
       else if (e.key === 'Escape') close();
       else if ((e.key === 'a' || e.key === 'A') && letters) setAuto(!auto);
       else if ((e.key === 'f' || e.key === 'F') && letters && canFull) fullBtn.click();
+      else if ((e.key === 'q' || e.key === 'Q') && letters && !quizBtn.hidden) setQuiz(!quiz);
+      else if (/^[123]$/.test(e.key) && letters && slides[index].kind === 'quiz' && !revealed) reveal(+e.key - 1);
       else used = false;
       if (used) e.preventDefault();
     });
 
-    PH.present = { open: open, close: close };
+    PH.present = { open: open, close: close, quiz: setQuiz };
   };
 })();

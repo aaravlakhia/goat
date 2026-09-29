@@ -137,9 +137,13 @@
     start('background', initBackground);
     start('present', PH.initCinema);
     start('display', PH.initDisplay);
+    start('play', PH.initPlay);
     start('listen', PH.initListen);
+    start('lives', PH.initLives);
     start('fuse', initFuse);
     start('flair', PH.initFlair);
+    start('drop', PH.initDrop);
+    start('ask', PH.initAsk);
     start('phone', initPhone);
     start('pocket', initPocketLink);
   }

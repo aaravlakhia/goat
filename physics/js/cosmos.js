@@ -1387,6 +1387,7 @@ void main() {
       const t = performance.now();
       if (paused || failed || off || !ready || t - lastShock < SHOCK_GAP) return;
       lastShock = t;
+      if (PH.sound) PH.sound.play('pop');
       const r = canvas.getBoundingClientRect();
       const x = ((cx - r.left) / r.width) * 2 - 1;
       const y = 1 - ((cy - r.top) / r.height) * 2;

@@ -229,6 +229,7 @@
       window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
       // The 3D background swoops to the new formation.
       if (PH.cosmos && (!was || was.id !== id)) PH.cosmos.warp(was && was.index > c.index ? -1 : 1);
+      if (was && was.id !== id && PH.sound) PH.sound.play('whoosh');
       window.dispatchEvent(new Event('scroll'));
     }
 
