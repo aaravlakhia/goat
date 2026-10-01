@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Orders of Magnitude</title>
+<meta name="description" content="One scroll from the edge of the observable universe to inside a proton, with twelve great discoveries in physics met at their own size.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=DM+Mono:ital,wght@0,400;0,500;1,400&amp;family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&amp;display=swap">
+<link rel="stylesheet" href="css/styles.css">
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<a class="skip" href="#timeline">Skip to the twelve discoveries in order</a>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header class="bar ui">
+  <a class="mark" href="#start" data-go="start">Orders of <i>Magnitude</i></a>
+  <button class="play" id="play" type="button" aria-pressed="false">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path class="i-play" d="M4.5 2.8v10.4L13 8z"></path><path class="i-pause" d="M4 3h3v10H4zM9 3h3v10H9z"></path></svg>
+    <span class="play-label">Play the journey</span>
+    <i class="play-progress" aria-hidden="true"></i>
+  </button>
+</header>
+
+<div class="hud ui" aria-hidden="true">
+  <p class="hud-k">Across your view</p>
+  <p class="hud-n"><span class="hud-ten">10</span><sup id="hud-exp">27</sup><span class="hud-m">m</span></p>
+  <p class="hud-words" id="hud-words">one octillion meters</p>
+  <p class="hud-like" id="hud-like">the observable universe</p>
+</div>
+
+<p class="sr-only" id="announce" aria-live="polite"></p>
+
+<main class="journey" id="journey">
+  <section class="stop stop--hero" id="start" data-z="27.4" data-kind="hero" aria-labelledby="title">
+    <div class="card card--hero ui">
+      <p class="kicker">Twelve discoveries <span aria-hidden="true">·</span> forty-four powers of ten</p>
+      <h1 id="title">From the edge of the universe to the inside of a&nbsp;proton</h1>
+      <p class="lede">Scroll to zoom in. Every step makes the world ten times smaller, and at each size you meet the discovery that explained it.</p>
+      <div class="hero-actions">
+        <a class="btn btn--solid" href="#ripple" data-go="ripple">Start zooming <span aria-hidden="true">↓</span></a>
+        <button class="btn" type="button" data-play>Play the journey</button>
+      </div>
+      <p class="hero-note">On a projector, press Play and it zooms by itself, pausing at each discovery.</p>
+    </div>
+  </section>
+
+  <section class="stop stop--mark" id="ripple" data-z="25.6" data-kind="mark" aria-labelledby="ripple-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>26</sup> m</span><span class="sr-only">10 to the power 26 meters</span></b> 1.3 billion light-years away</p>
+      <h2 id="ripple-t">A ripple is on its way</h2>
+      <p>1.3 billion years ago, in a galaxy far from ours, two black holes spiraled into each other and merged. The crash shook space itself and sent a ripple outward at the speed of light.</p>
+      <p>When it set off, there were no animals or plants on Earth. Keep this ripple in mind. You will meet it again at the very end, at the smallest size of all.</p>
+    </article>
+  </section>
+
+  <section class="stop stop--mark" id="milky-way" data-z="21.2" data-kind="mark" aria-labelledby="milky-way-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>21</sup> m</span><span class="sr-only">10 to the power 21 meters</span></b> our galaxy</p>
+      <h2 id="milky-way-t">The Milky Way</h2>
+      <p>Hundreds of billions of stars in a spiral about 100,000 light-years across. The Sun is the star marked “You are here”, about 26,000 light-years from the center.</p>
+      <p>In 1610 Galileo pointed one of the first telescopes at the pale band across the night sky and saw that it was made of countless stars.</p>
+    </article>
+  </section>
+
+  <section class="stop stop--mark" id="nearest-stars" data-z="17.0" data-kind="mark" aria-labelledby="nearest-stars-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>17</sup> m</span><span class="sr-only">10 to the power 17 meters</span></b> about ten light-years</p>
+      <h2 id="nearest-stars-t">The nearest stars</h2>
+      <p>A light-year is how far light travels in a year: about 9.5 trillion kilometers. The closest star, Proxima Centauri, is 4.2 light-years away, so we see it as it was 4.2 years ago.</p>
+      <p>Nothing can travel faster than light. Einstein explained why in 1905.</p>
+    </article>
+  </section>
+
+  <section class="stop stop--mark" id="solar-system" data-z="13.2" data-kind="mark" aria-labelledby="solar-system-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>13</sup> m</span><span class="sr-only">10 to the power 13 meters</span></b> the Solar System</p>
+      <h2 id="solar-system-t">The Sun’s family</h2>
+      <p>Eight planets, all following Newton’s law of gravity: the inner ones race around while the outer ones crawl. The long ellipse is Halley’s Comet, which comes back about every 76 years.</p>
+      <p>In 1846 astronomers used Newton’s law to work out where an unseen planet must be tugging on Uranus. They pointed a telescope there and found Neptune.</p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="newton" data-z="9.1" data-kind="find" aria-labelledby="newton-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>9</sup> m</span><span class="sr-only">10 to the power 9 meters</span></b> the Moon’s orbit</p>
+      <p class="who"><span class="year">1687</span> Isaac Newton</p>
+      <h2 id="newton-t">The Moon is falling</h2>
+      <p>Why does an apple fall while the Moon stays up? Newton’s answer: the Moon does not stay up. The same gravity pulls on both.</p>
+      <p>Every second the Moon falls about 1.4 mm toward Earth, but it also moves about 1 km sideways, so it never gets any closer. It falls forever and keeps missing. That is what an orbit is.</p>
+      <p class="eq"><span class="eq-f">F = G m₁m₂ / r²</span> <span class="eq-n">gravity weakens with the square of the distance</span></p>
+      <p class="chain">Built on <a href="#galileo" data-go="galileo">Galileo, 1638</a> <span aria-hidden="true">·</span> Led to <a href="#einstein" data-go="einstein">Einstein, 1905</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="einstein" data-z="7.95" data-kind="find" aria-labelledby="einstein-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>8</sup> m</span><span class="sr-only">10 to the power 8 meters</span></b> GPS satellites</p>
+      <p class="who"><span class="year">1905</span> Albert Einstein</p>
+      <h2 id="einstein-t">Time runs at different speeds</h2>
+      <p>Einstein showed that a clock moving fast ticks more slowly, and later that a clock in weaker gravity ticks faster. GPS satellites feel both.</p>
+      <p>Racing along at 14,000 km/h, their clocks lose 7 millionths of a second a day. Twenty thousand kilometers up, where gravity is weaker, they gain 45. Your phone corrects for the difference of 38. Without that, GPS would drift by about 10 km every day.</p>
+      <p class="eq"><span class="eq-f">t′ = t / √(1 − v²/c²)</span> <span class="eq-n">a moving clock runs slow</span></p>
+      <p class="chain">Built on <a href="#maxwell" data-go="maxwell">Maxwell, 1865</a> and <a href="#newton" data-go="newton">Newton, 1687</a> <span aria-hidden="true">·</span> Led to <a href="#meitner" data-go="meitner">Meitner, 1938</a> and <a href="#ligo" data-go="ligo">LIGO, 2015</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="galileo" data-z="2.0" data-kind="find" aria-labelledby="galileo-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>2</sup> m</span><span class="sr-only">10 to the power 2 meters</span></b> the Leaning Tower of Pisa</p>
+      <p class="who"><span class="year">1638</span> Galileo Galilei</p>
+      <h2 id="galileo-t">Heavy things don’t fall faster</h2>
+      <p>For almost 2,000 years people believed Aristotle: a heavy stone falls faster than a light one. Galileo tested it. Apart from the push of the air, everything falls the same way, speeding up at the same rate.</p>
+      <p>Nobody knows if he really dropped balls from this tower. His real experiments timed balls rolling down ramps. In 1971 astronaut David Scott dropped a hammer and a feather on the airless Moon, and they landed together.</p>
+      <p class="eq"><span class="eq-f">d = ½ g t²</span> <span class="eq-n">the distance fallen grows with the square of the time</span></p>
+      <p class="chain">Led to <a href="#newton" data-go="newton">Newton, 1687</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="faraday" data-z="-0.52" data-kind="find" aria-labelledby="faraday-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−1</sup> m</span><span class="sr-only">10 to the power minus 1 meters</span></b> a coil and a magnet</p>
+      <p class="who"><span class="year">1831</span> Michael Faraday</p>
+      <h2 id="faraday-t">Moving magnets make electricity</h2>
+      <p>Push a magnet into a coil of wire and an electric current flows. Hold it still and the current stops. Pull it out and the current flows the other way.</p>
+      <p>Faraday, who left school at 13, discovered this in 1831. Nearly every power station on Earth still makes electricity his way, by spinning magnets past coils of wire.</p>
+      <p class="eq"><span class="eq-f">ε = −dΦ/dt</span> <span class="eq-n">a changing magnetic field drives a current</span></p>
+      <p class="chain">Led to <a href="#maxwell" data-go="maxwell">Maxwell, 1865</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="curie" data-z="-1.55" data-kind="find" aria-labelledby="curie-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−2</sup> m</span><span class="sr-only">10 to the power minus 2 meters</span></b> a speck of radium</p>
+      <p class="who"><span class="year">1898</span> Marie Skłodowska-Curie</p>
+      <h2 id="curie-t">Atoms are not forever</h2>
+      <p>Some atoms break apart by themselves, shooting out particles and energy. Marie Skłodowska-Curie called this radioactivity, and in 1898 she and Pierre Curie discovered two new elements by their rays: polonium and radium.</p>
+      <p>This is a cloud chamber. Each alpha particle from the radium leaves a trail of mist a few centimeters long, then stops. Her notebooks are still radioactive today.</p>
+      <p class="eq"><span class="eq-f">²²⁶Ra → ²²²Rn + α</span> <span class="eq-n">radium breaks down into radon and an alpha particle</span></p>
+      <p class="chain">Led to <a href="#rutherford" data-go="rutherford">Rutherford, 1911</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--mark" id="hair" data-z="-3.8" data-kind="mark" aria-labelledby="hair-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−4</sup> m</span><span class="sr-only">10 to the power minus 4 meters</span></b> a human hair</p>
+      <h2 id="hair-t">A human hair</h2>
+      <p>About 70 micrometers (0.07 mm) across, and covered in overlapping scales. The red discs are blood cells, each about 7 micrometers wide.</p>
+      <p>From here on, everything is too small to see with your eyes alone.</p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="maxwell" data-z="-6.0" data-kind="find" aria-labelledby="maxwell-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−6</sup> m</span><span class="sr-only">10 to the power minus 6 meters</span></b> waves of light</p>
+      <p class="who"><span class="year">1865</span> James Clerk Maxwell</p>
+      <h2 id="maxwell-t">Light is a wave of electricity and magnetism</h2>
+      <p>Maxwell wrote four equations that join electricity and magnetism together. They predicted waves that travel at about 300,000 km every second, the speed already measured for light. So light had to be one of these waves.</p>
+      <p>Each color is a different wavelength, drawn here to scale: about 700 nanometers for red, down to about 420 for violet. Longer waves are infrared, microwaves and radio. Shorter ones are ultraviolet and X-rays.</p>
+      <p class="eq"><span class="eq-f">c = 1 / √(μ₀ε₀)</span> <span class="eq-n">the speed of light, from electricity and magnetism</span></p>
+      <p class="chain">Built on <a href="#faraday" data-go="faraday">Faraday, 1831</a> <span aria-hidden="true">·</span> Led to <a href="#einstein" data-go="einstein">Einstein, 1905</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="raman" data-z="-8.3" data-kind="find" aria-labelledby="raman-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−8</sup> m</span><span class="sr-only">10 to the power minus 8 meters</span></b> molecules of benzene</p>
+      <p class="who"><span class="year">1928</span> C. V. Raman</p>
+      <h2 id="raman-t">Light comes back a new color</h2>
+      <p>When light bounces off molecules, about one photon in ten million comes back a slightly different color. It has given a little energy to the molecule’s vibrations, or taken some. Each kind of molecule shifts the color by its own amounts, like a fingerprint.</p>
+      <p>Raman found this in Calcutta in 1928 using sunlight, a telescope lens and colored filters, and won India’s first Nobel Prize in science. Raman scanners now spot fake medicines without opening the packet.</p>
+      <p class="eq"><span class="eq-f">E<sub>out</sub> = E<sub>in</sub> − E<sub>vibration</sub></span> <span class="eq-n">the energy lost is the molecule’s fingerprint</span></p>
+      <p class="chain">Built on <a href="#einstein" data-go="einstein">Einstein, 1905</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="bohr" data-z="-8.95" data-kind="find" aria-labelledby="bohr-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−9</sup> m</span><span class="sr-only">10 to the power minus 9 meters</span></b> a hydrogen atom</p>
+      <p class="who"><span class="year">1913</span> Niels Bohr</p>
+      <h2 id="bohr-t">Electrons live on fixed levels</h2>
+      <p>Heat any element and it glows with its own set of exact colors, like a barcode. Bohr explained why. The electron in an atom can only be on certain levels, and when it drops to a lower one it gives out light of one exact color.</p>
+      <p>Hydrogen’s red glow comes from the drop from level 3 to level 2. Barcodes like this tell us what the stars are made of.</p>
+      <p class="eq"><span class="eq-f">E<sub>n</sub> = −13.6 eV / n²</span> <span class="eq-n">the energy of level n in hydrogen</span></p>
+      <p class="chain">Built on <a href="#rutherford" data-go="rutherford">Rutherford, 1911</a> <span aria-hidden="true">·</span> Led to <a href="#debroglie" data-go="debroglie">de Broglie, 1924</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="debroglie" data-z="-9.3" data-kind="find" aria-labelledby="debroglie-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−9</sup> m</span><span class="sr-only">10 to the power minus 9 meters</span></b> the same atom, as waves</p>
+      <p class="who"><span class="year">1924</span> Louis de Broglie</p>
+      <h2 id="debroglie-t">Matter is a wave</h2>
+      <p>Why only those levels? De Broglie suggested that every particle is also a wave. An electron’s wave has to fit around its orbit a whole number of times, or it cancels itself out. One wave fits level 1, two fit level 2, three fit level 3.</p>
+      <p>In 1927, electrons fired at crystals made the stripes that only waves can make. Electron microscopes use these waves today.</p>
+      <p class="eq"><span class="eq-f">λ = h / p</span> <span class="eq-n">a particle’s wavelength, from its momentum</span></p>
+      <p class="chain">Built on <a href="#bohr" data-go="bohr">Bohr, 1913</a> and <a href="#einstein" data-go="einstein">Einstein, 1905</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="rutherford" data-z="-12.55" data-kind="find" aria-labelledby="rutherford-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−13</sup> m</span><span class="sr-only">10 to the power minus 13 meters</span></b> inside a gold atom</p>
+      <p class="who"><span class="year">1911</span> Ernest Rutherford</p>
+      <h2 id="rutherford-t">The atom is almost empty</h2>
+      <p>Since the last stop you have zoomed more than 1,000 times smaller, through nothing but empty space. Rutherford’s students Hans Geiger and Ernest Marsden, who was 20, fired alpha particles at gold foil. Nearly all went straight through, but about 1 in 8,000 bounced back.</p>
+      <p>Rutherford said: “It was almost as incredible as if you fired a 15-inch shell at a piece of tissue paper and it came back and hit you.” Nearly all of an atom’s mass is in a nucleus about 100,000 times smaller than the atom.</p>
+      <p class="eq"><span class="eq-f">atom ≈ 100,000 × nucleus</span> <span class="eq-n">almost all of an atom is empty space</span></p>
+      <p class="chain">Built on <a href="#curie" data-go="curie">Curie, 1898</a> <span aria-hidden="true">·</span> Led to <a href="#bohr" data-go="bohr">Bohr, 1913</a> and <a href="#meitner" data-go="meitner">Meitner, 1938</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="meitner" data-z="-13.6" data-kind="find" aria-labelledby="meitner-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−14</sup> m</span><span class="sr-only">10 to the power minus 14 meters</span></b> a uranium nucleus</p>
+      <p class="who"><span class="year">1938</span> Lise Meitner</p>
+      <h2 id="meitner-t">The nucleus can split</h2>
+      <p>In 1938 Otto Hahn found barium in uranium that had been hit by neutrons, and could not explain it. Lise Meitner, who had fled Nazi Germany, worked it out on a walk in the snow with her nephew Otto Frisch: the nucleus had split in two.</p>
+      <p>The pieces weigh a little less than the whole, and the missing mass becomes energy. Each split also frees neutrons that can split more nuclei: a chain reaction. The Nobel Prize went to Hahn alone.</p>
+      <p class="eq"><span class="eq-f">E = mc²</span> <span class="eq-n">a little mass becomes a lot of energy</span></p>
+      <p class="chain">Built on <a href="#einstein" data-go="einstein">Einstein, 1905</a> and <a href="#rutherford" data-go="rutherford">Rutherford, 1911</a></p>
+    </article>
+  </section>
+
+  <section class="stop stop--mark" id="proton" data-z="-14.6" data-kind="mark" aria-labelledby="proton-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−15</sup> m</span><span class="sr-only">10 to the power minus 15 meters</span></b> a proton</p>
+      <h2 id="proton-t">Inside a proton</h2>
+      <p>Every nucleus is made of protons and neutrons, and each of those is made of three quarks held together by gluons. A proton is about 1.7 × 10<sup>−15</sup> m across.</p>
+      <p>Surely nothing smaller could ever be measured. Keep zooming.</p>
+    </article>
+  </section>
+
+  <section class="stop stop--find" id="ligo" data-z="-16.9" data-kind="find" aria-labelledby="ligo-t">
+    <article class="card ui">
+      <p class="scale"><span class="scale-bar" aria-hidden="true"></span><b><span aria-hidden="true">10<sup>−17</sup> m</span><span class="sr-only">10 to the power minus 17 meters</span></b> LIGO’s measurement</p>
+      <p class="who"><span class="year">2015</span> Weiss, Thorne & Barish (LIGO)</p>
+      <h2 id="ligo-t">Space itself can ripple</h2>
+      <p>Remember the ripple from the start? On 14 September 2015 it reached Earth. It stretched one 4 km arm of each LIGO detector and squeezed the other, changing their lengths by about 4 × 10<sup>−18</sup> m: around 1/400 of the width of a proton. LIGO’s lasers caught it.</p>
+      <p>It was the first gravitational wave ever detected, 99 years after Einstein predicted them. The trace on screen has the shape of the signal: the black holes’ last orbits, faster and faster, then the crash.</p>
+      <p class="eq"><span class="eq-f">h = ΔL / L ≈ 10<sup>−21</sup></span> <span class="eq-n">how much space was stretched</span></p>
+      <p class="chain">Built on <a href="#einstein" data-go="einstein">Einstein, 1905</a></p>
+      <p class="card-actions"><button class="btn btn--solid" type="button" data-fly-out>Fly back out to the start <span aria-hidden="true">↑</span></button> <a class="btn" href="#timeline">See all twelve in order</a></p>
+    </article>
+  </section>
+</main>
+
+<nav class="ruler ui" aria-label="Jump to a size">
+  <div class="ruler-track" aria-hidden="true"><i class="ruler-mark" id="ruler-mark"></i></div>
+  <ol class="ruler-stops" id="ruler-stops"></ol>
+</nav>
+
+<div class="after">
+  <section class="timeline" id="timeline" aria-labelledby="timeline-t">
+    <p class="kicker">The same twelve, by date</p>
+    <h2 id="timeline-t">Physics went small, then <i>very</i> big</h2>
+    <p class="after-lede">Each dot is the size where a discovery happened. Read down the years: from 1898 to 1938 physics dived into the atom, and in 2015 it measured both the largest and the smallest thing on this page at once.</p>
+    <div class="tl-wrap">
+      <table class="tl">
+        <caption class="sr-only">The twelve discoveries in order of year, with the size at which each one appears on the journey</caption>
+        <thead>
+          <tr>
+            <th scope="col">Year</th>
+            <th scope="col">Who, and what they found</th>
+            <th scope="col">Size</th>
+            <th scope="col" class="tl-axis"><span class="sr-only">Position on the size scale</span><span class="tl-ticks" aria-hidden="true"><span style="--at:4.44%">10<sup>25</sup></span><span style="--at:15.56%">10<sup>20</sup></span><span style="--at:26.67%">10<sup>15</sup></span><span style="--at:37.78%">10<sup>10</sup></span><span style="--at:48.89%">10<sup>5</sup></span><span style="--at:60.00%">10<sup>0</sup></span><span style="--at:71.11%">10<sup>−5</sup></span><span style="--at:82.22%">10<sup>−10</sup></span><span style="--at:93.33%">10<sup>−15</sup></span></span></th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td class="tl-year">1638</td>
+          <th scope="row"><a href="#galileo" data-go="galileo">Galileo Galilei</a><span class="tl-idea">Everything falls the same way</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>2</sup> m</span><span class="sr-only">10 to the power 2 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:55.56%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1687</td>
+          <th scope="row"><a href="#newton" data-go="newton">Isaac Newton</a><span class="tl-idea">Gravity holds the Moon and the planets</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>9</sup> m</span><span class="sr-only">10 to the power 9 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:39.78%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1831</td>
+          <th scope="row"><a href="#faraday" data-go="faraday">Michael Faraday</a><span class="tl-idea">Moving magnets make electricity</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−1</sup> m</span><span class="sr-only">10 to the power minus 1 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:61.16%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1865</td>
+          <th scope="row"><a href="#maxwell" data-go="maxwell">James Clerk Maxwell</a><span class="tl-idea">Light is an electromagnetic wave</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−6</sup> m</span><span class="sr-only">10 to the power minus 6 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:73.33%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1898</td>
+          <th scope="row"><a href="#curie" data-go="curie">Marie Skłodowska-Curie</a><span class="tl-idea">Some atoms break apart by themselves</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−2</sup> m</span><span class="sr-only">10 to the power minus 2 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:63.44%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1905</td>
+          <th scope="row"><a href="#einstein" data-go="einstein">Albert Einstein</a><span class="tl-idea">Time and space depend on how you move</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>8</sup> m</span><span class="sr-only">10 to the power 8 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:42.33%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1911</td>
+          <th scope="row"><a href="#rutherford" data-go="rutherford">Ernest Rutherford</a><span class="tl-idea">The atom has a tiny, heavy nucleus</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−13</sup> m</span><span class="sr-only">10 to the power minus 13 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:87.89%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1913</td>
+          <th scope="row"><a href="#bohr" data-go="bohr">Niels Bohr</a><span class="tl-idea">Electrons sit on fixed energy levels</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−9</sup> m</span><span class="sr-only">10 to the power minus 9 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:79.89%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1924</td>
+          <th scope="row"><a href="#debroglie" data-go="debroglie">Louis de Broglie</a><span class="tl-idea">Every particle is also a wave</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−9</sup> m</span><span class="sr-only">10 to the power minus 9 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:80.67%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1928</td>
+          <th scope="row"><a href="#raman" data-go="raman">C. V. Raman</a><span class="tl-idea">Scattered light carries a molecular fingerprint</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−8</sup> m</span><span class="sr-only">10 to the power minus 8 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:78.44%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">1938</td>
+          <th scope="row"><a href="#meitner" data-go="meitner">Lise Meitner</a><span class="tl-idea">A heavy nucleus can split in two</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−14</sup> m</span><span class="sr-only">10 to the power minus 14 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:90.22%"></i></td>
+        </tr>
+        <tr>
+          <td class="tl-year">2015</td>
+          <th scope="row"><a href="#ligo" data-go="ligo">Weiss, Thorne & Barish (LIGO)</a><span class="tl-idea">Space itself can ripple</span></th>
+          <td class="tl-size"><span aria-hidden="true">10<sup>−17</sup> m</span><span class="sr-only">10 to the power minus 17 meters</span></td>
+          <td class="tl-track" aria-hidden="true"><i style="--at:97.56%"></i></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="class" aria-labelledby="class-t">
+    <div class="class-text">
+      <p class="kicker">For the classroom</p>
+      <h2 id="class-t">Using it in a lesson</h2>
+      <p>Put it on a projector and press <b>Play the journey</b>. It zooms by itself and stops at each discovery; press <kbd>Space</kbd> or <kbd>↓</kbd> to move on early, and <kbd>↑</kbd> to go back. On a phone, just scroll.</p>
+    </div>
+    <ol class="questions">
+      <li>The Moon and LIGO’s mirrors are both moved by gravity. Why was one easy to measure in 1687 and the other only possible in 2015?</li>
+      <li>Galileo, Newton and Einstein all appear near the size of the Earth. Why do you think the earliest discoveries were made at human size and bigger?</li>
+      <li>Rutherford found the atom is almost empty. So why can’t your hand pass through a table?</li>
+    </ol>
+  </section>
+
+  <section class="sources" aria-labelledby="sources-t">
+    <h2 id="sources-t">Sources and notes</h2>
+    <div class="notes">
+      <p>Every size on the journey is to scale, measured across the shorter side of your screen. Three things are drawn bigger than life so you can see them: the falling balls at Pisa, the light waves among the benzene molecules, and the speed of everything that moves. The Earth’s coastlines come from Natural Earth map data.</p>
+      <p>Inspired by <i>Powers of Ten</i>, the 1977 film by Charles and Ray Eames.</p>
+    </div>
+    <ol class="refs">
+      <li>Galilei, G. (1638). <i>Discorsi e dimostrazioni matematiche intorno a due nuove scienze</i>. Leiden: Elzevir.</li>
+      <li>Newton, I. (1687). <i>Philosophiæ Naturalis Principia Mathematica</i>. London.</li>
+      <li>Faraday, M. (1832). Experimental researches in electricity. <i>Philosophical Transactions of the Royal Society</i>, 122, 125–162.</li>
+      <li>Maxwell, J. C. (1865). A dynamical theory of the electromagnetic field. <i>Philosophical Transactions of the Royal Society</i>, 155, 459–512.</li>
+      <li>Curie, P., &amp; Curie, M. (1898). Sur une substance nouvelle radio-active, contenue dans la pechblende. <i>Comptes rendus</i>, 127, 175–178.</li>
+      <li>Einstein, A. (1905). Zur Elektrodynamik bewegter Körper. <i>Annalen der Physik</i>, 17, 891–921.</li>
+      <li>Geiger, H., &amp; Marsden, E. (1909). On a diffuse reflection of the α-particles. <i>Proceedings of the Royal Society A</i>, 82, 495–500.</li>
+      <li>Rutherford, E. (1911). The scattering of α and β particles by matter and the structure of the atom. <i>Philosophical Magazine</i>, 21, 669–688.</li>
+      <li>Bohr, N. (1913). On the constitution of atoms and molecules. <i>Philosophical Magazine</i>, 26, 1–25.</li>
+      <li>de Broglie, L. (1924). <i>Recherches sur la théorie des quanta</i>. PhD thesis, University of Paris.</li>
+      <li>Davisson, C., &amp; Germer, L. H. (1927). Diffraction of electrons by a crystal of nickel. <i>Physical Review</i>, 30, 705–740.</li>
+      <li>Raman, C. V., &amp; Krishnan, K. S. (1928). A new type of secondary radiation. <i>Nature</i>, 121, 501–502.</li>
+      <li>Meitner, L., &amp; Frisch, O. R. (1939). Disintegration of uranium by neutrons: a new type of nuclear reaction. <i>Nature</i>, 143, 239–240.</li>
+      <li>Ashby, N. (2003). Relativity in the Global Positioning System. <i>Living Reviews in Relativity</i>, 6, 1.</li>
+      <li>Abbott, B. P., et al. (2016). Observation of gravitational waves from a binary black hole merger. <i>Physical Review Letters</i>, 116, 061102.</li>
+      <li>NASA. The Apollo 15 hammer-feather drop (1971). NASA Space Science Data Coordinated Archive.</li>
+      <li>Natural Earth: free vector map data, 1:50m land (public domain), for the shape of the Earth.</li>
+    </ol>
+  </section>
+
+  <footer class="foot">
+    <p><b>Orders of Magnitude</b> <span aria-hidden="true">·</span> Designed and coded by @aaravlakhia <span aria-hidden="true">·</span> 2026</p>
+    <button class="btn" type="button" data-fly-out>Fly back out to the start <span aria-hidden="true">↑</span></button>
+  </footer>
+</div>
+
+<script src="js/land.js"></script>
+<script src="js/util.js"></script>
+<script src="js/space.js"></script>
+<script src="js/earth.js"></script>
+<script src="js/ground.js"></script>
+<script src="js/small.js"></script>
+<script src="js/journey.js"></script>
+</body>
+</html>
