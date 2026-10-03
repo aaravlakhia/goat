@@ -51,6 +51,35 @@
     });
   }
 
+  // Each chapter opens on a full screen of its own: the number and branch,
+  // a giant year, the name and the idea in one line, with the chapter's 3D
+  // formation flying in behind (see the director in cosmos.js). It repeats
+  // what the chapter says below, so screen readers skip it.
+  function buildOpeners(chapters) {
+    const lanes = PH.story ? PH.story.lanes : null;
+    const byId = PH.story ? PH.story.byId : {};
+    chapters.forEach(function (ch, i) {
+      if (ch.querySelector('.opener')) return;
+      const c = byId[ch.id] || {};
+      const op = document.createElement('header');
+      op.className = 'opener';
+      op.setAttribute('aria-hidden', 'true');
+      op.innerHTML =
+        '<p class="op-kicker"><span class="op-num"></span><span class="op-of">/' + pad2(chapters.length) + '</span><span class="op-lane"></span></p>' +
+        '<p class="op-year"></p>' +
+        '<p class="op-name"></p>' +
+        '<p class="op-idea"></p>' +
+        '<p class="op-cue"><i></i>Scroll into the story</p>';
+      op.querySelector('.op-num').textContent = pad2(i + 1);
+      op.querySelector('.op-lane').textContent = c.lane != null && lanes ? lanes[c.lane].name : '';
+      op.querySelector('.op-year').textContent = ch.dataset.year || c.year || '';
+      op.querySelector('.op-name').textContent = ch.dataset.name || c.name || '';
+      op.querySelector('.op-idea').textContent = c.idea || '';
+      ch.insertAdjacentElement('afterbegin', op);
+    });
+    root.classList.add('has-openers');
+  }
+
   // The year spins like an odometer: digits that differ from the previous
   // chapter's year count up through a full turn or two and land back on
   // this year, so nothing jumps before the spin starts.
@@ -121,7 +150,7 @@
   function initReveal() {
     const heads = Array.from(document.querySelectorAll('.chapter h2'));
     heads.forEach(splitWords);
-    const blocks = Array.from(document.querySelectorAll('.chapter .quote, .chapter .call, .chapter .fig, .chapter .setoff, .parts li, .open li, .endmark'));
+    const blocks = Array.from(document.querySelectorAll('.chapter .opener, .chapter .quote, .chapter .call, .chapter .fig, .chapter .setoff, .parts li, .open li, .endmark'));
     if (!('IntersectionObserver' in window)) return;
     const io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
@@ -416,6 +445,7 @@
     const parts = [
       ['fit', initFit],
       ['labels', function () { labelChapters(chapters); }],
+      ['openers', function () { buildOpeners(chapters); }],
       ['reveal', initReveal],
       ['thread', function () { initThread(chapters); }],
       ['title', initTitle],

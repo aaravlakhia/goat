@@ -48,7 +48,7 @@ The notes are ordinary text in the page, so a screen reader reads the whole jour
 
 Open `index.html` in any modern browser. With GitHub Pages enabled for this repository it is served at `https://<username>.github.io/<repository>/orders/`.
 
-The earlier version of this project, *Chain Reaction*, is still in `physics/`.
+This is an alternative design. The main site, *Chain Reaction*, is in `physics/`.
 
 ## Files
 

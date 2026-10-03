@@ -44,6 +44,9 @@ You never have to scroll past eleven people to reach the twelfth:
 
 ## The look
 
+- **Cinematic 3D.** The universe is filmed, not just drawn. The brightest light blooms into a soft glow, the picture is tone-mapped like film with a faint vignette and lens fringe, particles nearer or farther than the focus spread into soft discs (depth of field), and a deep sky of stars and glowing gas drifts behind every formation as the camera turns. While particles fly from one formation to the next they leave trails of light.
+- **The opening.** Every particle starts in one white-hot point. It bursts, and the camera starts inside the explosion and pulls back through it as the uranium core forms behind the title.
+- **A full screen for each discovery.** Every chapter opens on its own screen: the number and branch, a giant glowing year, the name and the idea in one line, with that discovery's 3D formation flying in at full brightness beside it. As you scroll, the camera pushes in; then the story begins below and the formation dims to a glow so the text stays easy to read.
 - **A color for each branch of physics.** Every chapter wears its lane's color from the chain map (blue for motion and gravity, orange for space and time, green for electricity and light, amber for atoms and nuclei, pink for quantum). The fuse down the side keeps the color of each chapter you have passed, and a slim twelve-part bar under the top bar fills in as you read. Every accent keeps at least 7:1 contrast on the page.
 - **The year turns over.** When the fuse reaches a chapter, the digits that differ from the last discovery's year spin like an odometer and land on the new one: 1905 to 1911 turns only the last two digits, 1938 to 2015 turns all four.
 - **Headlines rise into place** word by word, and each experiment, quote and timeline slides up the first time it comes into view.
@@ -75,7 +78,7 @@ Each part of the page has its own formation, worked out on the graphics card:
 | Your phone | GPS satellites in six orbital planes, signals converging on one phone |
 | The next link | A spiral galaxy |
 
-Particles move aside for the pointer and a click sends out a ripple (at most about three a second, so fast clicking can't make the screen strobe). Changing exhibit swoops the camera around. On a slow device the universe draws fewer particles. Without WebGL2 the page keeps its plain background and a flat 2D chain reaction on the title.
+Particles move aside for the pointer and a click sends out a ripple (at most about three a second, so fast clicking can't make the screen strobe). Changing exhibit swoops the camera around. On a slow device the universe draws fewer particles, and on a very slow one it drops the glow. Without WebGL2 the page keeps its plain background and a flat 2D chain reaction on the title.
 
 The text always comes first. By default (Calm) the universe is bright on the title, the map and in Present mode, flares up for a moment as each new chapter begins, and then fades to a faint glow while you read. Every block of text also sits on a soft pool of shadow, so a particle never crosses a letter at full brightness: even in the worst case, gray text keeps at least 5.6:1 contrast.
 
@@ -119,7 +122,8 @@ js/core.js        Shared helpers: canvas sizing, animation loop, charts
 js/reactor.js     Neutron chain reaction: the Meitner reactor, and the 2D title without WebGL2
 js/galileo.js … js/ligo.js   One file per experiment
 js/navigator.js   The chain map, exhibit mode, lineage links and Find
-js/cosmos.js      The 3D universe: WebGL2 particles, formations, camera and pointer
+js/cosmos.js      The 3D universe: WebGL2 particles, formations, camera, pointer, and the
+                  cinematic pass (bloom, tone mapping, light trails, depth of field, sky)
 js/cinema.js      Present mode and the class quiz
 js/emblems.js     An SVG emblem for each discovery (cards and certificate)
 js/play.js        Your call, the card deck, the toast and the certificate

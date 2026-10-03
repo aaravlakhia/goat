@@ -45,6 +45,7 @@
     hero: [[0.42, 0.0, 1.08, 1.0, 1.0], [0.0, 0.36, 0.8, 0.85, 1.0]],
     map: [[0.0, 0.0, 1.0, 0.6, 0.85], [0.0, 0.0, 0.95, 0.45, 0.7]],
     page: [[-0.52, -0.06, 0.68, 0.46, 0.85], [0.0, 0.05, 0.9, 0.3, 0.6]],
+    opener: [[0.42, 0.02, 0.95, 1.05, 1.15], [0.0, 0.34, 0.8, 1.0, 1.1]],
     cinema: [[0.4, 0.0, 1.12, 1.0, 1.0], [0.0, 0.42, 0.85, 1.0, 1.0]]
   };
 
@@ -91,10 +92,13 @@ uniform vec3 uStarCol[12];
 uniform vec2 uEdges[14];
 uniform float uFocus;
 uniform float uFocusAmt;
+uniform float uDof;
+uniform float uMaxPt;
 
 out vec3 vPos;
 out vec4 vCol;
 out vec3 vRGB;
+out float vSoft;
 
 const float PI = 3.14159265;
 const float TAU = 6.28318531;
@@ -867,6 +871,7 @@ void main() {
     gl_Position = vec4(0.0, 0.0, 2.0, 1.0);
     gl_PointSize = 0.0;
     vRGB = vec3(0.0);
+    vSoft = 0.0;
     return;
   }
 
@@ -891,11 +896,16 @@ void main() {
   }
   gl_Position = vec4(ndc * clip.w, clip.z, clip.w);
 
-  float px = uPx * col.a * (uDist / clip.w) * (1.0 + glow * 0.6);
-  float ps = clamp(px, 1.0, 40.0);
+  // Depth of field: particles nearer or farther than the formation's
+  // center spread into soft discs of light, like a camera's bokeh.
+  float coc = clamp(abs(clip.w - uDist) * uDof, 0.0, 1.0);
+  float grow = 1.0 + coc * 5.0;
+  float px = uPx * col.a * min(uDist / clip.w, 3.5) * (1.0 + glow * 0.6) * grow;
+  float ps = clamp(px, 1.0, uMaxPt);
   gl_PointSize = ps;
-  float energy = min(1.0, (px * px) / (ps * ps));
+  float energy = min(1.0, (px * px) / (ps * ps)) * (1.0 + coc * 2.2) / (grow * grow);
   float depth = clamp(1.0 + (uDist - clip.w) * 0.2, 0.35, 1.4);
+  vSoft = coc;
   vRGB = (col.rgb + vec3(0.55, 0.8, 1.0) * glow * 0.5) * uGain * depth * energy * 1.35;
 }
 `;
@@ -903,19 +913,161 @@ void main() {
   const FS = `#version 300 es
 precision mediump float;
 in vec3 vRGB;
+in float vSoft;
 out vec4 outColor;
 void main() {
   vec2 q = gl_PointCoord * 2.0 - 1.0;
   float d2 = dot(q, q);
   if (d2 > 1.0) discard;
-  float a = exp(-d2 * 2.5) - 0.06 * d2;
+  // A soft glowing point in focus; a flatter disc with a bright rim out of it.
+  float sharp = exp(-d2 * 2.5) - 0.06 * d2;
+  float disc = (1.0 - smoothstep(0.62, 1.0, d2)) * (0.75 + 0.25 * d2);
+  float a = mix(sharp, disc, smoothstep(0.08, 0.5, vSoft));
   outColor = vec4(vRGB * max(a, 0.0), 1.0);
 }
 `;
 
+  /* ---------- The cinematic pass: glow, light trails and a deep sky ----------
+     The particles are drawn into an off-screen picture with room for light
+     brighter than white. The brightest light then spreads into a soft glow
+     (bloom), the picture is tone-mapped like film, and a faint vignette and
+     fringe finish it. While particles fly, the last frames linger as trails. */
+
+  const QUAD_VS = `#version 300 es
+out vec2 vUv;
+void main() {
+  vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));
+  vUv = p;
+  gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
+}
+`;
+
+  const DOWN_FS = `#version 300 es
+precision highp float;
+in vec2 vUv;
+out vec4 o;
+uniform sampler2D uTex;
+uniform vec2 uTexel;
+uniform float uThresh;
+uniform float uPre;
+void main() {
+  vec2 h = uTexel;
+  vec3 c = texture(uTex, vUv).rgb * 4.0;
+  c += texture(uTex, vUv + vec2(-h.x, -h.y)).rgb;
+  c += texture(uTex, vUv + vec2(h.x, h.y)).rgb;
+  c += texture(uTex, vUv + vec2(h.x, -h.y)).rgb;
+  c += texture(uTex, vUv + vec2(-h.x, h.y)).rgb;
+  c /= 8.0;
+  if (uPre > 0.5) {
+    // Only light above the threshold glows, with a soft knee.
+    float br = max(c.r, max(c.g, c.b));
+    float knee = uThresh * 0.6;
+    float soft = clamp(br - uThresh + knee, 0.0, 2.0 * knee);
+    soft = soft * soft / (4.0 * knee + 1e-4);
+    c *= max(soft, br - uThresh) / max(br, 1e-4);
+  }
+  o = vec4(c, 1.0);
+}
+`;
+
+  const UP_FS = `#version 300 es
+precision highp float;
+in vec2 vUv;
+out vec4 o;
+uniform sampler2D uTex;
+uniform vec2 uTexel;
+void main() {
+  vec2 h = uTexel;
+  vec3 c = texture(uTex, vUv + vec2(-2.0 * h.x, 0.0)).rgb;
+  c += texture(uTex, vUv + vec2(-h.x, h.y)).rgb * 2.0;
+  c += texture(uTex, vUv + vec2(0.0, 2.0 * h.y)).rgb;
+  c += texture(uTex, vUv + vec2(h.x, h.y)).rgb * 2.0;
+  c += texture(uTex, vUv + vec2(2.0 * h.x, 0.0)).rgb;
+  c += texture(uTex, vUv + vec2(h.x, -h.y)).rgb * 2.0;
+  c += texture(uTex, vUv + vec2(0.0, -2.0 * h.y)).rgb;
+  c += texture(uTex, vUv + vec2(-h.x, -h.y)).rgb * 2.0;
+  o = vec4(c / 12.0, 1.0);
+}
+`;
+
+  const COMP_FS = `#version 300 es
+precision highp float;
+in vec2 vUv;
+out vec4 o;
+uniform sampler2D uSceneTex;
+uniform sampler2D uBloom;
+uniform float uBloomAmt;
+uniform float uExposure;
+uniform float uClock;
+uniform vec3 uBg;
+uniform float uVig;
+vec3 aces(vec3 x) { return clamp((x * (2.51 * x + 0.03)) / (x * (2.43 * x + 0.59) + 0.14), 0.0, 1.0); }
+void main() {
+  vec2 d = vUv - 0.5;
+  float r2 = dot(d, d);
+  vec2 ca = d * r2 * 0.022;
+  vec3 s = vec3(texture(uSceneTex, vUv + ca).r, texture(uSceneTex, vUv).g, texture(uSceneTex, vUv - ca).b);
+  vec3 c = (s + texture(uBloom, vUv).rgb * uBloomAmt) * uExposure;
+  c = aces(c);
+  c *= 1.0 - uVig * smoothstep(0.1, 0.6, r2);
+  c = uBg + c * (1.0 - uBg);
+  float n = fract(sin(dot(gl_FragCoord.xy, vec2(12.9898, 78.233)) + uClock * 7.13) * 43758.5453);
+  o = vec4(c + (n - 0.5) / 255.0, 1.0);
+}
+`;
+
+  const FADE_FS = `#version 300 es
+precision mediump float;
+out vec4 o;
+void main() { o = vec4(0.0); }
+`;
+
+  // The sky behind every formation: distant stars and faint clouds of gas,
+  // far enough away to drift slowly as the camera turns.
+  const SKY_VS = `#version 300 es
+precision highp float;
+layout(location = 0) in vec4 aP;
+layout(location = 1) in vec4 aC;
+uniform mat4 uView;
+uniform mat4 uProj;
+uniform float uPx;
+uniform float uTime;
+uniform float uGain;
+uniform float uMaxPt;
+out vec3 vRGB;
+out float vNeb;
+void main() {
+  vec4 clip = uProj * (uView * vec4(aP.xyz, 1.0));
+  vNeb = aC.a;
+  if (clip.w < 0.1) { gl_Position = vec4(0.0, 0.0, 2.0, 1.0); gl_PointSize = 0.0; vRGB = vec3(0.0); return; }
+  gl_Position = clip;
+  float tw = 0.72 + 0.28 * sin(uTime * (0.5 + aP.w * 2.3) + aP.w * 61.0);
+  float size = aC.a > 0.5 ? (150.0 + 280.0 * aP.w) : (0.9 + 2.2 * aP.w * aP.w);
+  gl_PointSize = min(size * uPx, uMaxPt);
+  vRGB = aC.rgb * uGain * (aC.a > 0.5 ? 0.024 : tw * (0.16 + 0.85 * aP.w * aP.w));
+}
+`;
+
+  const SKY_FS = `#version 300 es
+precision mediump float;
+in vec3 vRGB;
+in float vNeb;
+out vec4 o;
+void main() {
+  vec2 q = gl_PointCoord * 2.0 - 1.0;
+  float d2 = dot(q, q);
+  if (d2 > 1.0) discard;
+  float a = vNeb > 0.5 ? exp(-d2 * 3.2) * (1.0 - d2) : exp(-d2 * 4.0);
+  o = vec4(vRGB * a, 1.0);
+}
+`;
+
+  const BG = [0.027, 0.035, 0.047];
+  const INTRO = 3.8;     // seconds: the camera pulls back out of the first burst
+
   const UNIFORMS = ['uScene', 'uMorph', 'uStagger', 'uBang', 'uTime', 'uCount', 'uView', 'uProj', 'uShift',
     'uAspect', 'uPx', 'uDist', 'uGain', 'uMouse', 'uShock', 'uWave', 'uStars', 'uStarCol', 'uEdges',
-    'uFocus', 'uFocusAmt'];
+    'uFocus', 'uFocusAmt', 'uDof', 'uMaxPt'];
 
   function hexRGB(hex, lift) {
     const n = parseInt(hex.slice(1), 16);
@@ -981,6 +1133,10 @@ void main() {
     let focusIdx = -1, focusAmt = 0, focusTarget = 0;
 
     let raf = 0, last = 0, busyUntil = 0, ema = 1 / 60, nextCheck = performance.now() + 6000;
+    let dof = 0.13, maxPt = 64, lowPost = false;
+    let introStart = null, introPending = false;
+    let dolly = 1, dollyT = 1;
+    const post = { ready: false, ok: false, targets: [] };
 
     function compile(type, src) {
       const sh = gl.createShader(type);
@@ -1038,6 +1194,229 @@ void main() {
       tf = gl.createTransformFeedback();
       cur = 0;
       ready = false;
+      setupPost();
+    }
+
+    /* ---------- The cinematic pass ---------- */
+
+    function program(vsSrc, fsSrc, names) {
+      const p = gl.createProgram();
+      gl.attachShader(p, compile(gl.VERTEX_SHADER, vsSrc));
+      gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fsSrc));
+      gl.linkProgram(p);
+      if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p) || 'link failed');
+      const u = { p: p };
+      names.forEach(function (n) { u[n] = gl.getUniformLocation(p, n); });
+      return u;
+    }
+
+    function setupPost() {
+      post.ready = false;
+      post.ok = false;
+      post.targets = [];
+      post.scene = null;
+      try {
+        const range = gl.getParameter(gl.ALIASED_POINT_SIZE_RANGE);
+        maxPt = Math.max(16, Math.min(512, range ? range[1] : 64));
+        post.hdr = !!gl.getExtension('EXT_color_buffer_float');
+        post.down = program(QUAD_VS, DOWN_FS, ['uTex', 'uTexel', 'uThresh', 'uPre']);
+        post.up = program(QUAD_VS, UP_FS, ['uTex', 'uTexel']);
+        post.comp = program(QUAD_VS, COMP_FS, ['uSceneTex', 'uBloom', 'uBloomAmt', 'uExposure', 'uClock', 'uBg', 'uVig']);
+        post.fade = program(QUAD_VS, FADE_FS, []);
+        post.sky = program(SKY_VS, SKY_FS, ['uView', 'uProj', 'uPx', 'uTime', 'uGain', 'uMaxPt']);
+        post.vao = gl.createVertexArray();
+        buildSky();
+        post.ready = true;
+      } catch (err) {
+        console.warn('[cosmos] plain rendering:', err && err.message);
+      }
+    }
+
+    // Stars at every distance and a faint band of glowing gas.
+    function buildSky() {
+      const rnd = mulberry32(7);
+      const NS = small ? 1500 : 2600, NN = 44;
+      const data = new Float32Array((NS + NN) * 8);
+      const starCols = [[0.92, 0.94, 1.0], [0.72, 0.82, 1.0], [1.0, 0.86, 0.68], [1.0, 0.72, 0.6]];
+      const gasCols = [[0.22, 0.38, 1.0], [0.52, 0.3, 1.0], [0.18, 0.78, 0.74], [0.9, 0.3, 0.62], [1.0, 0.58, 0.3]];
+      const tilt = 0.5, ct = Math.cos(tilt), st = Math.sin(tilt);
+      for (let i = 0; i < NS + NN; i++) {
+        const gas = i >= NS;
+        const y = gas ? (rnd() - 0.5) * 0.45 : rnd() * 2 - 1, a = rnd() * Math.PI * 2;
+        const r = Math.sqrt(Math.max(0, 1 - y * y)), R = gas ? 14 + rnd() * 8 : 15 + rnd() * 15;
+        const x = r * Math.cos(a), z = r * Math.sin(a);
+        const o = i * 8;
+        data[o] = x * R;
+        data[o + 1] = (y * ct - z * st) * R;
+        data[o + 2] = (y * st + z * ct) * R;
+        data[o + 3] = gas ? rnd() : Math.pow(rnd(), 2.2);
+        const c = gas ? gasCols[Math.floor(rnd() * gasCols.length)] : starCols[Math.floor(rnd() * starCols.length)];
+        data[o + 4] = c[0];
+        data[o + 5] = c[1];
+        data[o + 6] = c[2];
+        data[o + 7] = gas ? 1 : 0;
+      }
+      post.skyCount = NS + NN;
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+      post.skyVao = gl.createVertexArray();
+      gl.bindVertexArray(post.skyVao);
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0, 4, gl.FLOAT, false, 32, 0);
+      gl.enableVertexAttribArray(1);
+      gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 32, 16);
+      gl.bindVertexArray(null);
+      gl.bindBuffer(gl.ARRAY_BUFFER, null);
+    }
+
+    function target(w, h, hdr) {
+      const t = gl.createTexture();
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      if (hdr) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+      else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      const fb = gl.createFramebuffer();
+      gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+      gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
+      const ok = gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE;
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      gl.bindTexture(gl.TEXTURE_2D, null);
+      return { t: t, fb: fb, w: w, h: h, ok: ok };
+    }
+
+    function sizePost(w, h) {
+      if (!post.ready) return;
+      post.targets.forEach(function (x) { gl.deleteTexture(x.t); gl.deleteFramebuffer(x.fb); });
+      post.targets = [];
+      let hdr = post.hdr;
+      let sc = target(w, h, hdr);
+      if (!sc.ok && hdr) {
+        gl.deleteTexture(sc.t);
+        gl.deleteFramebuffer(sc.fb);
+        hdr = false;
+        sc = target(w, h, false);
+      }
+      post.targets.push(sc);
+      post.scene = sc;
+      post.mips = [];
+      let mw = w, mh = h;
+      for (let i = 0; i < 6; i++) {
+        mw = Math.max(1, mw >> 1);
+        mh = Math.max(1, mh >> 1);
+        const m = target(mw, mh, hdr);
+        post.targets.push(m);
+        post.mips.push(m);
+        if (mw <= 8 || mh <= 8) break;
+      }
+      post.ok = post.targets.every(function (x) { return x.ok; });
+      post.fresh = true;
+    }
+
+    function quad() {
+      gl.bindVertexArray(post.vao);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      gl.bindVertexArray(null);
+    }
+
+    // Start a frame in the off-screen picture: clear it, or, while
+    // particles fly, fade the last frame so it lingers as light trails.
+    function postBegin(decay) {
+      gl.bindFramebuffer(gl.FRAMEBUFFER, post.scene.fb);
+      gl.viewport(0, 0, post.scene.w, post.scene.h);
+      if (decay > 0.01 && !post.fresh) {
+        gl.useProgram(post.fade.p);
+        gl.enable(gl.BLEND);
+        gl.blendColor(0, 0, 0, decay);
+        gl.blendFunc(gl.ZERO, gl.CONSTANT_ALPHA);
+        quad();
+      } else {
+        gl.clearColor(0, 0, 0, 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+      }
+      post.fresh = false;
+    }
+
+    // Spread the brightest light into a glow, then put it all on screen.
+    function postEnd() {
+      gl.disable(gl.BLEND);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.useProgram(post.down.p);
+      gl.uniform1i(post.down.uTex, 0);
+      gl.uniform1f(post.down.uThresh, 0.42);
+      let src = post.scene;
+      post.mips.forEach(function (dst, i) {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, dst.fb);
+        gl.viewport(0, 0, dst.w, dst.h);
+        gl.bindTexture(gl.TEXTURE_2D, src.t);
+        gl.uniform2f(post.down.uTexel, 1 / src.w, 1 / src.h);
+        gl.uniform1f(post.down.uPre, i === 0 ? 1 : 0);
+        quad();
+        src = dst;
+      });
+      gl.useProgram(post.up.p);
+      gl.uniform1i(post.up.uTex, 0);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE);
+      for (let i = post.mips.length - 1; i > 0; i--) {
+        const from = post.mips[i], dst = post.mips[i - 1];
+        gl.bindFramebuffer(gl.FRAMEBUFFER, dst.fb);
+        gl.viewport(0, 0, dst.w, dst.h);
+        gl.bindTexture(gl.TEXTURE_2D, from.t);
+        gl.uniform2f(post.up.uTexel, 1 / from.w, 1 / from.h);
+        quad();
+      }
+      gl.disable(gl.BLEND);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.useProgram(post.comp.p);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, post.scene.t);
+      gl.activeTexture(gl.TEXTURE1);
+      gl.bindTexture(gl.TEXTURE_2D, post.mips[0].t);
+      gl.uniform1i(post.comp.uSceneTex, 0);
+      gl.uniform1i(post.comp.uBloom, 1);
+      gl.uniform1f(post.comp.uBloomAmt, 1.0);
+      gl.uniform1f(post.comp.uExposure, 1.1);
+      gl.uniform1f(post.comp.uClock, clock);
+      gl.uniform3f(post.comp.uBg, BG[0], BG[1], BG[2]);
+      gl.uniform1f(post.comp.uVig, 0.5);
+      quad();
+      gl.bindTexture(gl.TEXTURE_2D, null);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, null);
+    }
+
+    function drawSky() {
+      if (!post.ready || !post.skyVao) return;
+      const lift = place.gain + Math.max(0, place.peak - place.gain) * Math.min(1, boost * 1.25);
+      gl.useProgram(post.sky.p);
+      gl.uniformMatrix4fv(post.sky.uView, false, view);
+      gl.uniformMatrix4fv(post.sky.uProj, false, proj);
+      gl.uniform1f(post.sky.uPx, pxRatio);
+      gl.uniform1f(post.sky.uTime, clock);
+      gl.uniform1f(post.sky.uGain, 0.3 + 0.9 * Math.min(1.2, lift));
+      gl.uniform1f(post.sky.uMaxPt, maxPt);
+      gl.enable(gl.BLEND);
+      gl.blendFunc(gl.ONE, gl.ONE);
+      gl.bindVertexArray(post.skyVao);
+      gl.drawArrays(gl.POINTS, 0, post.skyCount);
+      gl.bindVertexArray(null);
+    }
+
+    // How strongly the last frame lingers: only while particles are flying.
+    function trailAmount(now) {
+      if (paused || off) return 0;
+      let d = 0;
+      if (morphStart !== Infinity) {
+        const m = morphValue(now);
+        if (m < 1) d = Math.max(d, (bang ? 0.9 : 0.8) * Math.pow(1 - m, 0.6));
+      }
+      if (warpT >= 0) d = Math.max(d, 0.84 * Math.sin(Math.PI * Math.min(1, warpT / WARP)));
+      return d;
     }
 
     function fail() {
@@ -1130,6 +1509,8 @@ void main() {
       gl.uniform4fv(U.uWave, waves);
       gl.uniform1f(U.uFocus, focusIdx);
       gl.uniform1f(U.uFocusAmt, focusAmt);
+      gl.uniform1f(U.uDof, paused ? 0.0 : dof);
+      gl.uniform1f(U.uMaxPt, maxPt);
     }
 
     // Record where every particle is right now, so the next flight starts there.
@@ -1220,9 +1601,19 @@ void main() {
         wd = 1 - 0.45 * sn * sn;
         if (u >= 1) warpT = -1;
       }
-      fyaw = yaw + wy;
+      // The opening: the camera starts inside the burst and pulls back.
+      let introDist = 1, introYaw = 0;
+      if (introStart !== null) {
+        const k = Math.min(1, (now - introStart) / 1000 / INTRO);
+        const e = 1 - Math.pow(1 - k, 3);
+        introDist = 0.14 + 0.86 * e;
+        introYaw = (1 - e) * 1.5;
+        if (k >= 1) introStart = null;
+      }
+      dolly += (dollyT - dolly) * (1 - Math.exp(-dt * 3));
+      fyaw = yaw + wy + introYaw + (dolly - 1) * 0.8;
       fpitch = pitch;
-      curDist = (fitDistance() / place.zoom) * wd;
+      curDist = (fitDistance() / (place.zoom * dolly)) * wd * introDist;
 
       for (let k = 0; k < 3; k++) {
         const o = k * 4;
@@ -1251,6 +1642,12 @@ void main() {
     function watchSpeed(dt, now) {
       if (fixedQuality || paused || dt <= 0) return;
       ema = ema * 0.94 + dt * 0.06;
+      if (now > nextCheck && ema > 0.034 && count <= MIN && !lowPost) {
+        lowPost = true;
+        nextCheck = now + 4000;
+        ema = 1 / 40;
+        return;
+      }
       if (now > nextCheck && ema > 0.03 && count > MIN) {
         nextCheck = now + 4000;
         capture(now);
@@ -1280,22 +1677,35 @@ void main() {
       if (!ready) checkLink();
       if (failed) return;
       update(dt, now);
-      gl.viewport(0, 0, canvas.width, canvas.height);
-      gl.clearColor(0.027, 0.035, 0.047, 1);
-      gl.clear(gl.COLOR_BUFFER_BIT);
+      if (introPending && ready && morphStart !== Infinity) {
+        introStart = morphStart;
+        introPending = false;
+      }
+      const cine = post.ok && !lowPost;
+      // Trails fade by the same amount per second at any frame rate.
+      if (cine) postBegin(Math.pow(trailAmount(now), dt * 60));
+      else {
+        gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.clearColor(BG[0], BG[1], BG[2], 1);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+      }
       let m = 0;
       if (ready) {
         gl.useProgram(prog);
         uniforms(now);
+        drawSky();
+        gl.useProgram(prog);
         gl.bindVertexArray(vaos[cur]);
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.ONE, gl.ONE);
         gl.drawArrays(gl.POINTS, 0, count);
         gl.bindVertexArray(null);
         m = morphValue(now);
-        watchSpeed(dt, now);
       }
-      const busy = !ready || m < 1 || warpT >= 0 || now < busyUntil || shocksActive();
+      if (cine) postEnd();
+      if (ready) watchSpeed(dt, now);
+      const busy = !ready || m < 1 || warpT >= 0 || now < busyUntil || shocksActive() || introStart !== null || introPending;
       if (!paused || busy) raf = requestAnimationFrame(frame);
       else last = 0;
     }
@@ -1316,6 +1726,7 @@ void main() {
       }
       aspect = w / h;
       pxRatio = bw / w;
+      if (post.ready && (!post.scene || post.scene.w !== bw || post.scene.h !== bh)) sizePost(bw, bh);
       applyPlace();
       busyUntil = performance.now() + 600;
       wake();
@@ -1359,6 +1770,7 @@ void main() {
       scene = name;
       sceneDef = def;
       if (first) {
+        introPending = !(paused || off);
         bang = paused || off ? 0 : 1;
         morphDur = paused || off ? 0.01 : BANG;
         stagger = 0.3;
@@ -1465,6 +1877,13 @@ void main() {
       setPaused: setPaused,
       setLook: setLook,
       hold: function (v) { held = !!v; },
+      // Move the camera in (k > 1) as the reader scrolls through an opener.
+      dolly: function (k) {
+        if (paused || Math.abs(k - dollyT) < 0.002) return;
+        dollyT = k;
+        busyUntil = performance.now() + 1200;
+        wake();
+      },
       direct: function () {},
       onfail: null,
       get paused() { return paused; },
@@ -1483,6 +1902,7 @@ void main() {
     canvas.addEventListener('webglcontextrestored', function () {
       lost = false;
       build();
+      resize();
       bang = paused ? 0 : 1;
       morphDur = paused ? 0.01 : BANG;
       stagger = 0.3;
@@ -1535,7 +1955,23 @@ void main() {
         if (el.getBoundingClientRect().top <= line) pick = list[i].name;
       }
       if (!pick) return;
-      engine.place(pick === 'hero' ? 'hero' : pick === 'map' ? 'map' : 'page');
+      let where = pick === 'hero' ? 'hero' : pick === 'map' ? 'map' : 'page';
+      let push = 1;
+      // While a chapter's opener fills the screen, its formation is the
+      // star: bright, to one side, and the camera moves in as you scroll.
+      if (where === 'page') {
+        const ch = document.getElementById(pick);
+        const op = ch && ch.querySelector('.opener');
+        if (op && op.offsetHeight) {
+          const r = op.getBoundingClientRect();
+          if (r.bottom > window.innerHeight * 0.42) {
+            where = 'opener';
+            push = 1 + 0.55 * Math.min(1, Math.max(0, -r.top / r.height));
+          }
+        }
+      }
+      engine.place(where);
+      engine.dolly(push);
       engine.scene(pick);
     }
 

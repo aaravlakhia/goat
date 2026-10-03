@@ -3096,7 +3096,16 @@ html {
 }
 
 .pb-lane {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: var(--accent);
+}
+
+.pb-exp,
+.pb-live {
+  flex: none;
 }
 
 .pb-live {
@@ -6066,5 +6075,236 @@ body.is-cinema .player {
 
   .call-opt {
     background: #fff !important;
+  }
+}
+
+
+/* ---------- Chapter openers: one full screen for each discovery ----------
+   The chapter's 3D formation fills the right of the screen at full
+   brightness (cosmos.js), with the year, the name and the idea set huge on
+   the left. Below it the story begins and the formation dims to a glow. */
+
+.has-openers .chapter {
+  padding-top: 0;
+}
+
+.has-openers .chapter::before {
+  top: calc(clamp(40px, 8vh, 96px) + 1.2rem);
+}
+
+.opener {
+  grid-column: 1 / -1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  min-height: calc(100vh - var(--masthead-h));
+  min-height: calc(100svh - var(--masthead-h));
+  margin: 0 0 clamp(16px, 3vw, 40px);
+  padding-block: clamp(40px, 8vh, 96px) clamp(48px, 10vh, 120px);
+  pointer-events: none;
+}
+
+.opener > * {
+  margin: 0;
+  min-width: 0;
+  max-width: min(46rem, 52vw);
+}
+
+.op-kicker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.op-num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.op-of {
+  color: var(--muted);
+}
+
+.op-lane::before {
+  content: "";
+  display: inline-block;
+  width: 34px;
+  height: 2px;
+  margin: 0 12px 0.3em 4px;
+  vertical-align: middle;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+}
+
+.op-year {
+  margin-top: 6px;
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 20vw, 18.5rem);
+  font-weight: 900;
+  line-height: 0.82;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  font-variant-numeric: lining-nums;
+  text-shadow: 0 0 90px rgb(var(--accent-rgb) / 0.5), 0 0 24px rgb(var(--accent-rgb) / 0.25), 0 8px 40px rgba(0, 0, 0, 0.55);
+}
+
+.op-name {
+  margin-top: clamp(10px, 2vh, 22px);
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.2vw, 2.9rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+}
+
+.op-idea {
+  margin-top: 10px;
+  font-family: var(--font-body);
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  font-style: italic;
+  line-height: 1.2;
+  color: var(--ink-soft);
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.85);
+}
+
+.op-cue {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(24px, 5vh, 52px);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.op-cue i {
+  position: relative;
+  width: 1px;
+  height: 38px;
+  background: linear-gradient(180deg, transparent, var(--accent));
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flair:not(.motion-off) .opener > * {
+    opacity: 0;
+    transform: translateY(34px);
+    transition: opacity 900ms ease, transform 1100ms cubic-bezier(0.16, 0.84, 0.24, 1);
+  }
+
+  .flair:not(.motion-off) .opener.is-shown > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .flair:not(.motion-off) .opener.is-shown .op-year {
+    transition-delay: 90ms;
+  }
+
+  .flair:not(.motion-off) .opener.is-shown .op-name {
+    transition-delay: 220ms;
+  }
+
+  .flair:not(.motion-off) .opener.is-shown .op-idea {
+    transition-delay: 330ms;
+  }
+
+  .flair:not(.motion-off) .opener.is-shown .op-cue {
+    transition-delay: 600ms;
+  }
+
+  .flair:not(.motion-off) .op-cue i::after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    width: 3px;
+    height: 10px;
+    background: var(--ink);
+    animation: op-cue 2.2s ease-in-out infinite;
+  }
+}
+
+@keyframes op-cue {
+  from {
+    top: -10px;
+  }
+  to {
+    top: 38px;
+  }
+}
+
+@media (max-width: 900px) {
+  /* On narrow screens the formation sits in the top half and the words below. */
+  .opener {
+    min-height: calc(100vh - var(--masthead-h));
+    min-height: calc(100svh - var(--masthead-h));
+    padding-bottom: clamp(36px, 7vh, 72px);
+  }
+
+  .opener::before {
+    content: "";
+    position: absolute;
+    left: calc(var(--rail) * -1);
+    right: 0;
+    bottom: 0;
+    height: 62%;
+    background: linear-gradient(180deg, rgba(7, 9, 12, 0) 0%, rgba(7, 9, 12, 0.72) 55%, rgba(7, 9, 12, 0.9) 100%);
+    z-index: -1;
+  }
+
+  .opener > * {
+    max-width: 100%;
+  }
+
+  /* Sized by the screen, not the text setting, so it always fits. */
+  .op-year {
+    font-size: min(29vw, 11rem);
+  }
+
+  .op-name {
+    overflow-wrap: anywhere;
+  }
+
+  .op-kicker {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+  }
+
+  .op-lane::before {
+    width: 22px;
+    margin-right: 8px;
+  }
+}
+
+@media print {
+  .opener {
+    display: none !important;
+  }
+
+  .has-openers .chapter {
+    padding-top: 24px;
+  }
+}
+
+@media (forced-colors: active) {
+  .op-year,
+  .op-name,
+  .op-idea {
+    text-shadow: none;
   }
 }
